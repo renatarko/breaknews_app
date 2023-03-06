@@ -10,7 +10,7 @@ export const Nav = styled.nav`
   top: 0;
 
   padding: 1rem 1rem;
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 5px;
   background-color: #fff;
 `;
 
@@ -46,12 +46,28 @@ export const ContainerSearch = styled.div`
   }
 `;
 
-export const Logo = styled.img`
-  width: 3.5rem;
-  height: 3.5rem;
-  object-fit: cover;
+export const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   cursor: pointer;
-  border-radius: 50%;
+
+  h2 {
+    background: #1086f5;
+    background: linear-gradient(to bottom right, #1086f5 26%, #757575 87%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 20px;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
+  }
+
+  img {
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 `;
 
 export const Button = styled.button`

@@ -9,10 +9,16 @@ export function Navbar() {
           <i className="bi bi-search"></i>
         </ContainerSearch>
 
-        <Logo
-          src="https://www.pngkey.com/png/detail/256-2566407_worldwide-news-api-newspaper-logo-design-png.png"
-          alt="Logo Breaking News"
-        />
+        <Logo>
+          <img
+            src="https://www.pngkey.com/png/detail/256-2566407_worldwide-news-api-newspaper-logo-design-png.png"
+            alt="Logo Breaking News"
+          />
+          <h2>
+            Breaking <br />
+            News
+          </h2>
+        </Logo>
 
         <Button>Entrar</Button>
       </Nav>

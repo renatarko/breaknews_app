@@ -1,9 +1,11 @@
-export default news = [
+export const news = [
   {
     title: "Noticia 1",
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam soluta architecto totam dignissimos? Possimus commodi repudiandae doloremque. Commodi soluta corporis delectus saepe facere nostrum cumque molestias. Mollitia libero illum ipsam!",
     image:
       "https://ogimg.infoglobo.com.br/in/13664035-144-725/FT1086A/lorem-ipsum-logo.jpg",
+
+    user: "diogoHt",
     likes: 2,
     comments: 1,
   },
@@ -12,6 +14,8 @@ export default news = [
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam soluta architecto totam dignissimos? Possimus commodi repudiandae doloremque. Commodi soluta corporis delectus saepe facere nostrum cumque molestias. Mollitia libero illum ipsam!",
     image:
       "https://ogimg.infoglobo.com.br/in/13664035-144-725/FT1086A/lorem-ipsum-logo.jpg",
+
+    user: "diogoHt",
     likes: 2,
     comments: 1,
   },
@@ -20,6 +24,8 @@ export default news = [
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam soluta architecto totam dignissimos? Possimus commodi repudiandae doloremque. Commodi soluta corporis delectus saepe facere nostrum cumque molestias. Mollitia libero illum ipsam!",
     image:
       "https://ogimg.infoglobo.com.br/in/13664035-144-725/FT1086A/lorem-ipsum-logo.jpg",
+
+    user: "diogoHt",
     likes: 2,
     comments: 1,
   },
@@ -28,6 +34,8 @@ export default news = [
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam soluta architecto totam dignissimos? Possimus commodi repudiandae doloremque. Commodi soluta corporis delectus saepe facere nostrum cumque molestias. Mollitia libero illum ipsam!",
     image:
       "https://ogimg.infoglobo.com.br/in/13664035-144-725/FT1086A/lorem-ipsum-logo.jpg",
+
+    user: "diogoHt",
     likes: 2,
     comments: 1,
   },
@@ -36,6 +44,8 @@ export default news = [
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam soluta architecto totam dignissimos? Possimus commodi repudiandae doloremque. Commodi soluta corporis delectus saepe facere nostrum cumque molestias. Mollitia libero illum ipsam!",
     image:
       "https://ogimg.infoglobo.com.br/in/13664035-144-725/FT1086A/lorem-ipsum-logo.jpg",
+
+    user: "diogoHt",
     likes: 2,
     comments: 1,
   },
@@ -44,6 +54,8 @@ export default news = [
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam soluta architecto totam dignissimos? Possimus commodi repudiandae doloremque. Commodi soluta corporis delectus saepe facere nostrum cumque molestias. Mollitia libero illum ipsam!",
     image:
       "https://ogimg.infoglobo.com.br/in/13664035-144-725/FT1086A/lorem-ipsum-logo.jpg",
+
+    user: "diogoHt",
     likes: 2,
     comments: 1,
   },

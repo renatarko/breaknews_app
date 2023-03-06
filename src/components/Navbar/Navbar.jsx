@@ -1,6 +1,14 @@
-import { Button, ContainerSearch, Logo, Nav } from "./navbarStyles";
+import { useState } from "react";
+import { SignIn } from "../SignIn/SignIn";
+import { ButtonS, ContainerSearch, Logo, Nav } from "./navbarStyles";
 
 export function Navbar() {
+  const [sign, setSign] = useState(false);
+
+  function handleSign() {
+    setSign(!sign);
+    console.log(sign);
+  }
   return (
     <>
       <Nav>
@@ -20,8 +28,9 @@ export function Navbar() {
           </h2>
         </Logo>
 
-        <Button>Entrar</Button>
+        <ButtonS onClick={handleSign}>Entrar</ButtonS>
       </Nav>
+      {sign ? <SignIn /> : <p>oi</p>}
     </>
   );
 }

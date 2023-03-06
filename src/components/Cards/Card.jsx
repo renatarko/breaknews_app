@@ -1,7 +1,6 @@
 import { CardBody, CardContainer, CardFooter } from "./CardStyles";
 
 export function Card({ news }) {
-  console.log(news.title);
   return (
     <CardContainer>
       <CardBody>

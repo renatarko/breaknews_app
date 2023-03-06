@@ -46,5 +46,6 @@ export const CardFooter = styled.div`
   div {
     display: flex;
     gap: 0.2rem;
+    cursor: pointer;
   }
 `;

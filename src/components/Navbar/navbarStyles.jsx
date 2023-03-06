@@ -70,7 +70,7 @@ export const Logo = styled.div`
   }
 `;
 
-export const Button = styled.button`
+export const ButtonS = styled.button`
   padding: 0.4rem 1rem;
   background-color: #0bade3;
   border: none;
@@ -80,6 +80,8 @@ export const Button = styled.button`
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
 
   :hover {
     background-color: #0a98c7;

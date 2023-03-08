@@ -4,6 +4,7 @@ export const SignInContainer = styled.section`
   position: fixed;
   top: 0;
   bottom: 0;
+  z-index: 100;
 
   width: 100%;
   display: flex;
@@ -18,7 +19,7 @@ export const FormSign = styled.form`
   height: 17rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1.5rem;
 
   background-color: #fff;
   border-radius: 0.4rem;

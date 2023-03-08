@@ -1,13 +1,12 @@
 import { FormSign, InputS, SignInContainer } from "./SignInStyles";
 import { ButtonS } from "../Navbar/navbarStyles";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
 
 export function SignIn() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
+
   function hadleMenu() {
     setOpen(!open);
-    // console.log(open);
   }
 
   return (
@@ -19,14 +18,22 @@ export function SignIn() {
 
             <h1>Entrar</h1>
             <div className="containerInput">
-              <InputS type="text" placeholder="E-mail" />
-              <InputS type="password" placeholder="Senha" />
+              <InputS
+                type="text"
+                placeholder="E-mail"
+                onChange={(e) => console.log(e.target.value)}
+              />
+              <InputS
+                type="password"
+                placeholder="Senha"
+                onChange={(e) => console.log(e.target.value)}
+              />
               <ButtonS>Enviar</ButtonS>
             </div>
 
             <div className="containerNewcount">
               <p>Não tem uma conta?</p>
-              {/* <NavLink to="/newAccount">Cadastre-se</NavLink> */}
+              <a href="">Cadastre-se</a>
             </div>
           </FormSign>
         </SignInContainer>

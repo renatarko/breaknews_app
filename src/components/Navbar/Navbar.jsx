@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NewAccount } from "../NewAccount/NewAccount";
 import { SignIn } from "../SignIn/SignIn";
 import { ButtonS, ContainerSearch, Logo, Nav } from "./navbarStyles";
 
@@ -30,7 +31,7 @@ export function Navbar() {
 
         <ButtonS onClick={handleSign}>Entrar</ButtonS>
       </Nav>
-      {sign ? <SignIn /> : <p>oi</p>}
+      {sign ? <NewAccount /> : ""}
     </>
   );
 }

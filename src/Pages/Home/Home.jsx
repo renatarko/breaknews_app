@@ -11,7 +11,7 @@ export function Home() {
     <>
       <Navbar />
       {/* <SignIn /> */}
-      {/* <NewAccount /> */}
+      <NewAccount />
       <HomeBody>
         {news.map((item, index) => (
           <Card key={index} news={item} />

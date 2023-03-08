@@ -4,6 +4,7 @@ import { FormSign } from "../SignIn/SignInStyles";
 export const FormNewAccount = styled(FormSign)`
   height: 25rem;
   justify-content: space-between;
+  gap: 0;
 
   input {
     font-size: 1rem;
@@ -22,5 +23,9 @@ export const FormNewAccount = styled(FormSign)`
     :focus {
       border-color: rgb(11, 173, 227);
     }
+  }
+
+  .inputRed {
+    border-color: red;
   }
 `;

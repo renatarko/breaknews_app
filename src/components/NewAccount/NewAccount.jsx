@@ -1,64 +1,35 @@
 import { ButtonS } from "../Navbar/navbarStyles";
 import { FormNewAccount } from "./NewAccountStyles";
 import { InputS, SignInContainer } from "../SignIn/SignInStyles";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 export function NewAccount() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
-  async function getDados(e) {
-    e.preventDefault();
-
-    let inputInFocus = (input.current.style.borderColor = "red");
-    console.log(inputInFocus);
-    // try {
-    //   const response = await fetch("http://localhost:3000/user");
-    //   const data = await response.json();
-
-    //   const dados = data.map((user) => {
-    //     return {
-    //       name: user.name,
-    //       username: user.username,
-    //       email: user.email,
-    //       avatar: user.avatar,
-    //       background: user.background,
-    //     };
-    //   });
-    //   console.log(dados);
-    // } catch {
-    //   (error) => console.error(error);
-    // }
-
-    // enviarDados(user);
-  }
-
-  let [user, setUser] = useState({
+  const [user, setUser] = useState({
     name: "",
-    username: "",
-    email: "",
-    password: "",
-    avatar: "",
-    background: "",
+    username: "test1",
+    email: "test7",
+    password: "test1",
+    avatar: "test1",
+    background: "test1",
   });
 
   function handleChange(e) {
-    const input = useRef(null);
-
     const { name, value } = e.target;
 
     setUser({ ...user, [name]: value });
-
-    if (value == "") {
-      return console.log(name);
-    } else {
-      return console.log("os inputs não estão vazios");
-    }
   }
 
-  // console.log(user);
+  function cadastrar(e) {
+    e.preventDefault();
 
-  function enviarDados(user) {
-    s;
+    const { name, username, email, password, avatar, background } = user;
+
+    if (!name && !username && !email && !password && !avatar && !background) {
+      return alert("É necessário preencher todos os campos!");
+    }
+
     fetch("http://localhost:3000/user", {
       method: "POST",
       headers: {
@@ -67,8 +38,19 @@ export function NewAccount() {
       body: JSON.stringify(user),
     })
       .then((response) => response.json())
-      .then((user) => console.log(user))
-      .catch((error) => console.error(error));
+      .then((data) => {
+        if (data.message != "User created successfully") {
+          alert(data.message);
+          return;
+        }
+        setIsOpen(!isOpen);
+        console.log(data);
+        alert("usuario cadastrado: " + data.user.id);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert(error.message);
+      });
   }
 
   return (
@@ -80,14 +62,13 @@ export function NewAccount() {
 
             <h1>Cadastro</h1>
             <InputS
-              ref={input}
               type="text"
               placeholder="Nome"
               name="name"
               onChange={handleChange}
+              required={user.name}
             />
             <InputS
-              ref={input}
               type="text"
               placeholder="Nome de usuário"
               name="username"
@@ -109,23 +90,21 @@ export function NewAccount() {
               type="email"
               placeholder="E-mail"
               name="email"
-              onClick={handleChange}
+              onChange={handleChange}
             />
             <InputS
               type="password"
               placeholder="Senha"
               name="password"
-              onClick={handleChange}
+              onChange={handleChange}
             />
 
-            <ButtonS type="submit" onClick={getDados}>
+            <ButtonS type="submit" onClick={cadastrar}>
               Cadastrar
             </ButtonS>
           </FormNewAccount>
         </SignInContainer>
-      ) : (
-        ""
-      )}
+      ) : null}
     </>
   );
 }

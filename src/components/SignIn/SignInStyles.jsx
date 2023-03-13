@@ -57,10 +57,17 @@ export const FormSign = styled.form`
       font-size: 0.9rem;
     }
 
-    a {
+    button {
+      background: none;
+      border: none;
       color: rgb(8, 140, 184);
       font-family: "Inter", sans-serif;
       font-size: 0.9rem;
+      cursor: pointer;
+
+      :hover {
+        text-decoration: underline;
+      }
     }
   }
 `;

@@ -1,3 +1,5 @@
+import { news } from "../../../datas";
+import { Card } from "../../components/Cards/Card";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { BoxText, ContainerCardProfile, ProfileBody } from "./ProfileStyles";
 
@@ -6,6 +8,8 @@ export function Profile() {
     <>
       <Navbar />
       <ProfileBody>
+        <i class="bi bi-arrow-left-circle"></i>
+
         <ContainerCardProfile>
           <div className="background"></div>
 
@@ -22,6 +26,10 @@ export function Profile() {
             <i className="bi bi-plus-circle-fill"></i>
           </BoxText>
         </ContainerCardProfile>
+
+        {news.map((item, index) => (
+          <Card key={index} news={item} />
+        ))}
       </ProfileBody>
     </>
   );

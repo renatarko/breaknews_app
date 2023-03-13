@@ -2,10 +2,22 @@ import styled from "styled-components";
 
 export const ProfileBody = styled.section`
   width: 80%;
-  height: 100vh;
   margin: 0 auto;
   max-width: 90%;
   padding: 7rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+
+  .bi-arrow-left-circle {
+    position: absolute;
+    z-index: 100;
+    font-size: 1.2rem;
+    color: #fff;
+    margin: 0.2rem;
+    cursor: pointer;
+  }
 `;
 
 export const ContainerCardProfile = styled.div`
@@ -17,6 +29,7 @@ export const ContainerCardProfile = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: relative;
+  margin-bottom: 2rem;
 
   .background {
     width: 100%;
@@ -29,7 +42,7 @@ export const ContainerCardProfile = styled.div`
     width: 6rem;
     border-radius: 50%;
     position: absolute;
-    top: 2rem;
+    top: 1.5rem;
     left: 1rem;
     border: 4px solid #fff;
   }

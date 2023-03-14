@@ -9,13 +9,60 @@ export const CardContainer = styled.section`
   border-radius: 0.5rem;
   background-color: #fff;
   padding: 1.5rem;
+  position: relative;
+
+  .icon-dotsmenu {
+    background: none;
+    border: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+
+  .navMenuDots {
+    position: absolute;
+    background: #fff;
+    top: 2rem;
+    right: 1rem;
+    width: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    border-radius: 0.3rem;
+    padding: 0.2rem 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+    button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #464646;
+
+      span {
+        font-size: 1rem;
+      }
+
+      :hover {
+        color: #0f0f0f;
+      }
+    }
+  }
 `;
 
 export const CardBody = styled.article`
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 1rem;
 
   h2 {

@@ -40,6 +40,7 @@ export const ContainerCardProfile = styled.div`
 
   img {
     width: 6rem;
+    height: 6rem;
     border-radius: 50%;
     position: absolute;
     top: 1.5rem;

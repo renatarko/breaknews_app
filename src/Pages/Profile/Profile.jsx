@@ -12,13 +12,21 @@ export function Profile() {
   const [news, setNews] = useState([]);
   const [openNewNews, setOpenNewNews] = useState(false);
 
+  // pega e lista todas as notícias do usuário logado
   useEffect(() => {
-    fetch(`http://localhost:5000/news/`)
+    fetch(`http://localhost:5000/news/byUser/`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setNews(data.results);
       })
-      .catch((error) => error.message);
+      .catch((error) => console.log(error.message));
   }, []);
 
   useEffect(() => {
@@ -34,10 +42,10 @@ export function Profile() {
 
   const userID = "63bf5bea8ffe37036d179240";
 
-  console.log(localStorage.getItem("token"));
+  const token = localStorage.getItem("token");
   const userLogado = JSON.parse(localStorage.getItem("user"));
   const { name, username, avatar, background } = userLogado;
-  console.log(userLogado);
+  // console.log(userLogado);
 
   // const userID = JSON.parse(localStorage.getItem("userID"));
   // console.log(userID.id);

@@ -1,20 +1,28 @@
 // import { useState } from "react";
 // import { CardMenu } from "./CardMenu";
 import { useState } from "react";
+import { DeleteNews } from "../DeleteNews/DeleteNews";
 import { EditNews } from "../EditNews/EditNews";
 import { CardBody, CardContainer, CardFooter } from "./CardStyles";
 
 export function Card({ news }) {
   const [openNavCard, setOpenNavCard] = useState(false);
-  // console.log(news);
 
   const [open, setOpen] = useState({
     updated: false,
     deleted: false,
   });
 
-  if (open.updated) {
-    return <EditNews />;
+  const newsId = news.id;
+
+  const { updated, deleted } = open;
+
+  if (updated) {
+    return <EditNews newId={newsId} />;
+  }
+
+  if (deleted) {
+    return <DeleteNews newId={newsId} />;
   }
 
   return (
@@ -28,11 +36,12 @@ export function Card({ news }) {
 
       {openNavCard ? (
         <nav className="navMenuDots">
-          <button onClick={() => setOpen(!open.updated)}>
+          <button onClick={() => setOpen({ updated: true })}>
             <i className="bi bi-pencil-square"></i>
             <span>editar</span>
           </button>
-          <button onClick={() => setOpen(!open.deleted)}>
+
+          <button onClick={() => setOpen({ deleted: true })}>
             <i className="bi bi-trash-fill"></i>
             <span>apagar</span>
           </button>

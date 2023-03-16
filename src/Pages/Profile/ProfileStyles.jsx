@@ -46,6 +46,7 @@ export const ContainerCardProfile = styled.div`
     top: 1.5rem;
     left: 1rem;
     border: 4px solid #fff;
+    object-fit: cover;
   }
 `;
 

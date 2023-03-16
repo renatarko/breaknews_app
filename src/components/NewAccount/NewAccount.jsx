@@ -30,7 +30,7 @@ export function NewAccount() {
       return alert("É necessário preencher todos os campos!");
     }
 
-    fetch("http://localhost:3000/user", {
+    fetch("http://localhost:5000/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

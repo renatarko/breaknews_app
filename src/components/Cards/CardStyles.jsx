@@ -78,9 +78,10 @@ export const CardBody = styled.article`
   }
 
   img {
-    width: 30%;
-    object-fit: contain;
-    object-position: center;
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+    /* object-position: center; */
     border-radius: 0.3rem;
   }
 `;

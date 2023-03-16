@@ -21,14 +21,13 @@ export function NewNews() {
   function enviarNoticia(e) {
     e.preventDefault();
 
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmY1YmVhOGZmZTM3MDM2ZDE3OTI0MCIsImlhdCI6MTY3ODczNDQwMywiZXhwIjoxNjc4ODIwODAzfQ.G1JTBIEzYbOkOtirDGu14CPNYqEEklDudj_TxFWVFgI";
-
     const { title, banner, text } = newNews;
 
     if (!title && !banner && !text) {
       return alert("Preencha os campos");
     }
+
+    const token = localStorage.getItem("token");
 
     fetch("http://localhost:5000/news/", {
       method: "POST",

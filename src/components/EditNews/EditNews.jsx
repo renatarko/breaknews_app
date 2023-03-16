@@ -3,7 +3,7 @@ import { FormNewNews } from "../NewNews/NewNewsStyles";
 import { ButtonS } from "../Navbar/navbarStyles";
 import { useState } from "react";
 
-export function EditNews() {
+export function EditNews({ newId }) {
   const [open, setOpen] = useState(true);
 
   const [updatedNews, setUpdatedNews] = useState({
@@ -21,11 +21,7 @@ export function EditNews() {
   function sendUpdatedNews(e) {
     e.preventDefault();
 
-    const ID = "63bf5c3e8ffe37036d179244";
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmY1YmVhOGZmZTM3MDM2ZDE3OTI0MCIsImlhdCI6MTY3ODczNDQwMywiZXhwIjoxNjc4ODIwODAzfQ.G1JTBIEzYbOkOtirDGu14CPNYqEEklDudj_TxFWVFgI";
-
-    fetch(`http://localhost:5000/news/${ID}`, {
+    fetch(`http://localhost:5000/news/${newId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -35,11 +31,13 @@ export function EditNews() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        // console.log(updatedNews);
+        alert(data.message);
+        setOpen(false);
       })
       .catch((error) => console.log(error.message));
   }
+
+  const token = localStorage.getItem("token");
 
   return (
     <>

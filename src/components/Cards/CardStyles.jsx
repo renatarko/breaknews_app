@@ -91,9 +91,22 @@ export const CardFooter = styled.div`
   align-items: center;
   gap: 1rem;
 
-  div {
+  button {
+    background: none;
+    border: none;
     display: flex;
     gap: 0.2rem;
     cursor: pointer;
+    font-size: 1rem;
+
+    :focus .like {
+      color: rgb(8, 140, 184);
+      transform: scale(1.1);
+    }
+
+    .like-fill {
+      color: rgb(8, 140, 184);
+      opacity: 0;
+    }
   }
 `;

@@ -5,15 +5,33 @@ import { DeleteNews } from "../DeleteNews/DeleteNews";
 import { EditNews } from "../EditNews/EditNews";
 import { CardBody, CardContainer, CardFooter } from "./CardStyles";
 
-export function Card({ news }) {
+export function Card({ news, token }) {
   const [openNavCard, setOpenNavCard] = useState(false);
-
+  const newsId = news.id;
+  // console.log(token);
   const [open, setOpen] = useState({
     updated: false,
     deleted: false,
   });
 
-  const newsId = news.id;
+  const [like, setLike] = useState([]);
+
+  function doLikeNews() {
+    fetch(`http://localhost:5000/news/like/${news.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert(data);
+        setLike(news);
+        console.log(like);
+      })
+      .catch((error) => console.log(error));
+  }
 
   const { updated, deleted } = open;
 
@@ -59,15 +77,19 @@ export function Card({ news }) {
       </CardBody>
 
       <CardFooter>
-        <div>
-          <i className="bi bi-hand-thumbs-up"></i>
-          <span>{news.likes.length}</span>
-        </div>
+        <button onClick={doLikeNews}>
+          {like ? (
+            <i className="bi bi-hand-thumbs-up"></i>
+          ) : (
+            <i className="bi bi-hand-thumbs-up-fill"></i>
+          )}
+          <span>{like}</span>
+        </button>
 
-        <div>
+        <button>
           <i className="bi bi-chat"></i>
           <span>{news.comments.length}</span>
-        </div>
+        </button>
       </CardFooter>
     </CardContainer>
   );

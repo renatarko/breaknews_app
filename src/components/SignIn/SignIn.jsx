@@ -1,11 +1,16 @@
 import { FormSign, InputS, SignInContainer } from "./SignInStyles";
 import { ButtonS } from "../Navbar/navbarStyles";
-import { useState } from "react";
+import { Profiler, useState } from "react";
 import { NewAccount } from "../NewAccount/NewAccount";
+import { Navigate, useNavigate, useNavigation } from "react-router-dom";
+import { Navbar } from "../Navbar/Navbar";
+import { Profile } from "../../Pages/Profile/Profile";
 
 export function SignIn() {
-  const [open, setOpen] = useState(true);
-  const [openNew, setOpenNew] = useState(false);
+  const [open, setOpen] = useState(true); //abrir modal de login
+  const [openNew, setOpenNew] = useState(false); // abrir modal para cadastrar usuário
+
+  const navigative = useNavigate();
 
   const [userLogin, setUserLogin] = useState({
     email: "",
@@ -25,7 +30,7 @@ export function SignIn() {
       return alert("Preencha os campos");
     }
 
-    fetch("http://localhost:3000/auth", {
+    fetch("http://localhost:5000/auth", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,12 +39,24 @@ export function SignIn() {
     })
       .then((response) => response.json())
       .then((data) => {
-        //retorna o token
-        const token = data;
-        alert("Usuário encontrado!");
-        console.log(token);
+        const { token, user } = data;
+        console.log(user.id);
 
-        setOpen(false);
+        if (token) {
+          alert("Olá " + userLogin.email);
+
+          localStorage.setItem("token", token);
+          // localStorage.setItem("user", user);
+          setOpen(false);
+
+          if (token) {
+            const params = user.id;
+            return navigative(`/profile/${params}`);
+          }
+          return;
+        }
+
+        alert("Ops, usuário não encontrado");
       })
       .catch((error) => console.log(error.message));
   }
@@ -48,12 +65,13 @@ export function SignIn() {
     e.preventDefault();
 
     setOpenNew(true);
+    console.log(openNew);
   }
 
   if (openNew) {
     return <NewAccount />;
   }
-
+  console.log(openNew);
   return (
     <>
       {open ? (

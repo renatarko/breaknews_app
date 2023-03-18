@@ -3,14 +3,25 @@
 // import { news } from "../../../datas";
 
 import { useState, useEffect } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { Card } from "../../components/Cards/Card";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { NewNews } from "../../components/NewNews/NewNews";
 import { BoxText, ContainerCardProfile, ProfileBody } from "./ProfileStyles";
 
 export function Profile() {
-  const [news, setNews] = useState([]);
-  const [openNewNews, setOpenNewNews] = useState(false);
+  const [news, setNews] = useState([]); // array das news do usuário logado
+  const [openNewNews, setOpenNewNews] = useState(false); // modal para criar um nova notícia
+
+  const { id } = useParams();
+
+  // Local Storage:
+  const token = localStorage.getItem("token");
+  const userLogado = JSON.parse(localStorage.getItem("user")); // pegar os dados para preencher o perfil do usuário logado
+
+  getUser();
+
+  // const { name, username, avatar, background } = userLogado;
 
   // pega e lista todas as notícias do usuário logado
   useEffect(() => {
@@ -23,36 +34,21 @@ export function Profile() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setNews(data.results);
+
+        localStorage.setItem("newsID", JSON.stringify(news));
       })
       .catch((error) => console.log(error.message));
   }, []);
 
-  useEffect(() => {
-    fetch(`http://localhost:5000/user/${userID}`)
+  function getUser() {
+    fetch(`http://localhost:5000/user/${id}`)
       .then((response) => response.json())
       .then((data) => {
         const user = data;
-
-        return localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));
       })
       .catch((error) => error.message);
-  }, []);
-
-  const userID = "63bf5bea8ffe37036d179240";
-
-  const token = localStorage.getItem("token");
-  const userLogado = JSON.parse(localStorage.getItem("user"));
-  const { name, username, avatar, background } = userLogado;
-  // console.log(userLogado);
-
-  // const userID = JSON.parse(localStorage.getItem("userID"));
-  // console.log(userID.id);
-
-  function openNewNewsModal(e) {
-    e.preventDefault();
-    setOpenNewNews(true);
   }
 
   if (openNewNews) {
@@ -61,37 +57,41 @@ export function Profile() {
 
   return (
     <>
-      <Navbar />
+      <Navbar buttonType="userLogin" avatar={userLogado.avatar} />
       <ProfileBody>
-        <button>
+        <Link to="/">
           <i className="bi bi-arrow-left-circle"></i>
-        </button>
+        </Link>
 
         <ContainerCardProfile>
-          <div
-            className="background"
-            style={{ background: background || "gray" }}
-          ></div>
+          <div className="background">
+            <img
+              className="img-background"
+              src={userLogado.background}
+              alt=""
+            />
+          </div>
 
           <img
-            src={!avatar ? avatar : "https://source.unsplash.com/random"}
-            alt="User photo"
+            className="img-profile"
+            src={userLogado.avatar}
+            alt="User profile photo"
           />
 
           <BoxText>
             <div>
-              <h1>{name}</h1>
-              <p>@{username}</p>
+              <h1>{userLogado.name}</h1>
+              <p>@{userLogado.username}</p>
             </div>
 
-            <button onClick={openNewNewsModal}>
+            <button onClick={() => setOpenNewNews(true)}>
               <i className="bi bi-plus-circle-fill"></i>
             </button>
           </BoxText>
         </ContainerCardProfile>
 
         {news.map((item) => (
-          <Card key={item.id} news={item} />
+          <Card key={item.id} news={item} token={token} />
         ))}
       </ProfileBody>
     </>

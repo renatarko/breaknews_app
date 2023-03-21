@@ -1,15 +1,31 @@
 import { useState } from "react";
-import { NewAccount } from "../NewAccount/NewAccount";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { SignIn } from "../SignIn/SignIn";
-import { ButtonS, ContainerSearch, Logo, Nav } from "./navbarStyles";
+import {
+  ButtonProfile,
+  ButtonS,
+  ContainerNav,
+  ContainerSearch,
+  Logo,
+  Nav,
+} from "./navbarStyles";
 
-export function Navbar() {
-  const [sign, setSign] = useState(false);
+export function Navbar({ buttonType, avatar }) {
+  const [sign, setSign] = useState(false); // chama o modal para Login
+  const [openNav, setOpenNav] = useState(false); // quando usuario estiver logado, mostrar navbar para perfil ou logout
 
-  function handleSign() {
-    setSign(!sign);
-    console.log(sign);
+  const navigate = useNavigate();
+
+  function logout() {
+    const token = localStorage.getItem("token");
+
+    localStorage.clear(token);
+    navigate("/");
   }
+  if (sign) {
+    return <SignIn />;
+  }
+
   return (
     <>
       <Nav>
@@ -29,9 +45,34 @@ export function Navbar() {
           </h2>
         </Logo>
 
-        <ButtonS onClick={handleSign}>Entrar</ButtonS>
+        <div>
+          {buttonType === "userLogout" && (
+            <ButtonS type="primary" onClick={() => setSign(!sign)}>
+              Entrar
+            </ButtonS>
+          )}
+          {buttonType === "userLogin" && (
+            <>
+              <ButtonProfile
+                src={avatar}
+                onClick={() => setOpenNav(!openNav)}
+              ></ButtonProfile>
+              {openNav ? (
+                <ContainerNav className="containerNav">
+                  <Link className="profile" to={`/profile`}>
+                    <i className="bi bi-person"></i>
+                    <span>Perfil</span>
+                  </Link>
+                  <button className="getOut" onClick={logout}>
+                    <i className="bi bi-box-arrow-left"></i>
+                    <span>Sair</span>
+                  </button>
+                </ContainerNav>
+              ) : null}
+            </>
+          )}
+        </div>
       </Nav>
-      {sign ? <NewAccount /> : ""}
     </>
   );
 }

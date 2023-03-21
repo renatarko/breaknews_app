@@ -1,6 +1,6 @@
 // import { useState } from "react";
 // import { CardMenu } from "./CardMenu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DeleteNews } from "../DeleteNews/DeleteNews";
 import { EditNews } from "../EditNews/EditNews";
 import { CardBody, CardContainer, CardFooter } from "./CardStyles";
@@ -8,13 +8,20 @@ import { CardBody, CardContainer, CardFooter } from "./CardStyles";
 export function Card({ news, token }) {
   const [openNavCard, setOpenNavCard] = useState(false);
   const newsId = news.id;
-  // console.log(token);
+
   const [open, setOpen] = useState({
     updated: false,
     deleted: false,
   });
 
-  const [like, setLike] = useState([]);
+  // const [like, setLike] = useState([]);
+  const { likes } = news;
+  // const [userLike] = likes;
+  console.log(likes);
+
+  useEffect(() => {
+    doLikeNews();
+  });
 
   function doLikeNews() {
     fetch(`http://localhost:5000/news/like/${news.id}`, {
@@ -23,16 +30,29 @@ export function Card({ news, token }) {
         "Content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      // body: JSON.stringify(likes),
     })
       .then((response) => response.json())
       .then((data) => {
-        alert(data);
-        setLike(news);
-        console.log(like);
+        if (!token) {
+          alert("Ops, faça o login para curtir");
+        }
+
+        if (data.message == "Like done successfully") {
+          // likes.push(userLike);
+          // setLike([...like, userLike]);
+          console.log(likes + " curtiu");
+        }
+
+        if (data.message == "Like successfully removed") {
+          // setLike(like.splice(1, 1));
+          console.log(likes + " descurtiu");
+        }
       })
       .catch((error) => console.log(error));
   }
 
+  // abrir modal para editar ou deletar noticia
   const { updated, deleted } = open;
 
   if (updated) {
@@ -78,12 +98,12 @@ export function Card({ news, token }) {
 
       <CardFooter>
         <button onClick={doLikeNews}>
-          {like ? (
-            <i className="bi bi-hand-thumbs-up"></i>
+          {likes.length != 0 ? (
+            <i className="bi bi-hand-thumbs-up-fill like-fill"></i>
           ) : (
-            <i className="bi bi-hand-thumbs-up-fill"></i>
+            <i className="bi bi-hand-thumbs-up"></i>
           )}
-          <span>{like}</span>
+          <span>{likes.length}</span>
         </button>
 
         <button>

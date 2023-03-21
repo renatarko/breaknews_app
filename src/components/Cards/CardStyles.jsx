@@ -99,14 +99,8 @@ export const CardFooter = styled.div`
     cursor: pointer;
     font-size: 1rem;
 
-    :focus .like {
-      color: rgb(8, 140, 184);
-      transform: scale(1.1);
-    }
-
     .like-fill {
       color: rgb(8, 140, 184);
-      opacity: 0;
     }
   }
 `;

@@ -12,6 +12,7 @@ export const Nav = styled.nav`
   padding: 1rem 1rem;
   box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 5px;
   background-color: #fff;
+  z-index: 100;
 `;
 
 export const ContainerSearch = styled.div`
@@ -85,5 +86,51 @@ export const ButtonS = styled.button`
 
   :hover {
     background-color: #0a98c7;
+  }
+`;
+
+export const ButtonProfile = styled.img`
+  width: 3.5rem;
+  height: 3.5rem;
+  clip-path: circle();
+  object-fit: cover;
+  cursor: pointer;
+  /* background-color: none; */
+  /* position: relative; */
+`;
+
+export const ContainerNav = styled.nav`
+  background-color: #fff;
+  position: absolute;
+  top: 5rem;
+  right: 0.8rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: 0.3rem;
+
+  button,
+  .profile {
+    width: 4rem;
+    background: none;
+    border: none;
+    padding: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    opacity: 0.9;
+
+    :hover {
+      opacity: 1;
+    }
+
+    :hover i {
+      color: rgb(8, 140, 184);
+    }
   }
 `;

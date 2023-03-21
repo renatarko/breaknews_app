@@ -10,12 +10,31 @@ export const ProfileBody = styled.section`
   gap: 1.5rem;
   position: relative;
 
-  .bi-arrow-left-circle {
+  .box-button {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     position: absolute;
-    z-index: 100;
+    right: 0;
+    z-index: 90;
+    margin: 0.8rem;
+
+    button {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: #fff;
+      cursor: pointer;
+      padding: 0.3rem;
+    }
+  }
+
+  .bi-arrow-left-circle {
+    /* position: absolute; */
+    /* z-index: 100; */
     font-size: 1.2rem;
     color: #fff;
-    margin: 0.2rem;
+    /* margin: 0.2rem; */
     cursor: pointer;
   }
 `;
@@ -31,22 +50,24 @@ export const ContainerCardProfile = styled.div`
   position: relative;
   margin-bottom: 2rem;
 
-  .background {
+  .img-background {
     width: 100%;
-    height: 50%;
+    height: 6rem;
+    object-fit: cover;
     background-color: #d9d9d9;
-    border-radius: 0.3rem;
+    border-radius: 0.3rem 0.3rem 0 0;
   }
 
-  img {
+  .img-profile {
     width: 6rem;
     height: 6rem;
     border-radius: 50%;
     position: absolute;
     top: 1.5rem;
     left: 1rem;
-    border: 4px solid #fff;
+    border: 4px solid rgb(11, 173, 227);
     object-fit: cover;
+    /* z-index: 100; */
   }
 `;
 

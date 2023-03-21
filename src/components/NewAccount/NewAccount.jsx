@@ -4,7 +4,7 @@ import { InputS, SignInContainer } from "../SignIn/SignInStyles";
 import { useState } from "react";
 
 export function NewAccount() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const [user, setUser] = useState({
     name: "",
@@ -20,6 +20,8 @@ export function NewAccount() {
 
     setUser({ ...user, [name]: value });
   }
+
+  const navigative = useNavigate();
 
   function cadastrar(e) {
     e.preventDefault();
@@ -43,6 +45,12 @@ export function NewAccount() {
           alert(data.message);
           return;
         }
+
+        // if (token) {
+        //   const params = user.id;
+        //   return navigative(`/profile/${params}`);
+        // }
+
         setIsOpen(!isOpen);
         console.log(data);
         alert("usuario cadastrado: " + data.user.id);

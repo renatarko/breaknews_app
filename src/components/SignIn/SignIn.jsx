@@ -1,10 +1,8 @@
 import { FormSign, InputS, SignInContainer } from "./SignInStyles";
 import { ButtonS } from "../Navbar/navbarStyles";
-import { Profiler, useState } from "react";
 import { NewAccount } from "../NewAccount/NewAccount";
-import { Navigate, useNavigate, useNavigation } from "react-router-dom";
-import { Navbar } from "../Navbar/Navbar";
-import { Profile } from "../../Pages/Profile/Profile";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export function SignIn() {
   const [open, setOpen] = useState(true); //abrir modal de login
@@ -49,11 +47,7 @@ export function SignIn() {
           // localStorage.setItem("user", user);
           setOpen(false);
 
-          if (token) {
-            const params = user.id;
-            return navigative(`/profile/${params}`);
-          }
-          return;
+          return navigative(`/profile/${user.id}`);
         }
 
         alert("Ops, usuário não encontrado");

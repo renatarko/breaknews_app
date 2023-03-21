@@ -15,7 +15,7 @@ function App() {
       <Router>
         <GlobalStyled />
 
-        {/* <Navbar buttonType="userLogout" /> */}
+        <Navbar buttonType="userLogout" />
 
         <Routes>
           <Route path="/" Component={Home} />

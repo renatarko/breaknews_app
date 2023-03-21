@@ -3,7 +3,7 @@
 // import { news } from "../../../datas";
 
 import { useState, useEffect } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Card } from "../../components/Cards/Card";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { NewNews } from "../../components/NewNews/NewNews";
@@ -13,15 +13,24 @@ export function Profile() {
   const [news, setNews] = useState([]); // array das news do usuário logado
   const [openNewNews, setOpenNewNews] = useState(false); // modal para criar um nova notícia
 
+  // pego o id do usuário passado por parametro
   const { id } = useParams();
+
+  function getUser() {
+    fetch(`http://localhost:5000/user/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const user = data;
+        localStorage.setItem("user", JSON.stringify(user));
+      })
+      .catch((error) => error.message);
+  }
 
   // Local Storage:
   const token = localStorage.getItem("token");
   const userLogado = JSON.parse(localStorage.getItem("user")); // pegar os dados para preencher o perfil do usuário logado
 
   getUser();
-
-  // const { name, username, avatar, background } = userLogado;
 
   // pega e lista todas as notícias do usuário logado
   useEffect(() => {
@@ -35,21 +44,9 @@ export function Profile() {
       .then((response) => response.json())
       .then((data) => {
         setNews(data.results);
-
-        localStorage.setItem("newsID", JSON.stringify(news));
       })
       .catch((error) => console.log(error.message));
   }, []);
-
-  function getUser() {
-    fetch(`http://localhost:5000/user/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const user = data;
-        localStorage.setItem("user", JSON.stringify(user));
-      })
-      .catch((error) => error.message);
-  }
 
   if (openNewNews) {
     return <NewNews />;
@@ -57,34 +54,39 @@ export function Profile() {
 
   return (
     <>
-      <Navbar buttonType="userLogin" avatar={userLogado.avatar} />
+      <Navbar buttonType="userLogin" avatar={userLogado?.avatar} />
       <ProfileBody>
-        <Link to="/">
-          <i className="bi bi-arrow-left-circle"></i>
-        </Link>
+        <div className="box-button">
+          <Link to="/">
+            <i className="bi bi-arrow-left-circle backTo"></i>
+          </Link>
+          <button className="editProfile">
+            <i className="bi bi-three-dots-vertical"></i>
+          </button>
+        </div>
 
         <ContainerCardProfile>
           <div className="background">
             <img
               className="img-background"
-              src={userLogado.background}
+              src={userLogado?.background}
               alt=""
             />
           </div>
 
           <img
             className="img-profile"
-            src={userLogado.avatar}
+            src={userLogado?.avatar}
             alt="User profile photo"
           />
 
           <BoxText>
             <div>
-              <h1>{userLogado.name}</h1>
-              <p>@{userLogado.username}</p>
+              <h1>{userLogado?.name}</h1>
+              <p>@{userLogado?.username}</p>
             </div>
 
-            <button onClick={() => setOpenNewNews(true)}>
+            <button onClick={() => setOpenNewNews(!openNewNews)}>
               <i className="bi bi-plus-circle-fill"></i>
             </button>
           </BoxText>

@@ -1,36 +1,35 @@
 // import { useState } from "react";
 // import { CardMenu } from "./CardMenu";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DeleteNews } from "../DeleteNews/DeleteNews";
 import { EditNews } from "../EditNews/EditNews";
 import { CardBody, CardContainer, CardFooter } from "./CardStyles";
 
 export function Card({ news, token }) {
   const [openNavCard, setOpenNavCard] = useState(false);
-  const newsId = news.id;
+  // const newsId = news.id;
 
   const [open, setOpen] = useState({
     updated: false,
     deleted: false,
   });
 
-  // const [like, setLike] = useState([]);
-  const { likes } = news;
-  // const [userLike] = likes;
-  console.log(likes);
+  const [likes, setLikes] = useState(news?.likes || []);
 
-  useEffect(() => {
-    doLikeNews();
-  });
+  const userID = JSON.parse(localStorage.getItem("user"));
+  // console.log(userID);
+
+  const liked = useMemo(() => {
+    return likes.some((item) => item.userId === userID?._id);
+  }, []);
 
   function doLikeNews() {
-    fetch(`http://localhost:5000/news/like/${news.id}`, {
+    fetch(`http://localhost:3000/news/like/${news.id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      // body: JSON.stringify(likes),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -39,14 +38,9 @@ export function Card({ news, token }) {
         }
 
         if (data.message == "Like done successfully") {
-          // likes.push(userLike);
-          // setLike([...like, userLike]);
-          console.log(likes + " curtiu");
         }
 
         if (data.message == "Like successfully removed") {
-          // setLike(like.splice(1, 1));
-          console.log(likes + " descurtiu");
         }
       })
       .catch((error) => console.log(error));
@@ -56,11 +50,11 @@ export function Card({ news, token }) {
   const { updated, deleted } = open;
 
   if (updated) {
-    return <EditNews newId={newsId} />;
+    return <EditNews news={news} />;
   }
 
   if (deleted) {
-    return <DeleteNews newId={newsId} />;
+    return <DeleteNews news={news} />;
   }
 
   return (
@@ -98,7 +92,7 @@ export function Card({ news, token }) {
 
       <CardFooter>
         <button onClick={doLikeNews}>
-          {likes.length != 0 ? (
+          {liked ? (
             <i className="bi bi-hand-thumbs-up-fill like-fill"></i>
           ) : (
             <i className="bi bi-hand-thumbs-up"></i>

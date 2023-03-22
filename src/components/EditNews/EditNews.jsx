@@ -3,8 +3,9 @@ import { FormNewNews } from "../NewNews/NewNewsStyles";
 import { ButtonS } from "../Navbar/navbarStyles";
 import { useState } from "react";
 
-export function EditNews({ newId }) {
+export function EditNews({ news }) {
   const [open, setOpen] = useState(true);
+  console.log(news);
 
   const [updatedNews, setUpdatedNews] = useState({
     title: "",
@@ -18,10 +19,35 @@ export function EditNews({ newId }) {
     setUpdatedNews({ ...updatedNews, [name]: value });
   }
 
-  function sendUpdatedNews(e) {
-    e.preventDefault();
+  const token = localStorage.getItem("token");
 
-    fetch(`http://localhost:5000/news/${newId}`, {
+  function getNewToEdit() {
+    fetch(`http://localhost:3000/news/${news.id}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const newToUpdated = {
+          title: data.news.title,
+          text: data.news.text,
+          banner: data.news.banner,
+        };
+
+        setUpdatedNews((updatedNews.title = newToUpdated.title));
+      })
+
+      .catch((error) => console.log(error.message));
+  }
+
+  getNewToEdit();
+
+  function sendUpdatedNews(e) {
+    // e.preventDefault();
+
+    fetch(`http://localhost:3000/news/${news.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -31,13 +57,13 @@ export function EditNews({ newId }) {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         alert(data.message);
         setOpen(false);
       })
       .catch((error) => console.log(error.message));
   }
-
-  const token = localStorage.getItem("token");
+  // sendUpdatedNews();
 
   return (
     <>

@@ -4,9 +4,7 @@ import { FormNewNews } from "./NewNewsStyles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export function NewNews() {
-  const [open, setOpen] = useState(true);
-
+export function NewNews({ open, setOpen, token }) {
   const [newNews, setNewNews] = useState({
     title: "",
     banner: "",
@@ -29,8 +27,6 @@ export function NewNews() {
     if (!title && !banner && !text) {
       return alert("Preencha os campos");
     }
-
-    const token = localStorage.getItem("token");
 
     fetch("http://localhost:3000/news/", {
       method: "POST",
@@ -55,7 +51,7 @@ export function NewNews() {
       {open ? (
         <SignInContainer>
           <FormNewNews>
-            <i onClick={() => setOpen(!open)} className="bi bi-x"></i>
+            <i onClick={() => setOpen(false)} className="bi bi-x"></i>
 
             <h1>Publicar Notícia</h1>
             <InputS

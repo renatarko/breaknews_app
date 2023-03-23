@@ -24,11 +24,11 @@ export function SignIn() {
   function fazerLogin(e) {
     e.preventDefault();
 
-    if (!userLogin.email && !userLogin.password) {
+    if (!userLogin.email || !userLogin.password) {
       return alert("Preencha os campos");
     }
 
-    fetch("http://localhost:5000/auth", {
+    fetch("http://localhost:3000/auth", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,6 @@ export function SignIn() {
       .then((response) => response.json())
       .then((data) => {
         const { token, user } = data;
-        console.log(user.id);
 
         if (token) {
           alert("Olá " + userLogin.email);
@@ -47,7 +46,8 @@ export function SignIn() {
           // localStorage.setItem("user", user);
           setOpen(false);
 
-          return navigative(`/profile/${user.id}`);
+          console.log(data.message);
+          return navigative(`breaknews_app/profile/${user.id}`);
         }
 
         alert("Ops, usuário não encontrado");

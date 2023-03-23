@@ -17,7 +17,7 @@ export function Profile() {
   const { id } = useParams();
 
   function getUser() {
-    fetch(`http://localhost:5000/user/${id}`)
+    fetch(`http://localhost:3000/user/${id}`)
       .then((response) => response.json())
       .then((data) => {
         const user = data;
@@ -34,7 +34,7 @@ export function Profile() {
 
   // pega e lista todas as notícias do usuário logado
   useEffect(() => {
-    fetch(`http://localhost:5000/news/byUser/`, {
+    fetch(`http://localhost:3000/news/byUser/`, {
       method: "GET",
       headers: {
         "Content-type": "application/json",
@@ -57,7 +57,7 @@ export function Profile() {
       <Navbar buttonType="userLogin" avatar={userLogado?.avatar} />
       <ProfileBody>
         <div className="box-button">
-          <Link to="/">
+          <Link to="/breaknews_app">
             <i className="bi bi-arrow-left-circle backTo"></i>
           </Link>
           <button className="editProfile">

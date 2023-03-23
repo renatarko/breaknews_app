@@ -15,7 +15,7 @@ export function Home() {
   const [news, setNews] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/news")
+    fetch("http://localhost:3000/news")
       .then((response) => response.json())
       .then((data) => {
         setNews(data.results);

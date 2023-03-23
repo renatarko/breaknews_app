@@ -16,11 +16,15 @@ export function Navbar({ buttonType, avatar }) {
 
   const navigate = useNavigate();
 
+  function moveToProfile() {
+    navigate(-1);
+  }
+
   function logout() {
     const token = localStorage.getItem("token");
 
     localStorage.clear(token);
-    navigate("/");
+    navigate("/breaknews_app");
   }
   if (sign) {
     return <SignIn />;
@@ -59,10 +63,10 @@ export function Navbar({ buttonType, avatar }) {
               ></ButtonProfile>
               {openNav ? (
                 <ContainerNav className="containerNav">
-                  <Link className="profile" to={`/profile`}>
+                  <button className="profile" onClick={moveToProfile}>
                     <i className="bi bi-person"></i>
                     <span>Perfil</span>
-                  </Link>
+                  </button>
                   <button className="getOut" onClick={logout}>
                     <i className="bi bi-box-arrow-left"></i>
                     <span>Sair</span>

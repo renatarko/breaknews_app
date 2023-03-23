@@ -8,12 +8,11 @@ export const SignInContainer = styled.section`
   right: 0;
   z-index: 100;
 
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background-color: #2d2e2e9e;
+  background-color: #2d2e2eb5;
 `;
 
 export const FormSign = styled.form`

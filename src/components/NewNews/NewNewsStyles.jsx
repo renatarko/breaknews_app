@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 export const FormNewNews = styled.form`
-  min-width: 15rem;
+  min-width: 22rem;
   max-width: 50%;
-  height: 50%;
+  min-height: 50%;
+  height: 21rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
 
   background-color: #fff;
   border-radius: 0.4rem;
@@ -28,6 +29,8 @@ export const FormNewNews = styled.form`
   }
 
   textarea {
+    max-width: 22rem;
+    min-height: 5rem;
     font-size: 1rem;
     border: none;
     outline: none;

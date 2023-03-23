@@ -1,6 +1,5 @@
-// import { useState } from "react";
-// import { CardMenu } from "./CardMenu";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { DeleteNews } from "../DeleteNews/DeleteNews";
 import { EditNews } from "../EditNews/EditNews";
 import { CardBody, CardContainer, CardFooter } from "./CardStyles";
@@ -18,6 +17,8 @@ export function Card({ news, token }) {
 
   const userID = JSON.parse(localStorage.getItem("user"));
   // console.log(userID);
+
+  const navigate = useNavigate();
 
   const liked = useMemo(() => {
     return likes.some((item) => item.userId === userID?._id);
@@ -37,11 +38,7 @@ export function Card({ news, token }) {
           alert("Ops, faça o login para curtir");
         }
 
-        if (data.message == "Like done successfully") {
-        }
-
-        if (data.message == "Like successfully removed") {
-        }
+        setLikes(likes);
       })
       .catch((error) => console.log(error));
   }
@@ -50,11 +47,11 @@ export function Card({ news, token }) {
   const { updated, deleted } = open;
 
   if (updated) {
-    return <EditNews news={news} />;
+    return <EditNews news={news} open={open} setOpen={setOpen} />;
   }
 
   if (deleted) {
-    return <DeleteNews news={news} />;
+    return <DeleteNews news={news} open={open} setOpen={setOpen} />;
   }
 
   return (

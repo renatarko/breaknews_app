@@ -2,15 +2,15 @@ import { InputS, SignInContainer } from "../SignIn/SignInStyles";
 import { FormNewNews } from "../NewNews/NewNewsStyles";
 import { ButtonS } from "../Navbar/navbarStyles";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export function EditNews({ news }) {
-  const [open, setOpen] = useState(true);
-  console.log(news);
+export function EditNews({ news, open, setOpen }) {
+  const navigate = useNavigate();
 
   const [updatedNews, setUpdatedNews] = useState({
-    title: "",
-    banner: "",
-    text: "",
+    title: news.title,
+    banner: news.banner,
+    text: news.text,
   });
 
   function handleInputChange(e) {
@@ -21,31 +21,8 @@ export function EditNews({ news }) {
 
   const token = localStorage.getItem("token");
 
-  function getNewToEdit() {
-    fetch(`http://localhost:3000/news/${news.id}`, {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const newToUpdated = {
-          title: data.news.title,
-          text: data.news.text,
-          banner: data.news.banner,
-        };
-
-        setUpdatedNews((updatedNews.title = newToUpdated.title));
-      })
-
-      .catch((error) => console.log(error.message));
-  }
-
-  getNewToEdit();
-
   function sendUpdatedNews(e) {
-    // e.preventDefault();
+    e.preventDefault();
 
     fetch(`http://localhost:3000/news/${news.id}`, {
       method: "PATCH",
@@ -57,13 +34,13 @@ export function EditNews({ news }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         alert(data.message);
         setOpen(false);
+
+        navigate(0);
       })
       .catch((error) => console.log(error.message));
   }
-  // sendUpdatedNews();
 
   return (
     <>
@@ -78,18 +55,20 @@ export function EditNews({ news }) {
               placeholder="Título"
               onChange={handleInputChange}
               name="title"
+              value={updatedNews.title}
             ></InputS>
             <InputS
               placeholder="Banner"
               onChange={handleInputChange}
               name="banner"
+              value={updatedNews.banner}
             ></InputS>
             <textarea
               onChange={handleInputChange}
+              value={updatedNews.text}
               name="text"
-              id=""
-              cols="30"
-              rows="10"
+              cols="50"
+              rows="50"
               placeholder="Texto"
             ></textarea>
 

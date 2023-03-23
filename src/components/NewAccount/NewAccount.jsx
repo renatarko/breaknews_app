@@ -32,7 +32,7 @@ export function NewAccount() {
       return alert("É necessário preencher todos os campos!");
     }
 
-    fetch("http://localhost:5000/user", {
+    fetch("http://localhost:3000/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,11 +45,6 @@ export function NewAccount() {
           alert(data.message);
           return;
         }
-
-        // if (token) {
-        //   const params = user.id;
-        //   return navigative(`/profile/${params}`);
-        // }
 
         setIsOpen(!isOpen);
         console.log(data);

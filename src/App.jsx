@@ -1,13 +1,11 @@
+import { GlobalStyled } from "./GlobalStyled";
 import "./App.css";
 import { Home } from "./Pages/Home/Home";
-import { GlobalStyled } from "./GlobalStyled";
-import { Profile } from "./Pages/Profile/Profile";
-import { NewNews } from "./components/NewNews/NewNews";
-import { EditNews } from "./components/EditNews/EditNews";
-
-import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar/Navbar";
-import { SignIn } from "./components/SignIn/SignIn";
+import { Profile } from "./Pages/Profile/Profile";
+
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ModalProvider } from "./context/modalContext";
 
 function App() {
   return (
@@ -16,14 +14,14 @@ function App() {
         <GlobalStyled />
 
         <Navbar buttonType="userLogout" />
-
-        <Routes>
-          <Route path="/" Component={Home} />
-          <Route path="/profile" Component={Profile} />
-          <Route path="/profile/:id" Component={Profile} />
-          <Route path="/sign" Component={SignIn} />
-          <Route path="*" element={<h1>Pagina não encontrada</h1>} />
-        </Routes>
+        <ModalProvider>
+          <Routes>
+            <Route path="breaknews_app" Component={Home} />
+            {/* <Route path="breaknews_app/profile" Component={Profile} /> */}
+            <Route path="breaknews_app/profile/:id" Component={Profile} />
+            <Route path="*" element={<h1>Pagina não encontrada</h1>} />
+          </Routes>
+        </ModalProvider>
       </Router>
     </>
   );

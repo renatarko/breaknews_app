@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SignInContainer } from "../SignIn/SignInStyles";
 import { DeleteNew } from "./DeleteNewsStyles";
 
-export function DeleteNews({ newId }) {
-  const [open, setOpen] = useState(true);
+export function DeleteNews({ news, open, setOpen }) {
+  const navigate = useNavigate();
 
   function deleteNew(e) {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
 
-    fetch(`http://localhost:5000/news/${newId}`, {
+    fetch(`http://localhost:3000/news/${news.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -21,17 +21,11 @@ export function DeleteNews({ newId }) {
       .then((data) => {
         alert(data.message);
         setOpen(false);
+
+        navigate(0);
       })
       .catch((error) => console.log(error.message));
   }
-
-  console.log(newId);
-
-  // function handleOpen(e) {
-  //   e.preventDefault();
-
-  //   setOpen(false);
-  // }
 
   return (
     <>

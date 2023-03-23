@@ -2,6 +2,7 @@ import { InputS, SignInContainer } from "../SignIn/SignInStyles";
 import { ButtonS } from "../Navbar/navbarStyles";
 import { FormNewNews } from "./NewNewsStyles";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function NewNews() {
   const [open, setOpen] = useState(true);
@@ -12,13 +13,15 @@ export function NewNews() {
     text: "",
   });
 
+  const navigate = useNavigate();
+
   function handleInputChange(e) {
     const { name, value } = e.target;
 
     setNewNews({ ...newNews, [name]: value });
   }
 
-  function enviarNoticia(e) {
+  function createNewNews(e) {
     e.preventDefault();
 
     const { title, banner, text } = newNews;
@@ -29,7 +32,7 @@ export function NewNews() {
 
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:5000/news/", {
+    fetch("http://localhost:3000/news/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,10 +42,10 @@ export function NewNews() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         alert(data.message);
 
         setOpen(false);
+        navigate(0);
       })
       .catch((error) => error.message);
   }
@@ -74,7 +77,7 @@ export function NewNews() {
               onChange={handleInputChange}
             ></textarea>
 
-            <ButtonS onClick={enviarNoticia}>Publicar</ButtonS>
+            <ButtonS onClick={createNewNews}>Publicar</ButtonS>
           </FormNewNews>
         </SignInContainer>
       ) : null}

@@ -1,36 +1,40 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-export const AuthContext = createContext({ token: null, user: null });
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState();
   const [user, setUser] = useState();
 
   async function signIn(userLogin) {
-    fetch("http://localhost:3000/auth", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userLogin),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const { token, user } = data;
+    try {
+      const response = await fetch("http://localhost:3000/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userLogin),
+      });
 
-        if (token) {
-          alert("Olá " + userLogin.email);
+      const data = await response.json();
 
-          localStorage.setItem("token", token);
-          setToken(token);
-          setUser(user);
+      const { token: _token, user: _user } = data;
 
-          console.log(data.message);
-        }
+      if (_token) {
+        alert("Olá " + _user.email);
 
-        alert("Ops, usuário não encontrado");
-      })
-      .catch((error) => console.log(error.message));
+        localStorage.setItem("token", _token);
+        setToken(() => _token);
+        setUser(() => _user);
+
+        return _user;
+      }
+
+      throw new Error("Ops, usuário não encontrado");
+    } catch (error) {
+      console.log(error.message);
+      alert(error.message);
+    }
   }
 
   function signOut() {
@@ -42,8 +46,19 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ signIn, signOut, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{ signIn, signOut, isAuthenticated, user, token }}
+    >
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error("useAuth deve ser usado dentro de um AuthProvider");
+  }
+  return context;
 };

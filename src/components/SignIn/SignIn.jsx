@@ -3,10 +3,13 @@ import { ButtonS } from "../Navbar/navbarStyles";
 import { NewAccount } from "../NewAccount/NewAccount";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../../context/authContext";
 
 export function SignIn() {
   const [open, setOpen] = useState(true); //abrir modal de login
   const [openNew, setOpenNew] = useState(false); // abrir modal para cadastrar usuário
+
+  const { signIn } = useAuth();
 
   const navigative = useNavigate();
 
@@ -21,38 +24,19 @@ export function SignIn() {
     setUserLogin({ ...userLogin, [name]: value });
   }
 
-  function fazerLogin(e) {
+  async function fazerLogin(e) {
     e.preventDefault();
 
     if (!userLogin.email || !userLogin.password) {
       return alert("Preencha os campos");
     }
 
-    fetch("http://localhost:3000/auth", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userLogin),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const { token, user } = data;
+    try {
+      const user = await signIn(userLogin);
 
-        if (token) {
-          alert("Olá " + userLogin.email);
-
-          localStorage.setItem("token", token);
-          // localStorage.setItem("user", user);
-          setOpen(false);
-
-          console.log(data.message);
-          return navigative(`breaknews_app/profile/${user.id}`);
-        }
-
-        alert("Ops, usuário não encontrado");
-      })
-      .catch((error) => console.log(error.message));
+      setOpen(false);
+      navigative(`profile/${user.id}`);
+    } catch (error) {}
   }
 
   function handleOpenNewAccount(e) {
@@ -65,7 +49,7 @@ export function SignIn() {
   if (openNew) {
     return <NewAccount />;
   }
-  console.log(openNew);
+  // console.log(openNew);
   return (
     <>
       {open ? (

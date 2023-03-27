@@ -1,7 +1,13 @@
 import { Card } from "../../components/Cards/Card";
 import { Navbar } from "../../components/Navbar/Navbar";
 // import { news } from "../../../datas";
-import { Container, HomeBody } from "./HomeStyles";
+import {
+  Container,
+  HomeBody,
+  NextPage,
+  Pagination,
+  PreviosPage,
+} from "./HomeStyles";
 import { Footer } from "../../components/Footer/Footer";
 
 import { useEffect, useState } from "react";
@@ -14,14 +20,28 @@ import {
 export function Home() {
   const [news, setNews] = useState([]);
 
+  const [limit, setLimit] = useState(5); // quantidade de resultados por página
+
+  const [pages, setPages] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // qual página está sendo clicada em Pagination
+
   useEffect(() => {
-    fetch("http://localhost:3000/news")
+    fetch(`http://localhost:3000/news?limit=${limit}&offset=${currentPage}`)
       .then((response) => response.json())
       .then((data) => {
+        setLimit(data.limit);
+
+        const totalPagina = Math.ceil(data.total / limit);
+
+        const arrayPages = [];
+        for (let i = 1; i <= totalPagina; i++) {
+          arrayPages.push(i);
+        }
+        setPages(arrayPages);
         setNews(data.results);
       })
       .catch((error) => error.message);
-  }, []);
+  }, [currentPage]);
 
   const token = localStorage.getItem("token");
   const userLogado = localStorage.getItem("user");
@@ -34,7 +54,7 @@ export function Home() {
         <Navbar buttonType="userLogout" />
       )}
       <Container>
-        <CardContainer>
+        {/* <CardContainer>
           <CardBody>
             <div>
               <h2>titulo</h2>
@@ -55,15 +75,42 @@ export function Home() {
               <span>1</span>
             </button>
           </CardFooter>
-        </CardContainer>
+        </CardContainer> */}
 
         <HomeBody>
           {news.map((item) => {
             return <Card key={item.id} news={item} token={token} />;
           })}
         </HomeBody>
-        <button className="button-showMore">mostrar mais...</button>
-        {/* <Footer /> */}
+
+        <Pagination>
+          {currentPage > 1 && (
+            <PreviosPage onClick={() => setCurrentPage(currentPage - 1)}>
+              <i className="bi bi-caret-left-fill"></i>
+            </PreviosPage>
+          )}
+
+          {pages.map((page) => {
+            return (
+              <button
+                style={
+                  page === currentPage ? { background: "#8dc0ebef" } : null
+                }
+                key={page}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            );
+          })}
+          {currentPage < pages.length && (
+            <NextPage onClick={() => setCurrentPage(currentPage + 1)}>
+              <i className="bi bi-caret-right-fill"></i>
+            </NextPage>
+          )}
+        </Pagination>
+
+        {/* <button className="button-showMore">mostrar mais...</button> */}
       </Container>
     </>
   );

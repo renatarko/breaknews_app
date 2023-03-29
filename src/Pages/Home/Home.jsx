@@ -11,19 +11,14 @@ import {
 import { Footer } from "../../components/Footer/Footer";
 
 import { useEffect, useState } from "react";
-import {
-  CardBody,
-  CardContainer,
-  CardFooter,
-} from "../../components/Cards/CardStyles";
 
 export function Home() {
   const [news, setNews] = useState([]);
 
-  const [limit, setLimit] = useState(5); // quantidade de resultados por página
-
+  // Pagination
+  const [limit, setLimit] = useState(5);
   const [pages, setPages] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); // qual página está sendo clicada em Pagination
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     fetch(`http://localhost:3000/news?limit=${limit}&offset=${currentPage}`)
@@ -31,12 +26,12 @@ export function Home() {
       .then((data) => {
         setLimit(data.limit);
 
-        const totalPagina = Math.ceil(data.total / limit);
+        let totalPagina = Math.ceil(data.total / limit);
 
-        const arrayPages = [];
-        for (let i = 1; i <= totalPagina; i++) {
-          arrayPages.push(i);
-        }
+        const arrayPages = Array.from({ length: totalPagina }, () => {
+          return totalPagina--;
+        }).reverse();
+
         setPages(arrayPages);
         setNews(data.results);
       })
@@ -54,29 +49,6 @@ export function Home() {
         <Navbar buttonType="userLogout" />
       )}
       <Container>
-        {/* <CardContainer>
-          <CardBody>
-            <div>
-              <h2>titulo</h2>
-              <p>text</p>
-              <cite>username</cite>
-            </div>
-
-            <img src="" alt="imagem" />
-          </CardBody>
-
-          <CardFooter>
-            <button>
-              <i className="bi bi-hand-thumbs-up"></i>
-              <span>1</span>
-            </button>
-            <button>
-              <i className="bi bi-chat"></i>
-              <span>1</span>
-            </button>
-          </CardFooter>
-        </CardContainer> */}
-
         <HomeBody>
           {news.map((item) => {
             return <Card key={item.id} news={item} token={token} />;
@@ -109,9 +81,8 @@ export function Home() {
             </NextPage>
           )}
         </Pagination>
-
-        {/* <button className="button-showMore">mostrar mais...</button> */}
       </Container>
+      <Footer />
     </>
   );
 }

@@ -27,8 +27,19 @@ export const Container = styled.section`
 export const HomeBody = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-areas: "";
   grid-gap: 1rem;
   margin-top: 2rem;
+
+  section:first-child {
+    grid-column: span 2;
+
+    img {
+      width: 30%;
+      height: auto;
+      margin-right: 1rem;
+    }
+  }
 `;
 
 export const Pagination = styled.div`

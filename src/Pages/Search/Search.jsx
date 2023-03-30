@@ -21,7 +21,12 @@ export function Search() {
       .then((response) => response.json())
       .then((data) => {
         const allNews = data.results;
-        const filterNews = allNews.filter((item) => item.text === write);
+
+        const filterNews = allNews.filter((item) => {
+          const eachText = item.text;
+          const searchWord = write;
+          return eachText.includes(searchWord);
+        });
 
         setNews(allNews);
 

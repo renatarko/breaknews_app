@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Search } from "../../Pages/Search/Search";
 import { SignIn } from "../SignIn/SignIn";
 import {
   ButtonProfile,
@@ -30,11 +31,28 @@ export function Navbar({ buttonType, avatar }) {
     return <SignIn />;
   }
 
+  const [moveToSearch, setMoveToSearch] = useState("");
+
+  function movePageToSearch(e) {
+    const inputValue = e.target.value;
+    setMoveToSearch(inputValue);
+
+    if (moveToSearch) {
+      navigate(`/breaknews_app/search/${inputValue}`);
+    }
+  }
+
+  // console.log(moveToSearch);
+
   return (
     <>
       <Nav>
         <ContainerSearch>
-          <input type="text" placeholder="Pesquise uma notícia" />
+          <input
+            type="text"
+            placeholder="Pesquise uma notícia"
+            onChange={movePageToSearch}
+          />
           <i className="bi bi-search"></i>
         </ContainerSearch>
 

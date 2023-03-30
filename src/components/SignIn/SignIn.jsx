@@ -4,6 +4,7 @@ import { NewAccount } from "../NewAccount/NewAccount";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../context/authContext";
+import { toast, Toaster } from "react-hot-toast";
 
 export function SignIn() {
   const [open, setOpen] = useState(true); //abrir modal de login
@@ -28,14 +29,14 @@ export function SignIn() {
     e.preventDefault();
 
     if (!userLogin.email || !userLogin.password) {
-      return alert("Preencha os campos");
+      return toast.error("Preencha os campos!");
     }
 
     try {
       const user = await signIn(userLogin);
 
       setOpen(false);
-      navigative(`profile/${user.id}`);
+      navigative(`breaknews_app/profile/${user.id}`);
     } catch (error) {}
   }
 
@@ -43,15 +44,14 @@ export function SignIn() {
     e.preventDefault();
 
     setOpenNew(true);
-    console.log(openNew);
   }
 
   if (openNew) {
     return <NewAccount />;
   }
-  // console.log(openNew);
   return (
     <>
+      {/* <Toaster /> */}
       {open ? (
         <SignInContainer>
           <FormSign>

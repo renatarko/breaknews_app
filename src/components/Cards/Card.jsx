@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { DeleteNews } from "../DeleteNews/DeleteNews";
 import { EditNews } from "../EditNews/EditNews";
@@ -18,11 +19,12 @@ export function Card({ news, token }) {
   const userID = JSON.parse(localStorage.getItem("user"));
   // console.log(userID);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const liked = useMemo(() => {
     return likes.some((item) => item.userId === userID?._id);
   }, []);
+  // console.log(liked);
 
   function doLikeNews() {
     fetch(`http://localhost:3000/news/like/${news.id}`, {
@@ -35,7 +37,9 @@ export function Card({ news, token }) {
       .then((response) => response.json())
       .then((data) => {
         if (!token) {
-          alert("Ops, faça o login para curtir");
+          toast("Crie uma conta ou faça o Login para curtir!", {
+            icon: "👀",
+          });
         }
 
         setLikes(likes);
@@ -56,6 +60,7 @@ export function Card({ news, token }) {
 
   return (
     <CardContainer>
+      <Toaster />
       <button
         className="icon-dotsmenu"
         onClick={() => setOpenNavCard(!openNavCard)}
@@ -79,12 +84,12 @@ export function Card({ news, token }) {
 
       <CardBody>
         <div>
-          <h2>{news.title}</h2>
-          <p>{news.text}</p>
-          <cite>{news.userName}</cite>
+          <h2>{news?.title}</h2>
+          <p>{news?.text}</p>
+          <cite>{news?.userName}</cite>
         </div>
 
-        <img src={news.banner} alt="imagem" />
+        <img src={news?.banner} alt="imagem" />
       </CardBody>
 
       <CardFooter>
@@ -94,12 +99,12 @@ export function Card({ news, token }) {
           ) : (
             <i className="bi bi-hand-thumbs-up"></i>
           )}
-          <span>{likes.length}</span>
+          <span>1</span>
         </button>
 
         <button>
           <i className="bi bi-chat"></i>
-          <span>{news.comments.length}</span>
+          <span>1</span>
         </button>
       </CardFooter>
     </CardContainer>

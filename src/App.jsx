@@ -6,6 +6,7 @@ import { Profile } from "./Pages/Profile/Profile";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/authContext";
+import { Search } from "./Pages/Search/Search";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="breaknews_app" Component={Home} />
             {/* <Route path="breaknews_app/profile" Component={Profile} /> */}
             <Route path="breaknews_app/profile/:id" Component={Profile} />
+            <Route path="breaknews_app/search/:write" Component={Search} />
             <Route path="*" element={<h1>Pagina não encontrada</h1>} />
           </Routes>
         </AuthProvider>

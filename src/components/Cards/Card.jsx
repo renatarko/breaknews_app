@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { DeleteNews } from "../DeleteNews/DeleteNews";
 import { EditNews } from "../EditNews/EditNews";
 import { CardBody, CardContainer, CardFooter } from "./CardStyles";
+import { ApiRoutes } from '../../config/routes'
 
 export function Card({ news, token }) {
   const [openNavCard, setOpenNavCard] = useState(false);
@@ -27,7 +28,7 @@ export function Card({ news, token }) {
   // console.log(liked);
 
   function doLikeNews() {
-    fetch(`http://localhost:3000/news/like/${news.id}`, {
+    fetch(`${ApiRoutes.newsLike}/${news.id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",

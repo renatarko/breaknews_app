@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-
+import { ApiRoute } from "../config/routes";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -8,14 +8,12 @@ export const AuthProvider = ({ children }) => {
 
   async function signIn(userLogin) {
     try {
-      const response = await fetch("http://localhost:3000/auth", {
+      const response = await fetcher({
+        url: ApiRoute.auth,
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userLogin),
+        body: userLogin,
+        needToken: false,
       });
-
       const data = await response.json();
 
       const { token: _token, user: _user } = data;

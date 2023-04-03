@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search } from "../../Pages/Search/Search";
+import { useSearch } from "../../context/searchContext";
 import { SignIn } from "../SignIn/SignIn";
 import {
   ButtonProfile,
@@ -15,6 +15,8 @@ export function Navbar({ buttonType, avatar }) {
   const [sign, setSign] = useState(false); // chama o modal para Login
   const [openNav, setOpenNav] = useState(false); // quando usuario estiver logado, mostrar navbar para perfil ou logout
 
+  const { inputSearch, setInputSearch } = useSearch();
+
   const navigate = useNavigate();
 
   function moveToProfile() {
@@ -27,22 +29,10 @@ export function Navbar({ buttonType, avatar }) {
     localStorage.clear(token);
     navigate("/breaknews_app");
   }
+
   if (sign) {
     return <SignIn />;
   }
-
-  const [moveToSearch, setMoveToSearch] = useState("");
-
-  function movePageToSearch(e) {
-    const inputValue = e.target.value;
-    setMoveToSearch(inputValue);
-
-    if (moveToSearch) {
-      navigate(`/breaknews_app/search/${inputValue}`);
-    }
-  }
-
-  // console.log(moveToSearch);
 
   return (
     <>
@@ -51,7 +41,8 @@ export function Navbar({ buttonType, avatar }) {
           <input
             type="text"
             placeholder="Pesquise uma notícia"
-            onChange={movePageToSearch}
+            value={inputSearch}
+            onChange={(e) => setInputSearch(e.target.value)}
           />
           <i className="bi bi-search"></i>
         </ContainerSearch>

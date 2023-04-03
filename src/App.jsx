@@ -7,6 +7,7 @@ import { Profile } from "./Pages/Profile/Profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/authContext";
 import { Search } from "./Pages/Search/Search";
+import { SearchProvider } from "./context/searchContext";
 
 function App() {
   return (
@@ -15,14 +16,16 @@ function App() {
         <GlobalStyled />
 
         <AuthProvider>
-          <Navbar buttonType="userLogout" />
-          <Routes>
-            <Route path="breaknews_app" Component={Home} />
-            {/* <Route path="breaknews_app/profile" Component={Profile} /> */}
-            <Route path="breaknews_app/profile/:id" Component={Profile} />
-            <Route path="breaknews_app/search/:write" Component={Search} />
-            <Route path="*" element={<h1>Pagina não encontrada</h1>} />
-          </Routes>
+          <SearchProvider>
+            <Navbar buttonType="userLogout" />
+            <Routes>
+              <Route path="breaknews_app" Component={Home} />
+              {/* <Route path="breaknews_app/profile" Component={Profile} /> */}
+              <Route path="breaknews_app/profile/:id" Component={Profile} />
+              <Route path="breaknews_app/search/:write" Component={Search} />
+              <Route path="*" element={<h1>Pagina não encontrada</h1>} />
+            </Routes>
+          </SearchProvider>
         </AuthProvider>
       </Router>
     </>

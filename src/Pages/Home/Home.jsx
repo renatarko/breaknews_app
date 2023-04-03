@@ -11,6 +11,7 @@ import {
 import { Footer } from "../../components/Footer/Footer";
 
 import { useEffect, useState } from "react";
+import { useSearch } from "../../context/searchContext";
 
 export function Home() {
   const [news, setNews] = useState([]);
@@ -20,23 +21,49 @@ export function Home() {
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const { inputSearch, setInputSearch } = useSearch();
+
   useEffect(() => {
     fetch(`http://localhost:3000/news?limit=${limit}&offset=${currentPage}`)
       .then((response) => response.json())
       .then((data) => {
-        setLimit(data.limit);
+        let totalPage = Math.ceil(data.total / limit);
 
-        let totalPagina = Math.ceil(data.total / limit);
-
-        const arrayPages = Array.from({ length: totalPagina }, () => {
-          return totalPagina--;
+        const arrayPages = Array.from({ length: totalPage }, () => {
+          return totalPage--;
         }).reverse();
 
+        setLimit(data.limit);
         setPages(arrayPages);
         setNews(data.results);
       })
       .catch((error) => error.message);
   }, [currentPage]);
+
+  useEffect(() => {
+    getNewsBySearch();
+  }, [inputSearch]);
+
+  function getNewsBySearch() {
+    fetch(
+      `http://localhost:3000/news/search?title=${inputSearch}&limit=${limit}&offset=${currentPage}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        let totalPage = Math.ceil(data.total / limit);
+
+        const arrayPages = Array.from({ length: totalPage }, () => {
+          return totalPage--;
+        }).reverse();
+
+        setLimit(data.limit);
+        setPages(arrayPages);
+        setNews(data.results);
+        console.log(data.total);
+        console.log(news.length);
+      })
+      .catch((error) => console.log(error));
+  }
 
   const token = localStorage.getItem("token");
   const userLogado = localStorage.getItem("user");
@@ -50,7 +77,7 @@ export function Home() {
       )}
       <Container>
         <HomeBody>
-          {news.map((item) => {
+          {news?.map((item) => {
             return <Card key={item.id} news={item} token={token} />;
           })}
         </HomeBody>

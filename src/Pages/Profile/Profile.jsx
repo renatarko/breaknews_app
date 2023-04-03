@@ -16,7 +16,7 @@ export function Profile() {
   // pego o id do usuário passado por parametro
   const { id } = useParams();
 
-  function getUser() {
+  useEffect(() => {
     fetch(`http://localhost:3000/user/${id}`)
       .then((response) => response.json())
       .then((data) => {
@@ -24,13 +24,11 @@ export function Profile() {
         localStorage.setItem("user", JSON.stringify(user));
       })
       .catch((error) => error.message);
-  }
+  });
 
   // Local Storage:
   const token = localStorage.getItem("token");
   const userLogado = JSON.parse(localStorage.getItem("user")); // pegar os dados para preencher o perfil do usuário logado
-
-  getUser();
 
   // pega e lista todas as notícias do usuário logado
   useEffect(() => {
@@ -49,7 +47,9 @@ export function Profile() {
   }, []);
 
   if (openNewNews) {
-    return <NewNews />;
+    return (
+      <NewNews open={openNewNews} setOpen={setOpenNewNews} token={token} />
+    );
   }
 
   return (

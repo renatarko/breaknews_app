@@ -3,10 +3,11 @@
 // import { news } from "../../../datas";
 
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Card } from "../../components/Cards/Card";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { NewNews } from "../../components/NewNews/NewNews";
+import { useAuth } from "../../context/authContext";
 import { BoxText, ContainerCardProfile, ProfileBody } from "./ProfileStyles";
 
 export function Profile() {
@@ -15,6 +16,8 @@ export function Profile() {
 
   // pego o id do usuário passado por parametro
   const { id } = useParams();
+
+  const { user, token } = useAuth();
 
   useEffect(() => {
     fetch(`http://localhost:3000/user/${id}`)
@@ -25,10 +28,6 @@ export function Profile() {
       })
       .catch((error) => error.message);
   });
-
-  // Local Storage:
-  const token = localStorage.getItem("token");
-  const userLogado = JSON.parse(localStorage.getItem("user")); // pegar os dados para preencher o perfil do usuário logado
 
   // pega e lista todas as notícias do usuário logado
   useEffect(() => {
@@ -54,7 +53,7 @@ export function Profile() {
 
   return (
     <>
-      <Navbar buttonType="userLogin" avatar={userLogado?.avatar} />
+      <Navbar buttonType="userLogin" avatar={user?.avatar} />
       <ProfileBody>
         <div className="box-button">
           <Link to="/breaknews_app">
@@ -69,21 +68,21 @@ export function Profile() {
           <div className="background">
             <img
               className="img-background"
-              src={userLogado?.background}
-              alt=""
+              src={user?.background}
+              alt="background image"
             />
           </div>
 
           <img
             className="img-profile"
-            src={userLogado?.avatar}
+            src={user?.avatar}
             alt="User profile photo"
           />
 
           <BoxText>
             <div>
-              <h1>{userLogado?.name}</h1>
-              <p>@{userLogado?.username}</p>
+              <h1>{user?.name}</h1>
+              <p>@{user?.username}</p>
             </div>
 
             <button onClick={() => setOpenNewNews(!openNewNews)}>
@@ -92,7 +91,7 @@ export function Profile() {
           </BoxText>
         </ContainerCardProfile>
 
-        {news.map((item) => (
+        {news?.map((item) => (
           <Card key={item.id} news={item} token={token} />
         ))}
       </ProfileBody>

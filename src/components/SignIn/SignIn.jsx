@@ -1,16 +1,22 @@
-import { FormSign, InputS, SignInContainer } from "./SignInStyles";
+import {
+  ErrorMessage,
+  FormSign,
+  InputS,
+  SignInContainer,
+} from "./SignInStyles";
+import { FaExclamation } from "react-icons/fa";
 import { ButtonS } from "../Navbar/navbarStyles";
 import { NewAccount } from "../NewAccount/NewAccount";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../context/authContext";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 export function SignIn() {
   const [open, setOpen] = useState(true); //abrir modal de login
   const [openNew, setOpenNew] = useState(false); // abrir modal para cadastrar usuário
 
-  const { signIn } = useAuth();
+  const { signIn, messageError } = useAuth();
 
   const navigative = useNavigate();
 
@@ -35,8 +41,8 @@ export function SignIn() {
     try {
       const user = await signIn(userLogin);
 
-      setOpen(false);
-      navigative(`breaknews_app/profile/${user.id}`);
+      // setOpen(false);
+      navigative(`profile/${user.id}`);
     } catch (error) {}
   }
 
@@ -59,18 +65,28 @@ export function SignIn() {
 
             <h1>Entrar</h1>
             <div className="containerInput">
-              <InputS
-                type="text"
-                placeholder="E-mail"
-                name="email"
-                onChange={handleChangeInput}
-              />
-              <InputS
-                type="password"
-                placeholder="Senha"
-                name="password"
-                onChange={handleChangeInput}
-              />
+              <div>
+                <InputS
+                  type="text"
+                  placeholder="E-mail"
+                  name="email"
+                  onChange={handleChangeInput}
+                />
+                {messageError && <FaExclamation />}
+              </div>
+              <div>
+                <InputS
+                  type="password"
+                  placeholder="Senha"
+                  name="password"
+                  onChange={handleChangeInput}
+                />
+                {messageError && <FaExclamation />}
+              </div>
+
+              {messageError && (
+                <ErrorMessage>e-mail ou senha não encontrado!</ErrorMessage>
+              )}
               <ButtonS onClick={fazerLogin}>Enviar</ButtonS>
             </div>
 

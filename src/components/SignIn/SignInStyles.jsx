@@ -17,7 +17,7 @@ export const SignInContainer = styled.section`
 
 export const FormSign = styled.form`
   width: 20rem;
-  height: 17rem;
+  height: 18rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -45,6 +45,19 @@ export const FormSign = styled.form`
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
+
+    div {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      svg {
+        position: absolute;
+        right: 0.5rem;
+        color: #d31010;
+      }
+    }
   }
 
   .containerNewcount {
@@ -74,6 +87,7 @@ export const FormSign = styled.form`
 `;
 
 export const InputS = styled.input`
+  width: 100%;
   font-size: 1rem;
   border: none;
   outline: none;
@@ -90,4 +104,12 @@ export const InputS = styled.input`
   :focus {
     border-color: rgb(11, 173, 227);
   }
+`;
+
+export const ErrorMessage = styled.p`
+  width: 100%;
+  margin-left: 0.5rem;
+  color: #d31010;
+  position: absolute;
+  bottom: 7rem;
 `;

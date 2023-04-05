@@ -6,6 +6,8 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState();
   const [user, setUser] = useState();
 
+  const [messageError, setMessageError] = useState();
+
   async function signIn(userLogin) {
     try {
       const response = await fetch("http://localhost:3000/auth", {
@@ -19,10 +21,9 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       const { token: _token, user: _user } = data;
+      // console.log(_user);
 
       if (_token) {
-        alert("Olá " + _user.email);
-
         localStorage.setItem("token", _token);
         setToken(() => _token);
         setUser(() => _user);
@@ -30,10 +31,11 @@ export const AuthProvider = ({ children }) => {
         return _user;
       }
 
-      throw new Error("Ops, usuário não encontrado");
+      if (!user) {
+        setMessageError("erro");
+      }
     } catch (error) {
       console.log(error.message);
-      alert(error.message);
     }
   }
 
@@ -41,13 +43,21 @@ export const AuthProvider = ({ children }) => {
     localStorage.clear(token);
     navigate("/breaknews_app");
   }
+
   function isAuthenticated() {
     return !!token;
   }
 
   return (
     <AuthContext.Provider
-      value={{ signIn, signOut, isAuthenticated, user, token }}
+      value={{
+        signIn,
+        signOut,
+        isAuthenticated,
+        user,
+        token,
+        messageError,
+      }}
     >
       {children}
     </AuthContext.Provider>

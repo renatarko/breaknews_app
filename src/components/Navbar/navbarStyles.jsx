@@ -83,6 +83,7 @@ export const ButtonS = styled.button`
   transition: all 0.2s ease-in-out;
   font-family: "Inter", sans-serif;
   font-weight: 600;
+  margin-top: 1.5rem;
 
   :hover {
     background-color: #0a98c7;

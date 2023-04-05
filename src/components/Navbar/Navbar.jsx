@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import debounce from "lodash.debounce";
 import { useNavigate } from "react-router-dom";
+
 import { useSearch } from "../../context/searchContext";
 import { SignIn } from "../SignIn/SignIn";
 import {
@@ -11,16 +13,31 @@ import {
   Nav,
 } from "./navbarStyles";
 
-export function Navbar({ buttonType, avatar }) {
+export function Navbar({ buttonType, user }) {
   const [sign, setSign] = useState(false); // chama o modal para Login
   const [openNav, setOpenNav] = useState(false); // quando usuario estiver logado, mostrar navbar para perfil ou logout
 
-  const { inputSearch, setInputSearch } = useSearch();
+  const { setInputSearch } = useSearch();
+
+  const handleInputSearch = (e) => {
+    setInputSearch(e.target.value);
+  };
+
+  const debounceInputHandleChange = useCallback(
+    debounce(handleInputSearch, 500),
+    []
+  );
+
+  useEffect(() => {
+    return () => {
+      debounceInputHandleChange.cancel();
+    };
+  }, []);
 
   const navigate = useNavigate();
 
   function moveToProfile() {
-    navigate(-1);
+    navigate(`/breaknews_app/profile/${user._id}`);
   }
 
   function logout() {
@@ -41,8 +58,7 @@ export function Navbar({ buttonType, avatar }) {
           <input
             type="text"
             placeholder="Pesquise uma notícia"
-            value={inputSearch}
-            onChange={(e) => setInputSearch(e.target.value)}
+            onChange={debounceInputHandleChange}
           />
           <i className="bi bi-search"></i>
         </ContainerSearch>
@@ -67,7 +83,7 @@ export function Navbar({ buttonType, avatar }) {
           {buttonType === "userLogin" && (
             <>
               <ButtonProfile
-                src={avatar}
+                src={user?.avatar}
                 onClick={() => setOpenNav(!openNav)}
               ></ButtonProfile>
               {openNav ? (

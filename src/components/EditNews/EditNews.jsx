@@ -8,9 +8,9 @@ export function EditNews({ news, open, setOpen }) {
   const navigate = useNavigate();
 
   const [updatedNews, setUpdatedNews] = useState({
-    title: news.title,
-    banner: news.banner,
-    text: news.text,
+    title: news?.title,
+    banner: news?.banner,
+    text: news?.text,
   });
 
   function handleInputChange(e) {

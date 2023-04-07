@@ -1,8 +1,8 @@
 import { Card } from "../../components/Cards/Card";
 import { Navbar } from "../../components/Navbar/Navbar";
-// import { news } from "../../../datas";
 import {
   Container,
+  ErrorNotFound,
   HomeBody,
   NextPage,
   Pagination,
@@ -17,66 +17,55 @@ export function Home() {
   const [news, setNews] = useState([]);
 
   // Pagination
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(5 || "");
+  const [offset, setOffset] = useState(0);
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { inputSearch, setInputSearch } = useSearch();
+  const { inputSearch } = useSearch("");
 
   useEffect(() => {
-    fetch(`http://localhost:3000/news?limit=${limit}&offset=${currentPage}`)
-      .then((response) => response.json())
-      .then((data) => {
-        let totalPage = Math.ceil(data.total / limit);
+    getApi();
+  }, [inputSearch, currentPage]);
 
-        const arrayPages = Array.from({ length: totalPage }, () => {
-          return totalPage--;
-        }).reverse();
+  async function getApi() {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/news/search?title=${inputSearch}&limit=${limit}&offset=${offset}`
+      );
+      const data = await response.json();
 
-        setLimit(data.limit);
-        setPages(arrayPages);
-        setNews(data.results);
-      })
-      .catch((error) => error.message);
-  }, [currentPage]);
+      let totalPage = Math.ceil(data.total / limit);
 
-  useEffect(() => {
-    getNewsBySearch();
-  }, [inputSearch]);
+      const arrayPages = Array.from({ length: totalPage }, () => {
+        return totalPage--;
+      }).reverse();
 
-  function getNewsBySearch() {
-    fetch(
-      `http://localhost:3000/news/search?title=${inputSearch}&limit=${limit}&offset=${currentPage}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        let totalPage = Math.ceil(data.total / limit);
+      setLimit(data.limit);
+      setPages(arrayPages);
+      setNews(data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-        const arrayPages = Array.from({ length: totalPage }, () => {
-          return totalPage--;
-        }).reverse();
-
-        setLimit(data.limit);
-        setPages(arrayPages);
-        setNews(data.results);
-        console.log(data.total);
-        console.log(news.length);
-      })
-      .catch((error) => console.log(error));
+  function previousNews() {
+    setCurrentPage(currentPage - 1);
+    setOffset(offset - limit);
   }
 
   const token = localStorage.getItem("token");
-  const userLogado = localStorage.getItem("user");
+  const userLogado = JSON.parse(localStorage.getItem("user"));
 
   return (
     <>
       {token ? (
-        <Navbar buttonType="userLogin" avatar={userLogado?.avatar} />
+        <Navbar buttonType="userLogin" user={userLogado} />
       ) : (
         <Navbar buttonType="userLogout" />
       )}
       <Container>
-        <HomeBody>
+        <HomeBody handleSearchInput>
           {news?.map((item) => {
             return <Card key={item.id} news={item} token={token} />;
           })}
@@ -84,7 +73,7 @@ export function Home() {
 
         <Pagination>
           {currentPage > 1 && (
-            <PreviosPage onClick={() => setCurrentPage(currentPage - 1)}>
+            <PreviosPage onClick={previousNews}>
               <i className="bi bi-caret-left-fill"></i>
             </PreviosPage>
           )}
@@ -108,6 +97,12 @@ export function Home() {
             </NextPage>
           )}
         </Pagination>
+
+        {news.length === 0 ? (
+          <ErrorNotFound>
+            😢 Ops, não encontramos resultado para sua pesquisa
+          </ErrorNotFound>
+        ) : null}
       </Container>
       <Footer />
     </>

@@ -65,5 +65,12 @@ export const Pagination = styled.div`
   }
 `;
 
+export const ErrorNotFound = styled.h3`
+  text-align: center;
+
+  font-size: 1.4rem;
+  font-family: "Newsreader", serif;
+`;
+
 export const PreviosPage = styled.button``;
 export const NextPage = styled.button``;

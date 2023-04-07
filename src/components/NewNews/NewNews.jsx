@@ -3,7 +3,6 @@ import { ButtonS } from "../Navbar/navbarStyles";
 import { FormNewNews } from "./NewNewsStyles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { render } from "react-dom";
 
 export function NewNews({ open, setOpen, token }) {
   const [newNews, setNewNews] = useState({
@@ -12,30 +11,13 @@ export function NewNews({ open, setOpen, token }) {
     text: "",
   });
 
-  const [file, setFile] = useState();
-
   const navigate = useNavigate();
 
   function handleInputChange(e) {
     const { name, value } = e.target;
 
     setNewNews({ ...newNews, [name]: value });
-
-    // pegar imagem do input file
-    const file = e.target.files[0];
-    console.log(file);
-
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      const imgURL = e.target.result;
-      console.log(imgURL);
-    };
-
-    // reader.readAsDataURL(file);
   }
-  console.log(newNews.banner);
-  console.log(newNews.title);
 
   function createNewNews(e) {
     e.preventDefault();
@@ -77,17 +59,11 @@ export function NewNews({ open, setOpen, token }) {
               name="title"
               onChange={handleInputChange}
             ></InputS>
-            {/* <InputS
+            <InputS
               placeholder="Banner"
               name="banner"
               onChange={handleInputChange}
-            ></InputS> */}
-            <InputS
-              type="file"
-              name="banner"
-              onChange={handleInputChange}
             ></InputS>
-
             <textarea
               name="text"
               cols="40"

@@ -5,6 +5,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Card } from "../../components/Cards/Card";
+import { EditUser } from "../../components/EditUser/EditUser";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { NewNews } from "../../components/NewNews/NewNews";
 import { useAuth } from "../../context/authContext";
@@ -12,12 +13,15 @@ import { BoxText, ContainerCardProfile, ProfileBody } from "./ProfileStyles";
 
 export function Profile() {
   const [news, setNews] = useState([]); // array das news do usuário logado
-  const [openNewNews, setOpenNewNews] = useState(false); // modal para criar um nova notícia
+  const [open, setOpen] = useState({
+    newNews: false,
+    editUser: false,
+  }); // modal para criar um nova notícia
 
   // pego o id do usuário passado por parametro
   const { id } = useParams();
 
-  const { user, token } = useAuth();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     fetch(`http://localhost:3000/user/${id}`)
@@ -45,12 +49,22 @@ export function Profile() {
       .catch((error) => console.log(error.message));
   }, []);
 
-  if (openNewNews) {
-    return (
-      <NewNews open={openNewNews} setOpen={setOpenNewNews} token={token} />
-    );
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (open.newNews) {
+    return <NewNews open={open.newNews} setOpen={setOpen} token={token} />;
   }
 
+  if (open.editUser) {
+    return (
+      <EditUser
+        open={open.editUser}
+        setOpen={setOpen}
+        user={user}
+        token={token}
+      />
+    );
+  }
   return (
     <>
       <Navbar buttonType="userLogin" avatar={user?.avatar} />
@@ -59,7 +73,10 @@ export function Profile() {
           <Link to="/breaknews_app">
             <i className="bi bi-arrow-left-circle backTo"></i>
           </Link>
-          <button className="editProfile">
+          <button
+            className="editProfile"
+            onClick={() => setOpen({ editUser: true })}
+          >
             <i className="bi bi-three-dots-vertical"></i>
           </button>
         </div>
@@ -69,7 +86,7 @@ export function Profile() {
             <img
               className="img-background"
               src={user?.background}
-              alt="background image"
+              // alt="background image"
             />
           </div>
 
@@ -85,7 +102,7 @@ export function Profile() {
               <p>@{user?.username}</p>
             </div>
 
-            <button onClick={() => setOpenNewNews(!openNewNews)}>
+            <button onClick={() => setOpen({ newNews: true })}>
               <i className="bi bi-plus-circle-fill"></i>
             </button>
           </BoxText>

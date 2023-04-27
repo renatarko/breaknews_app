@@ -5,26 +5,19 @@ import { DeleteNew } from "./DeleteNewsStyles";
 export function DeleteNews({ news, open, setOpen }) {
   const navigate = useNavigate();
 
-  function deleteNew(e) {
+  async function deleteNew(e) {
     e.preventDefault();
 
-    const token = localStorage.getItem("token");
-
-    fetch(`http://localhost:3000/news/${news.id}`, {
+    fetcher({
+      url: `${ApiRoute.news}/${news.id}`,
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
     })
-      .then((response) => response.json())
-      .then((data) => {
+     .then((data) => {
         alert(data.message);
         setOpen(false);
-
         navigate(0);
       })
-      .catch((error) => console.log(error.message));
+     .catch((error) => console.log(error.message));
   }
 
   return (

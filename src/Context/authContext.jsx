@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
+const routeAuth = "https://api-breaknews-8891.onrender.com"
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -10,7 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   async function signIn(userLogin) {
     try {
-      const response = await fetch("http://localhost:3000/auth", {
+      const response = await fetch(`${routeAuth}/auth`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,4 +1,5 @@
 import { Card } from "../../components/Cards/Card";
+import { Footer } from "../../components/Footer/Footer";
 import { Navbar } from "../../components/Navbar/Navbar";
 import {
   Container,
@@ -8,7 +9,6 @@ import {
   Pagination,
   PreviosPage,
 } from "./HomeStyles";
-import { Footer } from "../../components/Footer/Footer";
 
 import { useEffect, useState } from "react";
 import { useSearch } from "../../context/searchContext";
@@ -25,7 +25,8 @@ export function Home() {
   const { inputSearch } = useSearch("");
 
   useEffect(() => {
-    getApi();
+    
+    // getApi();
   }, [inputSearch, currentPage]);
 
   async function getApi() {

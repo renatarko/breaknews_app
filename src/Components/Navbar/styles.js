@@ -56,7 +56,7 @@ export const Logo = styled.div`
   h2 {
     background: #1086f5;
     background: linear-gradient(to bottom right, #1086f5 26%, #757575 87%);
-    -webkit-background-clip: text;
+    /* -webkit-background-clip: text; */
     -webkit-text-fill-color: transparent;
     line-height: 20px;
     font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",

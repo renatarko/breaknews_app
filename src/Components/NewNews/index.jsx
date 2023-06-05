@@ -1,8 +1,9 @@
-import { InputS, SignInContainer } from "../SignIn/SignInStyles";
-import { ButtonS } from "../Navbar/navbarStyles";
-import { FormNewNews } from "./NewNewsStyles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createNewNewsService } from "../../Services/postsServices";
+import { ButtonS } from "../Navbar/styles";
+import { InputS, SignInContainer } from "../SignIn/styles";
+import { FormNewNews } from "./styles";
 
 export function NewNews({ open, setOpen, token }) {
   const [newNews, setNewNews] = useState({
@@ -19,7 +20,7 @@ export function NewNews({ open, setOpen, token }) {
     setNewNews({ ...newNews, [name]: value });
   }
 
-  function createNewNews(e) {
+  async function createNewNews(e) {
     e.preventDefault();
 
     const { title, banner, text } = newNews;
@@ -28,22 +29,16 @@ export function NewNews({ open, setOpen, token }) {
       return alert("Preencha os campos");
     }
 
-    fetch("http://localhost:3000/news/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(newNews),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert(data.message);
+    // console.log(newNews);
 
-        setOpen(false);
-        navigate(0);
-      })
-      .catch((error) => console.log(error.message));
+    const response = await createNewNewsService(newNews, token);
+    const data = await response.json();
+    console.log("data", data);
+
+    // alert(data.message);
+
+    setOpen(false);
+    navigate(0);
   }
 
   return (
@@ -72,7 +67,7 @@ export function NewNews({ open, setOpen, token }) {
               onChange={handleInputChange}
             ></textarea>
 
-            <ButtonS onClick={createNewNews}>Publicar</ButtonS>
+            <ButtonS type="submit" onClick={createNewNews}>Publicar</ButtonS>
           </FormNewNews>
         </SignInContainer>
       ) : null}

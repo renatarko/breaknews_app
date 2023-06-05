@@ -1,8 +1,9 @@
-import { InputS, SignInContainer } from "../SignIn/SignInStyles";
-import { FormNewNews } from "../NewNews/NewNewsStyles";
-import { ButtonS } from "../Navbar/navbarStyles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { updatedNewsService } from "../../Services/postsServices";
+import { ButtonS } from "../Navbar/styles";
+import { FormNewNews } from "../NewNews/styles";
+import { InputS, SignInContainer } from "../SignIn/styles";
 
 export function EditNews({ news, open, setOpen }) {
   const navigate = useNavigate();
@@ -19,27 +20,18 @@ export function EditNews({ news, open, setOpen }) {
     setUpdatedNews({ ...updatedNews, [name]: value });
   }
 
-  const token = localStorage.getItem("token");
-
-  function sendUpdatedNews(e) {
+  
+  async function sendUpdatedNews(e) {
     e.preventDefault();
+    
+    const token = localStorage.getItem("token");
+    const newsID = news.id;
+    
+    await updatedNewsService(token, updatedNews, newsID)
+    
+    setOpen(false);
 
-    fetch(`http://localhost:3000/news/${news.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(updatedNews),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert(data.message);
-        setOpen(false);
-
-        navigate(0);
-      })
-      .catch((error) => console.log(error.message));
+    navigate(0);
   }
 
   return (

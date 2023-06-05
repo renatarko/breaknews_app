@@ -1,40 +1,35 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { SearchBody, ErrorMessage } from "./SearchStyles";
-import { Container } from "../Home/HomeStyles";
-import { Card } from "../../components/Cards/Card";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Card } from "../../Components/Cards/index";
+import { useSearch } from "../../Context/searchContext";
+import { getNNewsBySearchService } from "../../Services/postsServices";
+import { Container } from "../Home/styles";
+import { ErrorMessage, SearchBody } from "./styles";
 
 export function Search() {
   const [news, setNews] = useState([]);
-  // console.log(news);
 
-  const { write } = useParams();
-  // console.log(write);
+  const { inputSearch } = useSearch();
+  console.log(inputSearch);
 
   useEffect(() => {
     getNewsBySearch();
-  }, [write]);
+  }, [inputSearch]);
 
-  function getNewsBySearch() {
-    fetch(`http://localhost:3000/news/search`)
-      .then((response) => response.json())
-      .then((data) => {
-        const allNews = data.results;
+  async function getNewsBySearch() {
+    const response = await getNNewsBySearchService()
+    const data = await response.json()
+    
+    const allNews = data.results;
 
-        const filterNews = allNews.filter((item) => {
-          const eachText = item.text;
-          const searchWord = write;
-          return eachText.includes(searchWord);
-        });
+    const filterNews = allNews.filter((item) => {
+      const eachText = item.text;
+      const searchWord = inputSearch;
+      return eachText.includes(searchWord);
+    })
 
-        setNews(allNews);
-
-        if (filterNews) {
-          setNews(filterNews);
-        }
-      })
-      .catch((error) => console.log(error));
+    if(filterNews) {
+      setNews(filterNews);
+    }
   }
   return (
     <>

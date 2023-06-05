@@ -1,20 +1,22 @@
-import { Card } from "../../components/Cards/Card";
-import { Footer } from "../../components/Footer/Footer";
-import { Navbar } from "../../components/Navbar/Navbar";
+import { Card } from "../../Components/Cards/index";
+import { Footer } from "../../Components/Footer/index";
+import { Navbar } from "../../Components/Navbar/index";
 import {
   Container,
-  ErrorNotFound,
   HomeBody,
   NextPage,
   Pagination,
-  PreviosPage,
-} from "./HomeStyles";
+  PreviosPage
+} from "./styles";
 
 import { useEffect, useState } from "react";
-import { useSearch } from "../../context/searchContext";
+import Loader from "../../Components/Loader";
+import { useSearch } from "../../Context/searchContext";
+import { getAllNewsService } from "../../Services/postsServices";
 
 export function Home() {
   const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Pagination
   const [limit, setLimit] = useState(5 || "");
@@ -23,28 +25,31 @@ export function Home() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { inputSearch } = useSearch("");
-
-  useEffect(() => {
-    
-    // getApi();
-  }, [inputSearch, currentPage]);
+  console.log(inputSearch);
+  useEffect( () => {
+    getApi();
+    setLoading(true);
+  }, [inputSearch]);
 
   async function getApi() {
     try {
-      const response = await fetch(
-        `http://localhost:3000/news/search?title=${inputSearch}&limit=${limit}&offset=${offset}`
-      );
+      const response = await getAllNewsService(inputSearch, limit, offset);
       const data = await response.json();
-
-      let totalPage = Math.ceil(data.total / limit);
-
-      const arrayPages = Array.from({ length: totalPage }, () => {
-        return totalPage--;
-      }).reverse();
-
-      setLimit(data.limit);
-      setPages(arrayPages);
+      
+      setLoading(false);
       setNews(data.results);
+
+      const allNews = data.results;
+      
+      const filterNews = allNews.filter((item) => {
+        const eachText = item.text;
+        return eachText.includes(inputSearch);
+      })
+  
+      if(filterNews) {
+        setNews(filterNews);
+      }
+
     } catch (error) {
       console.log(error);
     }
@@ -67,9 +72,11 @@ export function Home() {
       )}
       <Container>
         <HomeBody handleSearchInput>
-          {news?.map((item) => {
+          {loading ? <Loader/> :
+          news?.map((item) => {
             return <Card key={item.id} news={item} token={token} />;
-          })}
+          })
+          }
         </HomeBody>
 
         <Pagination>
@@ -99,11 +106,9 @@ export function Home() {
           )}
         </Pagination>
 
-        {news.length === 0 ? (
-          <ErrorNotFound>
-            😢 Ops, não encontramos resultado para sua pesquisa
-          </ErrorNotFound>
-        ) : null}
+      {
+        news.length === 0 && <h2>Nenhum resultado foi encontrado...</h2>
+      }
       </Container>
       <Footer />
     </>

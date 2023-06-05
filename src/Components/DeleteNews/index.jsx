@@ -1,39 +1,36 @@
+import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { SignInContainer } from "../SignIn/SignInStyles";
-import { DeleteNew } from "./DeleteNewsStyles";
+import { deleteNewsService } from "../../Services/postsServices";
+import { SignInContainer } from "../SignIn/styles";
+import { DeleteNew } from "./styles";
 
 export function DeleteNews({ news, open, setOpen }) {
   const navigate = useNavigate();
 
-  function deleteNew(e) {
+
+  async function deleteNew(e) {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
+    const newsID = news.id;
 
-    fetch(`http://localhost:3000/news/${news.id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert(data.message);
-        setOpen(false);
+    const response = await deleteNewsService(newsID, token);
+    const data = await response.json();
 
-        navigate(0);
-      })
-      .catch((error) => console.log(error.message));
+    toast.success("Notícia excluída com sucesso!");
+    setOpen(false);
+
+    navigate(0);
   }
 
   return (
     <>
+    <Toaster/>
       {open ? (
         <SignInContainer>
           <DeleteNew>
             <h1>Apagar Notícia</h1>
-            <i className="bi bi-x"></i>
+            <i className="bi bi-x" onClick={() => setOpen(false)}></i>
 
             <div className="text">
               <i className="bi bi-x-circle-fill"></i>

@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { ButtonS } from "../Navbar/navbarStyles";
-import { FormNewAccount } from "../NewAccount/NewAccountStyles";
-import { InputS, SignInContainer } from "../SignIn/SignInStyles";
+import { updatedUserService } from "../../Services/userServices";
+import { ButtonS } from "../Navbar/styles";
+import { FormNewAccount } from "../NewAccount/styles";
+import { InputS, SignInContainer } from "../SignIn/styles";
 
 export function EditUser({ open, setOpen, token, user }) {
   const navigate = useNavigate();
+  const _userID = user.id
 
   const [userData, setUserData] = useState({
     name: user?.name,
@@ -24,28 +26,18 @@ export function EditUser({ open, setOpen, token, user }) {
 
   async function editUser(e) {
     e.preventDefault();
-    try {
-      const response = await fetch(`http://localhost:3000/user/${user._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(userData),
-      });
-      const data = await response.json();
 
-      if (data.message === "User successfuly update") {
-        toast.success("Perfil atualizado!");
+    const response = await updatedUserService(_userID, token, userData);
+    const data = await response.json();
 
-        setInterval(() => {
-          setOpen(false);
-          navigate(0);
-        }, 1000);
-        return;
-      }
-    } catch (error) {
-      console.log(error.message);
+    if (data.message === "User successfuly update") {
+      toast.success("Perfil atualizado!");
+
+      setInterval(() => {
+        setOpen(false);
+        navigate(0);
+      }, 1000);
+      return;
     }
   }
 

@@ -1,19 +1,21 @@
-import { useCallback, useEffect, useState } from "react";
 import debounce from "lodash.debounce";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useSearch } from "../../context/searchContext";
-import { SignIn } from "../SignIn/SignIn";
+import { useSearch } from "../../Context/searchContext";
+import { Logo } from "../Logo/index";
+import { SignIn } from "../SignIn/index";
 import {
   ButtonProfile,
   ButtonS,
   ContainerNav,
   ContainerSearch,
-  Logo,
-  Nav,
-} from "./navbarStyles";
+  Nav
+} from "./styles";
 
 export function Navbar({ buttonType, user }) {
+  const navigate = useNavigate();
+  
   const [sign, setSign] = useState(false); // chama o modal para Login
   const [openNav, setOpenNav] = useState(false); // quando usuario estiver logado, mostrar navbar para perfil ou logout
 
@@ -34,10 +36,11 @@ export function Navbar({ buttonType, user }) {
     };
   }, []);
 
-  const navigate = useNavigate();
 
   function moveToProfile() {
-    navigate(`/breaknews_app/profile/${user._id}`);
+    let userID = JSON.parse(localStorage.getItem("user"));
+    userID = userID.id;
+    navigate(`/breaknews_app/profile/${userID}`);
   }
 
   function logout() {
@@ -63,16 +66,7 @@ export function Navbar({ buttonType, user }) {
           <i className="bi bi-search"></i>
         </ContainerSearch>
 
-        <Logo>
-          <img
-            src="https://www.pngkey.com/png/detail/256-2566407_worldwide-news-api-newspaper-logo-design-png.png"
-            alt="Logo Breaking News"
-          />
-          <h2>
-            Breaking <br />
-            News
-          </h2>
-        </Logo>
+        <Logo/>
 
         <div>
           {buttonType === "userLogout" && (

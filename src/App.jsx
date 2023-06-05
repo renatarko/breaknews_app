@@ -1,13 +1,11 @@
+import { Navbar } from "./Components/Navbar/index";
 import { GlobalStyled } from "./GlobalStyled";
-import "./App.css";
-import { Home } from "./Pages/Home/Home";
-import { Navbar } from "./components/Navbar/Navbar";
-import { Profile } from "./Pages/Profile/Profile";
+import { Home } from "./Pages/Home/index";
+import { Profile } from "./Pages/Profile/index";
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { AuthProvider } from "./context/authContext";
-import { Search } from "./Pages/Search/Search";
-import { SearchProvider } from "./context/searchContext";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { AuthProvider } from "./Context/authContext";
+import { SearchProvider } from "./Context/searchContext";
 
 function App() {
   return (
@@ -22,7 +20,7 @@ function App() {
               <Route path="breaknews_app" Component={Home} />
               {/* <Route path="breaknews_app/profile" Component={Profile} /> */}
               <Route path="breaknews_app/profile/:id" Component={Profile} />
-              <Route path="breaknews_app/search/:write" Component={Search} />
+              {/* <Route path="breaknews_app/search/:search" Component={Search} /> */}
               <Route path="*" element={<h1>Pagina não encontrada</h1>} />
             </Routes>
           </SearchProvider>

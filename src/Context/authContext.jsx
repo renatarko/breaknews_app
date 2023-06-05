@@ -19,10 +19,9 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify(userLogin),
       });
 
-      const data = await response.json();
 
+      const data = await response.json();
       const { token: _token, user: _user } = data;
-      // console.log(_user);
 
       if (_token) {
         localStorage.setItem("token", _token);

@@ -1,8 +1,10 @@
-import { ButtonS } from "../Navbar/navbarStyles";
-import { FormNewAccount } from "./NewAccountStyles";
-import { InputS, SignInContainer } from "../SignIn/SignInStyles";
 import { useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { createUserService } from "../../Services/userServices";
+import { ButtonS } from "../Navbar/styles";
+import { InputS, SignInContainer } from "../SignIn/styles";
+import { FormNewAccount } from "./styles";
 
 export function NewAccount() {
   const [isOpen, setIsOpen] = useState(true);
@@ -22,39 +24,39 @@ export function NewAccount() {
     setUser({ ...user, [name]: value });
   }
 
+  const navigative = useNavigate();
   async function cadastrar(e) {
     e.preventDefault();
 
     const { name, username, email, password, avatar, background } = user;
 
     if (!name && !username && !email && !password && !avatar && !background) {
-      return toast.error("Você precisa preencher todos os campos", {
+      return toast.error("Preencha os campos para Cadastrar.", {
         position: "top-right",
       });
     }
 
     try {
-      const response = await fetch("http://localhost:3000/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await createUserService(user);
       const data = await response.json();
-
-      const result = data.message == "User created successfully";
 
       const loading = toast.loading("Salvando seus dados...", {
         position: "top-right",
       });
 
+      const result = data.message == "User created successfully";
+      
       if (result) {
         toast.dismiss(loading);
         toast.success("Usuário cadastrado", { position: "top-right" });
-
+        
+        const userID = data.user.id;
+        const userLocal = localStorage.setItem("user", JSON.stringify(user));
+        console.log("local", userLocal);
+        
         setIsOpen(false);
-        return;
+        navigative(`profile/${userID}`);
+        // return;
       }
     } catch (error) {
       toast.error("Ops, algo deu errado!", { position: "top-right" });
@@ -85,13 +87,12 @@ export function NewAccount() {
                 name="username"
                 onChange={handleChange}
               />
-              {/* <InputS
+              <InputS
                 type="text"
                 placeholder="Link Avatar"
                 name="avatar"
                 onChange={handleChange}
-              /> */}
-              <InputS type="file" name="avatar"></InputS>
+              />
               <InputS
                 type="text"
                 placeholder="Link do Background"

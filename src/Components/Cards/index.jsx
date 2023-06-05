@@ -1,13 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { DeleteNews } from "../DeleteNews/DeleteNews";
-import { EditNews } from "../EditNews/EditNews";
-import { CardBody, CardContainer, CardFooter } from "./CardStyles";
+import { useMemo, useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
+import { likeTheNewsService } from "../../Services/postsServices";
+import { DeleteNews } from "../DeleteNews/index";
+import { EditNews } from "../EditNews/index";
+import { CardBody, CardContainer, CardFooter } from "./styles";
 
 export function Card({ news, token }) {
   const [openNavCard, setOpenNavCard] = useState(false);
-  // const newsId = news.id;
 
   const [open, setOpen] = useState({
     updated: false,
@@ -24,27 +23,17 @@ export function Card({ news, token }) {
   const liked = useMemo(() => {
     return likes.some((item) => item.userId === userID?._id);
   }, []);
-  // console.log(liked);
 
-  function doLikeNews() {
-    fetch(`http://localhost:3000/news/like/${news.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (!token) {
-          toast("Crie uma conta ou faça o Login para curtir!", {
-            icon: "👀",
-          });
-        }
-
-        setLikes(likes);
-      })
-      .catch((error) => console.log(error));
+  async function doLikeNews() {
+    const newsId = news.id;
+    const response = await likeTheNewsService(newsId, token)
+    const data = await response.json()
+    
+    if (!token) {
+      return toast.error("Você precisa estar logado para curtir uma notícia!"); 
+    }
+  
+    setLikes(likes);
   }
 
   // abrir modal para editar ou deletar noticia
@@ -85,11 +74,13 @@ export function Card({ news, token }) {
       <CardBody>
         <div>
           <h2>{news?.title}</h2>
-          <p>{news?.text}</p>
+          <p>{news?.text.substring(0, 115).concat("...")}</p>
           <cite>{news?.userName}</cite>
         </div>
 
-        <img src={news?.banner} alt="imagem" />
+   <img src={!news?.banner ? news?.banner : "../../../images/sem_imagem.png"} alt="imagem" />  
+       
+  
       </CardBody>
 
       <CardFooter>

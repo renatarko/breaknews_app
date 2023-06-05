@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { FormSign } from "../SignIn/SignInStyles";
+import { FormSign } from "../SignIn/styles";
 
 export const FormNewAccount = styled(FormSign)`
-  height: 25rem;
+  min-width: 40%;
   justify-content: space-between;
-  gap: 0;
+  gap: 0.8rem;
 
   input {
     font-size: 1rem;

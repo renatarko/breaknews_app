@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { HomeBody } from "../Home/HomeStyles";
+import { HomeBody } from "../Home/styles";
 
 export const SearchBody = styled(HomeBody)`
   display: flex;

@@ -47,30 +47,6 @@ export const ContainerSearch = styled.div`
   }
 `;
 
-export const Logo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  cursor: pointer;
-
-  h2 {
-    background: #1086f5;
-    background: linear-gradient(to bottom right, #1086f5 26%, #757575 87%);
-    /* -webkit-background-clip: text; */
-    -webkit-text-fill-color: transparent;
-    line-height: 20px;
-    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-      "Lucida Sans", Arial, sans-serif;
-  }
-
-  img {
-    width: 3.5rem;
-    height: 3.5rem;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-`;
-
 export const ButtonS = styled.button`
   padding: 0.4rem 1rem;
   background-color: #0bade3;
@@ -82,8 +58,6 @@ export const ButtonS = styled.button`
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   font-family: "Inter", sans-serif;
-  font-weight: 600;
-  margin-top: 1.5rem;
 
   :hover {
     background-color: #0a98c7;

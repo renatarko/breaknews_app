@@ -78,11 +78,12 @@ export const CardBody = styled.article`
   }
 
   img {
-    width: 10rem;
-    height: 10rem;
-    object-fit: cover;
-    /* object-position: center; */
+    max-width: 10rem;
+    height: 80%;
+    /* max-width: 10rem;
+    max-height: 10rem; */
     border-radius: 0.3rem;
+    margin: 1rem;
   }
 `;
 

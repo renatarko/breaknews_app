@@ -1,14 +1,21 @@
+import { Link, Mail, User2 } from "lucide-react";
 import { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/authContext";
 import { updatedUserService } from "../../Services/userServices";
-import { ButtonS } from "../Navbar/styles";
-import { FormNewAccount } from "../NewAccount/styles";
-import { InputS, SignInContainer } from "../SignIn/styles";
+import { Button } from "../Button";
+import { Form } from "../Form";
+import { Input } from "../Input";
+import { Modal } from "../Modal";
 
-export function EditUser({ open, setOpen, token, user }) {
+export function EditUser({ open, setOpen }) {
   const navigate = useNavigate();
-  const _userID = user.id
+  const { user, token } = useAuth();
+
+  const [isLoading, setIsLoading] = useState(false);
+  // states: 'initial', 'loading', 'success', 'error'
+  // const [status, setStatus] = useState("initial");
 
   const [userData, setUserData] = useState({
     name: user?.name,
@@ -23,21 +30,31 @@ export function EditUser({ open, setOpen, token, user }) {
 
     setUserData({ ...userData, [name]: value });
   }
+  console.log(userData.name);
 
   async function editUser(e) {
     e.preventDefault();
+    try {
+      setIsLoading(true);
+      toast.loading("Atualizando perfil...");
 
-    const response = await updatedUserService(_userID, token, userData);
-    const data = await response.json();
+      const _userID = user.id;
 
-    if (data.message === "User successfuly update") {
-      toast.success("Perfil atualizado!");
+      const response = await updatedUserService(_userID, token, userData);
+      const data = await response.json();
 
-      setInterval(() => {
+      if (data.message === "User successfuly update") {
+        toast.success("Perfil atualizado!");
+
         setOpen(false);
         navigate(0);
-      }, 1000);
-      return;
+
+        return;
+      }
+    } catch (error) {
+      toast.error("Ops, algo deu errado!");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -45,45 +62,53 @@ export function EditUser({ open, setOpen, token, user }) {
     <>
       <Toaster />
       {open ? (
-        <SignInContainer>
-          <FormNewAccount>
-            <i onClick={() => setOpen(false)} className="bi bi-x"></i>
-
-            <h1>Editar Perfil</h1>
-            <InputS
+        <Modal>
+          <Form title="Editar Perfil" handleClick={() => setOpen(false)}>
+            <Input
+              icon={<User2 />}
+              type="text"
               placeholder="Nome"
               name="name"
-              onChange={handleInputToEditDataUser}
+              handleChange={handleInputToEditDataUser}
               value={userData.name}
-            ></InputS>
-            <InputS
+            />
+            <Input
+              icon={<User2 />}
+              type="text"
               placeholder="Nome do usuário"
               name="username"
-              onChange={handleInputToEditDataUser}
+              handleChange={handleInputToEditDataUser}
               value={userData.username}
-            ></InputS>
-            <InputS
+            />
+            <Input
+              icon={<Mail />}
+              type="email"
               placeholder="E-mail"
               name="email"
-              onChange={handleInputToEditDataUser}
+              handleChange={handleInputToEditDataUser}
               value={userData.email}
-            ></InputS>
-
-            <InputS
+            />
+            <Input
+              icon={<Link />}
+              type="text"
               placeholder="Background"
               name="background"
-              onChange={handleInputToEditDataUser}
+              handleChange={handleInputToEditDataUser}
               value={userData.background}
-            ></InputS>
-            <InputS
+            />
+            <Input
+              icon={<Link />}
+              type="text"
               placeholder="Avatar"
               name="avatar"
-              onChange={handleInputToEditDataUser}
+              handleChange={handleInputToEditDataUser}
               value={userData.avatar}
-            ></InputS>
-            <ButtonS onClick={editUser}>Atualizar</ButtonS>
-          </FormNewAccount>
-        </SignInContainer>
+            />
+            <Button handleClick={editUser} disabled={isLoading}>
+              {isLoading ? "loading..." : "Atualizar"}
+            </Button>
+          </Form>
+        </Modal>
       ) : null}
     </>
   );

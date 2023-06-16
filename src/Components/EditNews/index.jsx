@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/authContext";
 import { updatedNewsService } from "../../Services/postsServices";
-import { ButtonS } from "../Navbar/styles";
-import { FormNewNews } from "../NewNews/styles";
-import { InputS, SignInContainer } from "../SignIn/styles";
+import { Button } from "../Button";
+import { Form } from "../Form";
+import { Input } from "../Input";
+import { Modal } from "../Modal";
 
 export function EditNews({ news, open, setOpen }) {
   const navigate = useNavigate();
+  const { token } = useAuth();
 
   const [updatedNews, setUpdatedNews] = useState({
     title: news?.title,
@@ -19,16 +22,15 @@ export function EditNews({ news, open, setOpen }) {
 
     setUpdatedNews({ ...updatedNews, [name]: value });
   }
+  // console.log("news", news);
 
-  
   async function sendUpdatedNews(e) {
     e.preventDefault();
-    
-    const token = localStorage.getItem("token");
+
     const newsID = news.id;
-    
-    await updatedNewsService(token, updatedNews, newsID)
-    
+
+    await updatedNewsService(token, updatedNews, newsID);
+
     setOpen(false);
 
     navigate(0);
@@ -37,24 +39,22 @@ export function EditNews({ news, open, setOpen }) {
   return (
     <>
       {open ? (
-        <SignInContainer>
-          <FormNewNews>
-            <i onClick={() => setOpen(!open)} className="bi bi-x"></i>
-
-            <h1>Atualizar Notícia</h1>
-
-            <InputS
+        <Modal>
+          <Form title="Atualizar Notícia" handleClick={() => setOpen(!open)}>
+            <Input
+              type="text"
               placeholder="Título"
               onChange={handleInputChange}
               name="title"
               value={updatedNews.title}
-            ></InputS>
-            <InputS
+            />
+            <Input
+              type="text"
               placeholder="Banner"
               onChange={handleInputChange}
               name="banner"
               value={updatedNews.banner}
-            ></InputS>
+            />
             <textarea
               onChange={handleInputChange}
               value={updatedNews.text}
@@ -64,9 +64,9 @@ export function EditNews({ news, open, setOpen }) {
               placeholder="Texto"
             ></textarea>
 
-            <ButtonS onClick={sendUpdatedNews}>Atualizar</ButtonS>
-          </FormNewNews>
-        </SignInContainer>
+            <Button handleClick={sendUpdatedNews}>Atualizar</Button>
+          </Form>
+        </Modal>
       ) : null}
     </>
   );

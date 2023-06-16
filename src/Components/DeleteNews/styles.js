@@ -25,7 +25,6 @@ export const DeleteNew = styled.form`
 
   h1 {
     color: #3a3939;
-    font-family: "Inter", sans-serif;
   }
 
   .text {
@@ -42,7 +41,6 @@ export const DeleteNew = styled.form`
     p {
       text-align: center;
       margin-top: 1rem;
-      font-family: "Inter", sans-serif;
     }
   }
 
@@ -54,7 +52,6 @@ export const DeleteNew = styled.form`
 
     button {
       padding: 0.5rem 1.5rem;
-      font-family: "Inter", sans-serif;
       border-radius: 0.3rem;
       cursor: pointer;
       font-weight: 700;

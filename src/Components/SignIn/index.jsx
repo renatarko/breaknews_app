@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { FaExclamation } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/authContext";
-import { ButtonS } from "../Navbar/styles";
 import { NewAccount } from "../NewAccount/index";
-import {
-  ErrorMessage,
-  FormSign,
-  InputS,
-  SignInContainer,
-} from "./styles";
+
+import { Lock, Mail } from "lucide-react";
+import { Button } from "../Button";
+import { Form } from "../Form";
+import { Input } from "../Input";
+import { Modal } from "../Modal";
 
 export function SignIn() {
   const [open, setOpen] = useState(true); //abrir modal de login
@@ -40,13 +38,10 @@ export function SignIn() {
 
     try {
       const user = await signIn(userLogin);
-      const userLocal = localStorage.setItem("user", JSON.stringify(user));
-      console.log("local", userLocal)
-
       // setOpen(false);
-      navigative(`profile/${user.id}`);
+      navigative(`/breaknews_app/profile/${user.username}`);
     } catch (error) {
-      console.log("error", error)
+      console.log("error", error);
     }
   }
 
@@ -63,43 +58,31 @@ export function SignIn() {
     <>
       {/* <Toaster /> */}
       {open ? (
-        <SignInContainer>
-          <FormSign>
-            <i onClick={() => setOpen(false)} className="bi bi-x"></i>
+        <Modal>
+          <Form
+            title="Entrar"
+            handleClick={() => setOpen(false)}
+            isNoAccount
+            handleOpen={handleOpenNewAccount}
+          >
+            <Input
+              icon={<Mail />}
+              type="email"
+              placeholder="E-mail"
+              name="email"
+              handleChange={handleChangeInput}
+            />
 
-            <h1>Entrar</h1>
-            <div className="containerInput">
-              <div>
-                <InputS
-                  type="text"
-                  placeholder="E-mail"
-                  name="email"
-                  onChange={handleChangeInput}
-                />
-                {messageError && <FaExclamation />}
-              </div>
-              <div>
-                <InputS
-                  type="password"
-                  placeholder="Senha"
-                  name="password"
-                  onChange={handleChangeInput}
-                />
-                {messageError && <FaExclamation />}
-              </div>
-
-              {messageError && (
-                <ErrorMessage>e-mail ou senha não encontrado!</ErrorMessage>
-              )}
-              <ButtonS onClick={fazerLogin}>Enviar</ButtonS>
-            </div>
-
-            <div className="containerNewAccount">
-              <p>Não tem uma conta?</p>
-              <button onClick={handleOpenNewAccount}>Cadastre-se</button>
-            </div>
-          </FormSign>
-        </SignInContainer>
+            <Input
+              icon={<Lock />}
+              type="password"
+              placeholder="Senha"
+              name="password"
+              handleChange={handleChangeInput}
+            />
+            <Button handleClick={fazerLogin}>enviar</Button>
+          </Form>
+        </Modal>
       ) : null}
     </>
   );

@@ -25,27 +25,25 @@ export const FormNewNews = styled.form`
 
   h1 {
     color: #3a3939;
-    font-family: "Inter", sans-serif;
+  }
+`;
+
+export const TextArea = styled.textarea`
+  max-width: 22rem;
+  min-height: 5rem;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  background: #f1f1f1;
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+  border: 1px solid transparent;
+
+  ::placeholder {
+    font-size: 0.8rem;
   }
 
-  textarea {
-    max-width: 22rem;
-    min-height: 5rem;
-    font-size: 1rem;
-    border: none;
-    outline: none;
-    background: #f1f1f1;
-    padding: 0.4rem;
-    border-radius: 0.4rem;
-    border: 1px solid transparent;
-    font-family: "Inter", sans-serif;
-
-    ::placeholder {
-      font-size: 0.8rem;
-    }
-
-    :focus {
-      border-color: rgb(11, 173, 227);
-    }
+  :focus {
+    border-color: rgb(11, 173, 227);
   }
 `;

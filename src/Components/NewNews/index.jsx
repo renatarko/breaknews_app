@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createNewNewsService } from "../../Services/postsServices";
-import { ButtonS } from "../Navbar/styles";
-import { InputS, SignInContainer } from "../SignIn/styles";
-import { FormNewNews } from "./styles";
+import { Button } from "../Button";
+import { Form } from "../Form";
+import { Input } from "../Input";
+import { Modal } from "../Modal";
+
+import { Link, Quote } from "lucide-react";
+import * as S from "./styles";
 
 export function NewNews({ open, setOpen, token }) {
   const [newNews, setNewNews] = useState({
@@ -33,7 +37,6 @@ export function NewNews({ open, setOpen, token }) {
 
     const response = await createNewNewsService(newNews, token);
     const data = await response.json();
-    console.log("data", data);
 
     // alert(data.message);
 
@@ -44,32 +47,32 @@ export function NewNews({ open, setOpen, token }) {
   return (
     <>
       {open ? (
-        <SignInContainer>
-          <FormNewNews>
-            <i onClick={() => setOpen(false)} className="bi bi-x"></i>
-
-            <h1>Publicar Notícia</h1>
-            <InputS
+        <Modal>
+          <Form title="Publicar Notícia" handleClick={() => setOpen(false)}>
+            <Input
+              icon={<Quote />}
+              type="text"
               placeholder="Título"
               name="title"
-              onChange={handleInputChange}
-            ></InputS>
-            <InputS
+              handleChange={handleInputChange}
+            />
+            <Input
+              icon={<Link />}
+              type="text"
               placeholder="Banner"
               name="banner"
               onChange={handleInputChange}
-            ></InputS>
-            <textarea
+            />
+            <S.TextArea
               name="text"
               cols="40"
               rows="5"
               placeholder="Texto"
               onChange={handleInputChange}
-            ></textarea>
-
-            <ButtonS type="submit" onClick={createNewNews}>Publicar</ButtonS>
-          </FormNewNews>
-        </SignInContainer>
+            />
+            <Button handleClick={createNewNews}>Criar notícia</Button>
+          </Form>
+        </Modal>
       ) : null}
     </>
   );

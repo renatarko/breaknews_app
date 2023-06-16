@@ -1,10 +1,12 @@
+import { Link, Lock, Mail, User2 } from "lucide-react";
 import { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { createUserService } from "../../Services/userServices";
-import { ButtonS } from "../Navbar/styles";
-import { InputS, SignInContainer } from "../SignIn/styles";
-import { FormNewAccount } from "./styles";
+import { Button } from "../Button";
+import { Form } from "../Form";
+import { Input } from "../Input";
+import { Modal } from "../Modal";
 
 export function NewAccount() {
   const [isOpen, setIsOpen] = useState(true);
@@ -45,15 +47,13 @@ export function NewAccount() {
       });
 
       const result = data.message == "User created successfully";
-      
+
       if (result) {
         toast.dismiss(loading);
         toast.success("Usuário cadastrado", { position: "top-right" });
-        
+
         const userID = data.user.id;
-        const userLocal = localStorage.setItem("user", JSON.stringify(user));
-        console.log("local", userLocal);
-        
+
         setIsOpen(false);
         navigative(`profile/${userID}`);
         // return;
@@ -69,54 +69,54 @@ export function NewAccount() {
       {isOpen ? (
         <>
           <Toaster />
-          <SignInContainer id="newaccount">
-            <FormNewAccount>
-              <i onClick={() => setIsOpen(!isOpen)} className="bi bi-x"></i>
-
-              <h1>Cadastro</h1>
-              <InputS
+          <Modal>
+            <Form title="Cadastrar" handleClick={() => setIsOpen(!isOpen)}>
+              <Input
+                handleChange={handleChange}
+                icon={<User2 />}
                 type="text"
-                placeholder="Nome"
                 name="name"
-                onChange={handleChange}
-                required={user.name}
+                placeholder="Nome"
               />
-              <InputS
+              <Input
+                handleChange={handleChange}
+                icon={<User2 />}
                 type="text"
-                placeholder="Nome de usuário"
                 name="username"
-                onChange={handleChange}
+                placeholder="Nome de usuário"
               />
-              <InputS
-                type="text"
-                placeholder="Link Avatar"
-                name="avatar"
-                onChange={handleChange}
-              />
-              <InputS
-                type="text"
-                placeholder="Link do Background"
-                name="background"
-                onChange={handleChange}
-              />
-              <InputS
+              <Input
+                handleChange={handleChange}
+                icon={<Mail />}
                 type="email"
-                placeholder="E-mail"
                 name="email"
-                onChange={handleChange}
+                placeholder="E-mail"
               />
-              <InputS
+              <Input
+                handleChange={handleChange}
+                icon={<Link />}
+                type="text"
+                name="avatar"
+                placeholder="Avatar"
+              />
+              <Input
+                handleChange={handleChange}
+                icon={<Link />}
+                type="text"
+                name="background"
+                placeholder="Background"
+              />
+              <Input
+                handleChange={handleChange}
+                icon={<Lock size={16} />}
                 type="password"
-                placeholder="Senha"
                 name="password"
-                onChange={handleChange}
+                placeholder="Senha"
               />
 
-              <ButtonS type="submit" onClick={cadastrar}>
-                Cadastrar
-              </ButtonS>
-            </FormNewAccount>
-          </SignInContainer>
+              <Button handleClick={cadastrar}>Cadastrar</Button>
+            </Form>
+          </Modal>
         </>
       ) : null}
     </>

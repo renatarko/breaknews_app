@@ -1,12 +1,11 @@
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { deleteNewsService } from "../../Services/postsServices";
-import { SignInContainer } from "../SignIn/styles";
-import { DeleteNew } from "./styles";
+import { Form } from "../Form";
+import { Modal } from "../Modal";
 
 export function DeleteNews({ news, open, setOpen }) {
   const navigate = useNavigate();
-
 
   async function deleteNew(e) {
     e.preventDefault();
@@ -25,13 +24,10 @@ export function DeleteNews({ news, open, setOpen }) {
 
   return (
     <>
-    <Toaster/>
+      <Toaster />
       {open ? (
-        <SignInContainer>
-          <DeleteNew>
-            <h1>Apagar Notícia</h1>
-            <i className="bi bi-x" onClick={() => setOpen(false)}></i>
-
+        <Modal>
+          <Form title="Apagar notícia" handleClick={() => setOpen(false)}>
             <div className="text">
               <i className="bi bi-x-circle-fill"></i>
               <p>Certeza que deseja excluir esta notícia?</p>
@@ -45,8 +41,8 @@ export function DeleteNews({ news, open, setOpen }) {
                 Sim
               </button>
             </div>
-          </DeleteNew>
-        </SignInContainer>
+          </Form>
+        </Modal>
       ) : null}
     </>
   );

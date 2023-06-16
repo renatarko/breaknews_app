@@ -1,56 +1,48 @@
-// Profile: Listar as notícia apenas do usuário logado.
-
-// import { news } from "../../../datas";
-
+import { ArrowLeftCircle, PlusCircle, UserCog } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card } from "../../Components/Cards/index";
 import { EditUser } from "../../Components/EditUser/index";
-import { Navbar } from "../../Components/Navbar/index";
 import { NewNews } from "../../Components/NewNews/index";
-import { getNewsByUserIdService } from "../../Services/postsServices";
-import { getUserService } from "../../Services/userServices";
-import { BoxText, ContainerCardProfile, ProfileBody } from "./styles";
+import { useAuth } from "../../Context/authContext";
+import { getNewsByUserService } from "../../Services/postsServices";
+import * as S from "./styles";
 
 export function Profile() {
   const [news, setNews] = useState([]);
   const [open, setOpen] = useState({
     newNews: false,
     editUser: false,
-  }); 
-  const [message, setMessage] = useState("");
-
-  // pego o id do usuário passado por parametro
-  const { id } = useParams();
-
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    async function getUser() {
-      const response = await getUserService(id)
-      await response.json()
-
-      // localStorage.setItem("user", JSON.stringify(user));
-    }
-    getUser()
   });
+  const [message, setMessage] = useState("");
+  const [username, setUsername] = useState("");
 
+  const { user, token } = useAuth();
+  // console.log(token);
   // pega e lista todas as notícias do usuário logado
   useEffect(() => {
     async function getNewsByUser() {
-      const response = await getNewsByUserIdService(token)
-      const data = await response.json()
-      const news = data.results
-      setNews(news)
+      const response = await getNewsByUserService(token);
+      const data = await response.json();
+      const news = data.results;
+      setNews(news);
 
-      if(news.length === 0) {
-        setMessage("Crie sua primeira notícia!")
+      if (news?.length === 0) {
+        setMessage("Crie sua primeira notícia!");
       }
     }
-    getNewsByUser()
+    getNewsByUser();
+    // getInitials(user?.name);
   }, []);
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  function getInitials(name) {
+    const nameSplit = name.split(" ");
+    const initials = nameSplit.reduce(
+      (accumulator, currentName) => accumulator + currentName[0],
+      ""
+    );
+    return setUsername(initials);
+  }
 
   if (open.newNews) {
     return <NewNews open={open.newNews} setOpen={setOpen} token={token} />;
@@ -68,21 +60,20 @@ export function Profile() {
   }
   return (
     <>
-      <Navbar buttonType="userLogin" avatar={user?.avatar} />
-      <ProfileBody>
-        <div className="box-button">
-          <Link to="/breaknews_app">
-            <i className="bi bi-arrow-left-circle backTo"></i>
-          </Link>
-          <button
-            className="editProfile"
-            onClick={() => setOpen({ editUser: true })}
-          >
-            <i className="bi bi-three-dots-vertical"></i>
-          </button>
-        </div>
+      <S.ProfileBody>
+        <S.ContentSettings>
+          <S.Settings>
+            <Link to="/breaknews_app">
+              <ArrowLeftCircle size={24} />
+            </Link>
+          </S.Settings>
 
-        <ContainerCardProfile>
+          <S.Settings>
+            <UserCog size={24} onClick={() => setOpen({ editUser: true })} />
+          </S.Settings>
+        </S.ContentSettings>
+
+        <S.ContainerCardProfile>
           <div className="background">
             <img
               className="img-background"
@@ -91,30 +82,37 @@ export function Profile() {
             />
           </div>
 
-          <img
-            className="img-profile"
-            src={user?.avatar}
-            alt="User profile photo"
-          />
+          {user?.avatar ? (
+            <img
+              className="img-profile"
+              src={user?.avatar}
+              alt="User profile photo"
+            />
+          ) : (
+            <div className="img-profile profile">
+              <h1>{username}</h1>
+            </div>
+          )}
 
-          <BoxText>
+          <S.BoxText>
             <div>
               <h1 className="name">{user?.name}</h1>
-              <p>@{user?.username}</p>
+              <p>{user?.username}</p>
             </div>
 
-            <button className="createNew" onClick={() => setOpen({ newNews: true })}>
-              <i className="bi bi-plus-circle-fill"></i>
-            </button>
-          </BoxText>
-        </ContainerCardProfile>
+            <S.CreateNews onClick={() => setOpen({ newNews: true })}>
+              <PlusCircle size={20} />
+              <span>Criar notícia</span>
+            </S.CreateNews>
+          </S.BoxText>
+        </S.ContainerCardProfile>
 
         {news?.map((item) => (
           <Card key={item.id} news={item} token={token} />
         ))}
 
         {!!message && <h1>{message}</h1>}
-      </ProfileBody>
+      </S.ProfileBody>
     </>
   );
 }

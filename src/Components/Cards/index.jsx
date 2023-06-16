@@ -1,21 +1,32 @@
+import {
+  Edit,
+  MessageCircle,
+  MoreVertical,
+  ThumbsUp,
+  Trash,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { likeTheNewsService } from "../../Services/postsServices";
+import { Comments } from "../Commets";
 import { DeleteNews } from "../DeleteNews/index";
 import { EditNews } from "../EditNews/index";
-import { CardBody, CardContainer, CardFooter } from "./styles";
 
-export function Card({ news, token }) {
-  const [openNavCard, setOpenNavCard] = useState(false);
+import { useAuth } from "../../Context/authContext";
+import * as S from "./styles";
 
+export function Card({ news }) {
   const [open, setOpen] = useState({
     updated: false,
     deleted: false,
+    comments: false,
   });
 
   const [likes, setLikes] = useState(news?.likes || []);
+  const [comment, setComment] = useState(news?.comments || []);
 
-  const userID = JSON.parse(localStorage.getItem("user"));
+  const { user, token } = useAuth();
+  const userID = user.id;
   // console.log(userID);
 
   // const navigate = useNavigate();
@@ -26,18 +37,24 @@ export function Card({ news, token }) {
 
   async function doLikeNews() {
     const newsId = news.id;
-    const response = await likeTheNewsService(newsId, token)
-    const data = await response.json()
-    
+    const response = await likeTheNewsService(newsId, token);
+    await response.json();
+    // console.log(data);
     if (!token) {
-      return toast.error("Você precisa estar logado para curtir uma notícia!"); 
+      return toast("Faça o Login para curtir a notícia!", {
+        icon: "👍",
+        style: {
+          backgroundColor: "#0bade3",
+          color: "#fff",
+        },
+      });
     }
-  
+
     setLikes(likes);
   }
 
-  // abrir modal para editar ou deletar noticia
-  const { updated, deleted } = open;
+  // console.log(likes);
+  const { updated, deleted, comments } = open;
 
   if (updated) {
     return <EditNews news={news} open={open} setOpen={setOpen} />;
@@ -47,57 +64,52 @@ export function Card({ news, token }) {
     return <DeleteNews news={news} open={open} setOpen={setOpen} />;
   }
 
+  if (comments) {
+    return <Comments news={news} open={open.comments} setOpen={setOpen} />;
+  }
+
   return (
-    <CardContainer>
+    <S.CardContainer>
       <Toaster />
-      <button
-        className="icon-dotsmenu"
-        onClick={() => setOpenNavCard(!openNavCard)}
-      >
-        <i className="bi bi-three-dots-vertical"></i>
-      </button>
+      <S.ButtonMenuCard>
+        <MoreVertical />
 
-      {openNavCard ? (
-        <nav className="navMenuDots">
-          <button onClick={() => setOpen({ updated: true })}>
-            <i className="bi bi-pencil-square"></i>
-            <span>editar</span>
-          </button>
+        {/* Menu Card */}
+        <S.NavCard>
+          <S.BottonNav onClick={() => setOpen({ updated: true })}>
+            <Edit size={18} />
+          </S.BottonNav>
 
-          <button onClick={() => setOpen({ deleted: true })}>
-            <i className="bi bi-trash-fill"></i>
-            <span>apagar</span>
-          </button>
-        </nav>
-      ) : null}
+          <S.BottonNav onClick={() => setOpen({ deleted: true })}>
+            <Trash size={18} />
+          </S.BottonNav>
+        </S.NavCard>
+      </S.ButtonMenuCard>
 
-      <CardBody>
+      <S.CardBody>
         <div>
           <h2>{news?.title}</h2>
-          <p>{news?.text.substring(0, 115).concat("...")}</p>
+          <p>{news?.text}</p>
           <cite>{news?.userName}</cite>
         </div>
 
-   <img src={!news?.banner ? news?.banner : "../../../images/sem_imagem.png"} alt="imagem" />  
-       
-  
-      </CardBody>
+        <S.ImageNews
+          src={news?.banner ? news?.banner : "../../../images/sem_imagem.png"}
+          alt="imagem"
+        />
+      </S.CardBody>
 
-      <CardFooter>
+      <S.CardFooter>
         <button onClick={doLikeNews}>
-          {liked ? (
-            <i className="bi bi-hand-thumbs-up-fill like-fill"></i>
-          ) : (
-            <i className="bi bi-hand-thumbs-up"></i>
-          )}
-          <span>1</span>
+          {liked ? <ThumbsUp /> : <ThumbsUp color="#6b6a6a" />}
+          <span>{likes?.length}</span>
         </button>
 
-        <button>
-          <i className="bi bi-chat"></i>
-          <span>1</span>
+        <button onClick={() => setOpen({ comments: true })}>
+          <MessageCircle color="#757575" />
+          <span>{comment.length}</span>
         </button>
-      </CardFooter>
-    </CardContainer>
+      </S.CardFooter>
+    </S.CardContainer>
   );
 }

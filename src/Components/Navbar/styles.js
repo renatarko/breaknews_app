@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Nav = styled.nav`
+export const Wrapper = styled.nav`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -9,103 +9,42 @@ export const Nav = styled.nav`
   position: fixed;
   top: 0;
 
-  padding: 1rem 1rem;
+  padding: 1rem 2.5rem;
   box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 5px;
   background-color: #fff;
   z-index: 100;
-`;
-
-export const ContainerSearch = styled.div`
-  width: 200px;
-  display: flex;
-  align-items: center;
-  position: relative;
-
-  > input {
-    width: 100%;
-    background-color: #f5f5f5;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid transparent;
-
-    :focus {
-      border-color: #0bade3;
-    }
-  }
-
-  > i {
-    position: absolute;
-    top: 1;
-    right: 0.2rem;
-    background-color: #f5f5f5;
-    padding: 0.3rem;
-    color: #757575;
-    border-radius: 0.5rem;
+  @media (max-width: 600px) {
+    display: none;
   }
 `;
 
-export const ButtonS = styled.button`
-  padding: 0.4rem 1rem;
-  background-color: #0bade3;
-  border: none;
-  border-radius: 0.5rem;
-  color: #fff;
-  letter-spacing: 0.1rem;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  font-family: "Inter", sans-serif;
-
-  :hover {
-    background-color: #0a98c7;
+export const Container = styled.div`
+  @media (max-width: 600px) {
+    display: none;
   }
 `;
 
-export const ButtonProfile = styled.img`
-  width: 3.5rem;
-  height: 3.5rem;
-  clip-path: circle();
-  object-fit: cover;
-  cursor: pointer;
-  /* background-color: none; */
-  /* position: relative; */
-`;
+export const ContainerSearch = styled.div``;
 
-export const ContainerNav = styled.nav`
-  background-color: #fff;
-  position: absolute;
-  top: 5rem;
-  right: 0.8rem;
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  border-radius: 0.3rem;
-
-  button,
-  .profile {
-    width: 4rem;
-    background: none;
-    border: none;
-    padding: 0.3rem;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.9rem;
+export const BtnOpenMenu = styled.div`
+  display: none;
+  @media (max-width: 600px) {
+    display: block;
     cursor: pointer;
-    font-family: "Inter", sans-serif;
-    font-weight: bold;
-    opacity: 0.9;
+    z-index: 250;
 
-    :hover {
-      opacity: 1;
-    }
+    .openMenu {
+      margin: 0 1.5rem;
+      position: absolute;
+      top: 2.8rem;
+      border-radius: 50%;
+      padding: 0.15rem;
+      transition: all 0.2s ease-in-out;
+      z-index: 150;
 
-    :hover i {
-      color: rgb(8, 140, 184);
+      :hover {
+        background-color: rgba(17, 17, 26, 0.1);
+      }
     }
   }
 `;

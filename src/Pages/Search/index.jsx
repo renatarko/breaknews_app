@@ -9,25 +9,24 @@ export function Search() {
   const [news, setNews] = useState([]);
 
   const { inputSearch } = useSearch();
-  console.log(inputSearch);
 
   useEffect(() => {
     getNewsBySearch();
   }, [inputSearch]);
 
   async function getNewsBySearch() {
-    const response = await getNNewsBySearchService()
-    const data = await response.json()
-    
+    const response = await getNNewsBySearchService();
+    const data = await response.json();
+
     const allNews = data.results;
 
     const filterNews = allNews.filter((item) => {
       const eachText = item.text;
       const searchWord = inputSearch;
       return eachText.includes(searchWord);
-    })
+    });
 
-    if(filterNews) {
+    if (filterNews) {
       setNews(filterNews);
     }
   }

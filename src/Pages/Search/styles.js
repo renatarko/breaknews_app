@@ -11,5 +11,4 @@ export const ErrorMessage = styled.h3`
   text-align: center;
 
   font-size: 1.4rem;
-  font-family: "Newsreader", serif;
 `;

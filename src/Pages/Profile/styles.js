@@ -4,48 +4,41 @@ export const ProfileBody = styled.section`
   width: 80%;
   margin: 0 auto;
   max-width: 90%;
-  padding: 7rem 0;
+  padding: 9rem 0;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   position: relative;
+`;
 
-  .box-button {
-    display: flex;
-    background-color: #f5f5f5;
-    align-items: center;
-    gap: .5rem;
-    position: absolute;
-    right: 0;
-    z-index: 90;
-    padding: 0.5rem;
-    border-radius: 20px 0px 10px 20px ;
-    margin: 0.2rem;
+export const ContentSettings = styled.div`
+  display: flex;
+  /* background-color: #f5f5f5; */
+  align-items: center;
+  gap: 0.5rem;
+  position: absolute;
+  right: 0;
+  z-index: 90;
+  padding: 0.5rem;
+  border-radius: 20px 0px 10px 20px;
+  margin: 0.2rem;
+`;
 
-    button {
-      background: none;
-      border: none;
-      font-size: 1.4rem;
-      color: rgb(11, 173, 227);
-      cursor: pointer;
-      transition: 0.3s;
+export const Settings = styled.div`
+  background-color: #f5f5f520;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.9rem;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
 
-      :hover {
-        color:  rgb(14, 154, 247);
-        transform: rotate(90deg);
-      }
-    }
+  > a {
+    color: #fff;
+    cursor: pointer;
   }
 
-  .backTo {
-    font-size: 1.2rem;
-    color:rgb(11, 173, 227);
-    cursor: pointer;
-    transition: all 0.3s;
-
-    :hover {
-        color:  rgb(14, 154, 247);
-      }
+  &:hover {
+    background-color: #f5f5f540;
   }
 `;
 
@@ -76,34 +69,49 @@ export const ContainerCardProfile = styled.div`
     bottom: 0;
     margin: auto;
     left: 1rem;
-    border: 4px solid  #fff;
+    border: 4px solid #fff;
     object-fit: cover;
+  }
+
+  .profile {
+    background-color: #d9d9d9;
+    color: #000;
+    font-size: 2rem;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
 export const BoxText = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   padding: 1rem 1.5rem;
 
   .name {
-    font-family: Newsreader, serif;
     font-size: 1.7rem;
     color: #000;
     margin-bottom: 0;
   }
+`;
 
-  .createNew{
-    background: none;
-    border: none;
-    font-size: 1.8rem;
-    color: rgb(11, 173, 227);
-    cursor: pointer;
-    transition: 0.3s;
+export const CreateNews = styled.div`
+  background: rgb(16, 134, 245);
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
 
-    &:hover{
-      color: rgb(14, 154, 227);
-    }
+  &:hover {
+    background: rgb(16, 104, 270);
   }
 `;

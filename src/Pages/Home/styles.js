@@ -27,7 +27,6 @@ export const Container = styled.section`
 export const HomeBody = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-areas: "";
   grid-gap: 1rem;
   margin-top: 2rem;
 
@@ -38,6 +37,14 @@ export const HomeBody = styled.div`
       width: 30%;
       height: auto;
       margin-right: 1rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+
+    section:first-child {
+      grid-column: span 1;
     }
   }
 `;
@@ -56,7 +63,6 @@ export const Pagination = styled.div`
     margin: 0 0.5rem;
     padding: 0.3rem;
     cursor: pointer;
-    font-family: "Inter", sans-serif;
     font-weight: 600;
 
     :hover {
@@ -69,7 +75,6 @@ export const ErrorNotFound = styled.h3`
   text-align: center;
 
   font-size: 1.4rem;
-  font-family: "Newsreader", serif;
 `;
 
 export const PreviosPage = styled.button``;

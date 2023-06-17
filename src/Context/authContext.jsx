@@ -17,15 +17,15 @@ export const AuthProvider = ({ children }) => {
   // se não tiver token, redirecionar para a rota de login
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("localStorage"));
-    const id = user?.id;
+    const userLog = JSON.parse(localStorage.getItem("localStorage"));
 
-    if (user?.token) {
+    if (userLog?.token) {
       const getUser = async () => {
         try {
-          const response = await getUserService(id);
+          const response = await getUserService(userLog?.id);
           const user = await response.json();
           setUser(user);
+          setToken(user.token);
         } catch (error) {
           console.log(error.message);
         }
@@ -33,8 +33,8 @@ export const AuthProvider = ({ children }) => {
       getUser();
     }
 
-    if (!user?.token) {
-      return navigate("/breaknews_app/login");
+    if (true) {
+      return navigate("/breaknews_app/");
     }
   }, []);
 
@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }) => {
 
   function signOut() {
     localStorage.clear(token);
-    return navigate("/breaknews_app");
+    return navigate("/breaknews_app/");
   }
 
   function isAuthenticated() {

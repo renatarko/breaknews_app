@@ -35,7 +35,7 @@ export const BtnOpenMenu = styled.div`
 
     .openMenu {
       margin: 0 1.5rem;
-      position: absolute;
+      position: fixed;
       top: 2.8rem;
       border-radius: 50%;
       padding: 0.15rem;

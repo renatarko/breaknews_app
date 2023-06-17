@@ -49,33 +49,8 @@ export const HomeBody = styled.div`
   }
 `;
 
-export const Pagination = styled.div`
-  margin-top: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  button {
-    background-color: #97cdfa88;
-    color: black;
-    border-radius: 0.4rem;
-    border: none;
-    margin: 0 0.5rem;
-    padding: 0.3rem;
-    cursor: pointer;
-    font-weight: 600;
-
-    :hover {
-      background-color: #6bb7f5;
-    }
-  }
-`;
-
 export const ErrorNotFound = styled.h3`
   text-align: center;
 
   font-size: 1.4rem;
 `;
-
-export const PreviosPage = styled.button``;
-export const NextPage = styled.button``;

@@ -30,32 +30,36 @@ export function NewAccount() {
   async function cadastrar(e) {
     e.preventDefault();
 
-    const { name, username, email, password, avatar, background } = user;
+    const { username, email, password, avatar, background } = user;
+    let { name } = user;
+    name = name.split(" ");
+    console.log(name);
 
-    if (!name && !username && !email && !password && !avatar && !background) {
+    if (!username && !email && !password && !avatar && !background) {
       return toast.error("Preencha os campos para Cadastrar.", {
         position: "top-right",
       });
     }
 
+    if (name.length < 2) {
+      return toast.error("Insira um sobrenome.", { position: "top-right" });
+    }
+
+    const loading = toast.loading("Salvando seus dados...", {
+      position: "top-right",
+    });
+
     try {
       const response = await createUserService(user);
       const data = await response.json();
-
-      const loading = toast.loading("Salvando seus dados...", {
-        position: "top-right",
-      });
-
       const result = data.message == "User created successfully";
 
       if (result) {
         toast.dismiss(loading);
         toast.success("Usuário cadastrado", { position: "top-right" });
 
-        const userID = data.user.id;
-
         setIsOpen(false);
-        navigative(`profile/${userID}`);
+        navigative(`profile/${user.username}`);
         // return;
       }
     } catch (error) {

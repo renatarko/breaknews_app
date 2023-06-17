@@ -1,7 +1,12 @@
 const baseUrl = "https://api-breaknews-8891.onrender.com/news";
 
-export const getAllNewsService = () => {
-  const response = fetch(`${baseUrl}`);
+export const getAllNewsService = (offset) => {
+  const response = fetch(`${baseUrl}/search?offset=${offset}`);
+  return response;
+};
+
+export const getNewsFromSearchService = (offset) => {
+  const response = fetch(`${baseUrl}/search?offset=${offset}&limit=10`);
   return response;
 };
 

@@ -29,8 +29,10 @@ export const FormNewNews = styled.form`
 `;
 
 export const TextArea = styled.textarea`
-  max-width: 22rem;
-  min-height: 5rem;
+  max-width: 25rem;
+  min-width: 100%;
+  min-height: 7rem;
+  max-height: 17rem;
   font-size: 1rem;
   border: none;
   outline: none;

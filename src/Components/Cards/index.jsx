@@ -26,10 +26,7 @@ export function Card({ news }) {
   const [comment, setComment] = useState(news?.comments || []);
 
   const { user, token } = useAuth();
-  const userID = user.id;
-  // console.log(userID);
-
-  // const navigate = useNavigate();
+  const userID = user?.id;
 
   const liked = useMemo(() => {
     return likes.some((item) => item.userId === userID?._id);
@@ -39,7 +36,7 @@ export function Card({ news }) {
     const newsId = news.id;
     const response = await likeTheNewsService(newsId, token);
     await response.json();
-    // console.log(data);
+
     if (!token) {
       return toast("Faça o Login para curtir a notícia!", {
         icon: "👍",
@@ -53,7 +50,6 @@ export function Card({ news }) {
     setLikes(likes);
   }
 
-  // console.log(likes);
   const { updated, deleted, comments } = open;
 
   if (updated) {
@@ -71,20 +67,22 @@ export function Card({ news }) {
   return (
     <S.CardContainer>
       <Toaster />
-      <S.ButtonMenuCard>
-        <MoreVertical />
 
-        {/* Menu Card */}
-        <S.NavCard>
-          <S.BottonNav onClick={() => setOpen({ updated: true })}>
-            <Edit size={18} />
-          </S.BottonNav>
+      {user?.username === news?.userName && (
+        <S.ButtonMenuCard>
+          <MoreVertical className="dots" />
 
-          <S.BottonNav onClick={() => setOpen({ deleted: true })}>
-            <Trash size={18} />
-          </S.BottonNav>
-        </S.NavCard>
-      </S.ButtonMenuCard>
+          <S.NavCard>
+            <S.BottonNav onClick={() => setOpen({ updated: true })}>
+              <Edit size={18} />
+            </S.BottonNav>
+
+            <S.BottonNav onClick={() => setOpen({ deleted: true })}>
+              <Trash size={18} />
+            </S.BottonNav>
+          </S.NavCard>
+        </S.ButtonMenuCard>
+      )}
 
       <S.CardBody>
         <div>
@@ -101,12 +99,20 @@ export function Card({ news }) {
 
       <S.CardFooter>
         <button onClick={doLikeNews}>
-          {liked ? <ThumbsUp /> : <ThumbsUp color="#6b6a6a" />}
+          {liked ? (
+            <ThumbsUp color=" #004AAD" size={18} />
+          ) : (
+            <ThumbsUp color="#757575" size={18} />
+          )}
           <span>{likes?.length}</span>
         </button>
 
         <button onClick={() => setOpen({ comments: true })}>
-          <MessageCircle color="#757575" />
+          {comment.length ? (
+            <MessageCircle color="#004AAD" size={18} />
+          ) : (
+            <MessageCircle color="#757575" size={18} />
+          )}
           <span>{comment.length}</span>
         </button>
       </S.CardFooter>

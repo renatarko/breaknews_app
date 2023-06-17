@@ -38,6 +38,10 @@ export const ButtonMenuCard = styled.div`
   cursor: pointer;
   transition: 0.2s;
 
+  .dots {
+    color: #004aad;
+  }
+
   :hover {
     background-color: #80808030;
   }

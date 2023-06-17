@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Card } from "../../Components/Cards/index";
 import { EditUser } from "../../Components/EditUser/index";
+import { Empty } from "../../Components/Empty";
 import { NewNews } from "../../Components/NewNews/index";
 import { useAuth } from "../../Context/authContext";
 import { getNewsByUserService } from "../../Services/postsServices";
@@ -18,7 +19,6 @@ export function Profile() {
   const [username, setUsername] = useState("");
 
   const { user, token } = useAuth();
-  // console.log(token);
   // pega e lista todas as notícias do usuário logado
   useEffect(() => {
     async function getNewsByUser() {
@@ -31,17 +31,16 @@ export function Profile() {
         setMessage("Crie sua primeira notícia!");
       }
     }
+    if (user) {
+      getInitials(user?.name);
+    }
     getNewsByUser();
-    // getInitials(user?.name);
   }, []);
 
-  function getInitials(name) {
-    const nameSplit = name.split(" ");
-    const initials = nameSplit.reduce(
-      (accumulator, currentName) => accumulator + currentName[0],
-      ""
-    );
-    return setUsername(initials);
+  async function getInitials(name) {
+    const nameSeparetor = name.split(" ");
+    const initials = nameSeparetor.map((letter) => letter.substr(0, 1));
+    return setUsername(initials[0].concat(initials[1]));
   }
 
   if (open.newNews) {
@@ -107,9 +106,11 @@ export function Profile() {
           </S.BoxText>
         </S.ContainerCardProfile>
 
-        {news?.map((item) => (
-          <Card key={item.id} news={item} token={token} />
-        ))}
+        {news?.length ? (
+          news?.map((item) => <Card key={item.id} news={item} />)
+        ) : (
+          <Empty title="Você ainda não possui nenhuma notícia" />
+        )}
 
         {!!message && <h1>{message}</h1>}
       </S.ProfileBody>

@@ -26,7 +26,7 @@ export function Navbar() {
   };
 
   const debounceInputHandleChange = useCallback(
-    debounce(handleInputSearch, 500),
+    debounce(handleInputSearch, 1000),
     []
   );
 
@@ -64,8 +64,8 @@ export function Navbar() {
           </Link>
         )}
       </S.Wrapper>
-      <S.BtnOpenMenu onClick={() => setOpenMenu(!openMenu)}>
-        <Menu className="openMenu" onClick={() => setOpenMenu(!openMenu)} />
+      <S.BtnOpenMenu>
+        <Menu className="openMenu" onClick={() => setOpenMenu(true)} />
         {openMenu && (
           <NavMobile openMenu={openMenu} setOpenMenu={setOpenMenu} />
         )}

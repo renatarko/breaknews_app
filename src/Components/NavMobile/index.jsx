@@ -10,13 +10,10 @@ import * as S from "./styles";
 export const NavMobile = ({ openMenu, setOpenMenu }) => {
   const navigate = useNavigate();
 
-  const { signOut } = useAuth();
-
-  const userLogado = JSON.parse(localStorage.getItem("user"));
-  const { id } = userLogado || {};
+  const { signOut, user } = useAuth();
 
   function goToProfile() {
-    navigate(`breaknews_app/profile/${id}`);
+    navigate(`breaknews_app/profile/${user?.username}`);
   }
   return (
     <>
@@ -27,9 +24,9 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
           <Logo />
         </S.Container>
 
-        {userLogado ? (
+        {user ? (
           <ButtonProfile
-            username="renata"
+            username={user?.name}
             handleProfile={goToProfile}
             handleGoOut={signOut}
           />

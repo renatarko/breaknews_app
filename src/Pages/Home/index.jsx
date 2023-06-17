@@ -1,63 +1,79 @@
 import { Card } from "../../Components/Cards/index";
-import {
-  Container,
-  HomeBody,
-  NextPage,
-  Pagination,
-  PreviosPage,
-} from "./styles";
+import { Container, HomeBody } from "./styles";
 
 import { useEffect, useState } from "react";
+import { Empty } from "../../Components/Empty";
 import Loader from "../../Components/Loader";
+import { ShowMore } from "../../Components/ShowMore";
 import { useSearch } from "../../Context/searchContext";
-import { getAllNewsService } from "../../Services/postsServices";
+import {
+  getAllNewsService,
+  getNewsFromSearchService,
+} from "../../Services/postsServices";
 
 export function Home() {
   const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   // Pagination
-  const [limit, setLimit] = useState(5 || "");
+  const [limit, setLimit] = useState(5);
   const [offset, setOffset] = useState(0);
-  const [pages, setPages] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [loadingShowMore, setLoadingShowMore] = useState(
+    "initial" || "loading"
+  );
 
   const { inputSearch } = useSearch("");
+  // console.log(inputSearch);
 
   useEffect(() => {
     getApi();
-    setLoading(true);
+    // setLoading(true);
+  }, [offset]);
+
+  useEffect(() => {
+    getNewsFromSearch();
   }, [inputSearch]);
 
   async function getApi() {
     try {
-      const response = await getAllNewsService(inputSearch, limit, offset);
-      const data = await response.json();
+      setLoadingShowMore("loading");
+      const response = await getAllNewsService(offset);
+      const { results } = await response.json();
 
-      setLoading(false);
-      setNews(data.results);
+      setNews([...news, ...results]);
+      setLoadingShowMore("initial");
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-      const allNews = data.results;
+  async function getNewsFromSearch() {
+    try {
+      const response = await getNewsFromSearchService(offset);
+      const { results } = await response.json();
 
-      const filterNews = allNews.filter((item) => {
-        const eachText = item.text;
-        return eachText?.includes(inputSearch);
-      });
-
-      if (filterNews) {
+      if (results) {
+        const filterNews = results.filter((item) => {
+          return item.text.includes(inputSearch);
+        });
         setNews(filterNews);
+        console.log(filterNews);
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  function previousNews() {
-    setCurrentPage(currentPage - 1);
-    setOffset(offset - limit);
+  async function showMoreNews() {
+    setOffset(offset + limit);
+    // chamar api com offset e limit atualizados
+    // setNews([...news, ...data.results]);
+    // setLoadingOnlyArray(true)
+    // const response = await getApi(offset);
+    // const response = getApi(offset);
+    // setNews([...news, ...response.data]);
+    // setLoadingOnlyArray(false);
   }
 
-  // const token = localStorage.getItem("token");
-  const userLogado = JSON.parse(localStorage.getItem("user"));
   return (
     <>
       <Container>
@@ -71,34 +87,14 @@ export function Home() {
           )}
         </HomeBody>
 
-        <Pagination>
-          {currentPage > 1 && (
-            <PreviosPage onClick={previousNews}>
-              <i className="bi bi-caret-left-fill"></i>
-            </PreviosPage>
-          )}
+        {offset < news.length &&
+          (loadingShowMore === "loading" ? (
+            <ShowMore onClick={showMoreNews} text="carregando..." />
+          ) : (
+            <ShowMore onClick={showMoreNews} withIcon text="Mostrar mais" />
+          ))}
 
-          {pages.map((page) => {
-            return (
-              <button
-                style={
-                  page === currentPage ? { background: "#8dc0ebef" } : null
-                }
-                key={page}
-                onClick={() => setCurrentPage(page)}
-              >
-                {page}
-              </button>
-            );
-          })}
-          {currentPage < pages.length && (
-            <NextPage onClick={() => setCurrentPage(currentPage + 1)}>
-              <i className="bi bi-caret-right-fill"></i>
-            </NextPage>
-          )}
-        </Pagination>
-
-        {/* {news.length === 0 && <h2>Nenhum resultado foi encontrado...</h2>} */}
+        {!news.length && <Empty title="Ops, não encontramos nenhuma notícia" />}
       </Container>
       {/* <Footer /> */}
     </>

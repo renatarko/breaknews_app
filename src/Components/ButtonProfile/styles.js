@@ -36,7 +36,7 @@ export const Dropdown = styled.div`
 
   > button:hover {
     background-color: #80808030;
-    color: rgb(16, 134, 245);
+    color: #004aad;
 
     > svg {
       transform: scale(1.1);
@@ -51,7 +51,6 @@ export const Dropdown = styled.div`
     .getOut,
     .profile {
       font-size: 1.1rem;
-      padding: 1.2rem 0;
     }
   }
 `;
@@ -69,7 +68,7 @@ export const Wrapper = styled.div`
   font-size: 1.8rem;
   text-transform: uppercase;
   font-weight: 500;
-  color: rgb(16, 134, 245);
+  color: #004aad;
 
   &:hover ${Dropdown} {
     opacity: 1;
@@ -77,21 +76,25 @@ export const Wrapper = styled.div`
   }
 
   @media (max-width: 600px) {
-    width: 100%;
-    height: 100%;
     background-color: transparent;
     flex-direction: column-reverse;
-    border-radius: 0;
 
     .initialName {
+      border-radius: 50%;
       text-align: center;
+      position: relative;
+      padding: 1rem;
+      pointer-events: none;
 
       :after {
         content: "";
-        display: block;
-        width: 5rem;
-        height: 1px;
+        position: absolute;
+        width: 100%;
+        height: 100%;
         background-color: #80808030;
+        top: 0;
+        right: 0;
+        border-radius: 50%;
       }
     }
   }

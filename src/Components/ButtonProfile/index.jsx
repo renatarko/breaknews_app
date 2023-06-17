@@ -6,12 +6,9 @@ export const ButtonProfile = ({ username, handleProfile, handleGoOut }) => {
   const [initialName, setInitialName] = useState("");
 
   useEffect(() => {
-    const nameSplit = username.split(" ");
-    const initials = nameSplit?.reduce(
-      (accumulator, currentName) => accumulator + currentName[0],
-      ""
-    );
-    return setInitialName(initials);
+    const nameSeparetor = username.split(" ");
+    const initials = nameSeparetor.map((letter) => letter.substr(0, 1));
+    return setInitialName(initials[0].concat(initials[1]));
   }, []);
 
   return (

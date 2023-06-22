@@ -1,0 +1,12 @@
+import { GridContainer } from "../../Components/GridContainer";
+import { NewAccount } from "../../Components/NewAccount";
+
+export function SignUp() {
+  return (
+    <GridContainer
+      title="Bem Vindo ✌️"
+      description="Publique notícias e leia as principais notícias de quem está perto de você!"
+      form={<NewAccount />}
+    />
+  );
+}

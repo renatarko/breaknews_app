@@ -38,7 +38,7 @@ export function Navbar() {
 
   function moveToProfile() {
     // const userID = user.id;
-    navigate(`/breaknews_app/profile/${user.username}`);
+    navigate(`/breaknews_app/profile`);
   }
 
   return (
@@ -50,7 +50,7 @@ export function Navbar() {
           <SearchNav onChange={debounceInputHandleChange} />
         </S.ContainerSearch>
 
-        <Logo />
+        <Logo small />
 
         {user ? (
           <ButtonProfile

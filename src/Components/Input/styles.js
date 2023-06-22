@@ -33,6 +33,6 @@ export const Input = styled.input`
   }
 
   :focus {
-    border-color: rgb(11, 173, 227);
+    border-color: rgb(0, 74, 173);
   }
 `;

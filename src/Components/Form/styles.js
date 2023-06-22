@@ -9,12 +9,19 @@ export const Wrapper = styled.form`
   border-radius: 0.4rem;
   padding: 1.5rem;
   position: relative;
+  z-index: 500;
 
   .btn-close {
     cursor: pointer;
     position: absolute;
-    right: 0.3rem;
-    top: 0.3rem;
+    margin: 0.5rem;
+    right: 0;
+    top: 0;
+    transition: 0.3s;
+
+    :hover {
+      transform: scale(1.1);
+    }
   }
 `;
 

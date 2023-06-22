@@ -56,7 +56,7 @@ export const ContainerCardProfile = styled.div`
     width: 100%;
     height: 8rem;
     object-fit: cover;
-    background-color: #d9d9d9;
+    background-color: rgb(16, 134, 245);
     border-radius: 0.3rem 0.3rem 0 0;
   }
 

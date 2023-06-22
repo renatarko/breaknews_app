@@ -8,6 +8,7 @@ export const Input = ({
   icon,
   handleChange,
   onFocus,
+  error,
 }) => {
   return (
     <S.Container>
@@ -21,6 +22,7 @@ export const Input = ({
         onChange={handleChange}
         onFocus={onFocus}
       />
+      {error}
     </S.Container>
   );
 };

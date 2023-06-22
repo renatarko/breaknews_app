@@ -24,6 +24,7 @@ export const Dropdown = styled.div`
     cursor: pointer;
     font-weight: bold;
     opacity: 0.9;
+    font-size: 1rem;
 
     > svg {
       transition: all 0.2s ease-in-out;

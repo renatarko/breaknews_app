@@ -8,7 +8,7 @@ export const Wrapper = styled.a`
 
 const ImageLogo = styled.img`
   ${({ small }) => css`
-    max-width: ${small ? "7rem" : "12rem"};
+    max-width: ${small ? "7rem" : "16rem"};
   `}
 
   width: 100%;

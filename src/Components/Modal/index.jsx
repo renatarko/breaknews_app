@@ -6,15 +6,28 @@ const Wrapper = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+  /* position: relative; */
   z-index: 100;
 
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background-color: #2d2e2eb5;
 `;
 
-export const Modal = ({ children }) => {
-  return <Wrapper>{children}</Wrapper>;
+export const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  background-color: #2d2e2eb5;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
+export const Modal = ({ children, onClick }) => {
+  return (
+    <Wrapper>
+      {children}
+      <Overlay onClick={onClick} />
+    </Wrapper>
+  );
 };

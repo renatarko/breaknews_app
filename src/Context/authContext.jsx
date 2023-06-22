@@ -51,7 +51,8 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (data.message === "User or password not found") {
-        return setMessageError("E-mail ou senha incorretos, tente novamente.");
+        setMessageError("E-mail ou senha incorretos, tente novamente.");
+        return;
       }
 
       const { token: _token, user: _user } = data;
@@ -70,11 +71,6 @@ export const AuthProvider = ({ children }) => {
 
         return _user;
       }
-
-      // if (!_user) {
-      //   setMessageError("erro");
-      //   console.log(messageError);
-      // }
     } catch (error) {
       console.log(error.message);
     }

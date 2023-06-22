@@ -33,8 +33,8 @@ export const AuthProvider = ({ children }) => {
       getUser();
     }
 
-    if (true) {
-      return navigate("/breaknews_app/");
+    if (!userLog?.token) {
+      return navigate("/breaknews_app/login");
     }
   }, []);
 
@@ -49,6 +49,11 @@ export const AuthProvider = ({ children }) => {
       });
 
       const data = await response.json();
+
+      if (data.message === "User or password not found") {
+        return setMessageError("E-mail ou senha incorretos, tente novamente.");
+      }
+
       const { token: _token, user: _user } = data;
 
       const _localStorage = {
@@ -66,9 +71,10 @@ export const AuthProvider = ({ children }) => {
         return _user;
       }
 
-      if (!user) {
-        setMessageError("erro");
-      }
+      // if (!_user) {
+      //   setMessageError("erro");
+      //   console.log(messageError);
+      // }
     } catch (error) {
       console.log(error.message);
     }
@@ -92,6 +98,7 @@ export const AuthProvider = ({ children }) => {
         user,
         token,
         messageError,
+        setMessageError,
       }}
     >
       {children}

@@ -37,7 +37,6 @@ export function Navbar() {
   }, []);
 
   function moveToProfile() {
-    // const userID = user.id;
     navigate(`/breaknews_app/profile`);
   }
 
@@ -60,7 +59,7 @@ export function Navbar() {
           />
         ) : (
           <Link to="/breaknews_app/login">
-            <Button handleClick={() => setSign(!sign)}>Entrar</Button>
+            <Button>Entrar</Button>
           </Link>
         )}
       </S.Wrapper>

@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
           const response = await getUserService(userLog?.id);
           const user = await response.json();
           setUser(user);
-          setToken(user.token);
+          setToken(userLog.token);
         } catch (error) {
           console.log(error.message);
         }
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     if (!userLog?.token) {
-      return navigate("/breaknews_app/login");
+      return navigate("/breaknews_app/");
     }
   }, []);
 
@@ -78,7 +78,9 @@ export const AuthProvider = ({ children }) => {
 
   function signOut() {
     localStorage.clear(token);
-    return navigate("/breaknews_app/");
+    setUser("");
+    navigate("/breaknews_app/");
+    return;
   }
 
   function isAuthenticated() {

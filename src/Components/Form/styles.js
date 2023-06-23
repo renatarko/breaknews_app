@@ -28,7 +28,7 @@ export const Wrapper = styled.form`
 export const Title = styled.h1`
   color: #3a3939;
   margin-bottom: 1.5rem;
-  border-left: 3.5px solid #003780;
+  border-left: 4px solid #003780;
   padding-left: 0.4rem;
 `;
 

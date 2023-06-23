@@ -58,6 +58,7 @@ export const ContainerForm = styled.aside`
   align-items: center;
   padding: 2rem;
   background: #fff;
+  position: relative;
 
   ${FormStyle.Wrapper} {
     width: 100%;

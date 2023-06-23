@@ -5,7 +5,7 @@ export function Login() {
   return (
     <GridContainer
       title="Bem Vindo de volta 🥳"
-      description="Curta e comente e veja as principais notícias dos seus amigos! "
+      description="Curta, comente e veja as principais notícias dos seus amigos! "
       form={<SignIn />}
     />
   );

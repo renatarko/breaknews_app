@@ -14,7 +14,6 @@ import { Modal } from "../Modal";
 import * as S from "./styles";
 
 export function SignIn() {
-  const [open, setOpen] = useState(true); //abrir modal de login
   const [userLogin, setUserLogin] = useState({
     email: "",
     password: "",
@@ -61,7 +60,7 @@ export function SignIn() {
   }
 
   return (
-    <Form title="Entrar" handleClick={() => setOpen(false)} isNoAccount>
+    <Form title="Entrar" isNoAccount>
       <Input
         icon={<Mail />}
         type="email"

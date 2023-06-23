@@ -9,6 +9,7 @@ import { Navbar } from "./Components/Navbar";
 import { SignIn } from "./Components/SignIn";
 import { AuthProvider } from "./Context/authContext";
 import { SearchProvider } from "./Context/searchContext";
+import { SignUp } from "./Pages/SignUp";
 
 function App() {
   return (
@@ -20,9 +21,9 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="breaknews_app" Component={Home} />
-              {/* <Route path="breaknews_app/profile" Component={Profile} /> */}
               <Route path="breaknews_app/profile" Component={Profile} />
               <Route path="breaknews_app/login" Component={Login} />
+              <Route path="breaknews_app/sign-up" Component={SignUp} />
               {/* <Route path="breaknews_app/search/:search" Component={Search} /> */}
               <Route path="*" element={<Empty />} />
             </Routes>

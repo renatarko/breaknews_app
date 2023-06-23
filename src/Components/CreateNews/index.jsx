@@ -5,17 +5,23 @@ import { Button } from "../Button";
 import { Form } from "../Form";
 import { Input } from "../Input";
 import { Modal } from "../Modal";
+import { ErrorMessage } from "../ErrorMessage";
+import { ClipLoader } from "react-spinners";
 
 import { Link, Quote } from "lucide-react";
 import * as S from "./styles";
+import { useAuth } from "../../Context/authContext";
 
-export function NewNews({ open, setOpen, token }) {
+export function CreateNews({ open, setOpen }) {
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [newNews, setNewNews] = useState({
     title: "",
     banner: "",
     text: "",
   });
 
+  const { token } = useAuth();
   const navigate = useNavigate();
 
   function handleInputChange(e) {
@@ -27,27 +33,33 @@ export function NewNews({ open, setOpen, token }) {
   async function createNewNews(e) {
     e.preventDefault();
 
-    const { title, banner, text } = newNews;
+    const { title, text } = newNews;
 
-    if (!title && !banner && !text) {
-      return alert("Preencha os campos");
+    if (!title && !text) {
+      setErrorMessage("Preencha os campos");
+      return;
     }
 
-    // console.log(newNews);
+    setLoading(true);
+    try {
+      const response = await createNewNewsService(newNews, token);
+      const data = await response.json();
+      console.log(data);
 
-    const response = await createNewNewsService(newNews, token);
-    const data = await response.json();
-
-    // alert(data.message);
-
-    setOpen(false);
-    navigate(0);
+      setLoading(false);
+      setOpen(false);
+      navigate(0);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <>
       {open ? (
-        <Modal>
+        <Modal onClick={() => setOpen(false)}>
           <Form title="Publicar Notícia" handleClick={() => setOpen(false)}>
             <Input
               icon={<Quote />}
@@ -70,7 +82,14 @@ export function NewNews({ open, setOpen, token }) {
               placeholder="Texto"
               onChange={handleInputChange}
             />
-            <Button handleClick={createNewNews}>Criar notícia</Button>
+            <ErrorMessage>{errorMessage}</ErrorMessage>
+            <Button handleClick={createNewNews}>
+              {loading ? (
+                <ClipLoader color="#fff" size={16} />
+              ) : (
+                "Criar notícia"
+              )}
+            </Button>
           </Form>
         </Modal>
       ) : null}

@@ -4,7 +4,7 @@ import { NewAccount } from "../../Components/NewAccount";
 export function SignUp() {
   return (
     <GridContainer
-      title="Bem Vindo ✌️"
+      title="Olá! Seja Bem Vindo ✌️"
       description="Publique notícias e leia as principais notícias de quem está perto de você!"
       form={<NewAccount />}
     />

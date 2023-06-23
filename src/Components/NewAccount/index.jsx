@@ -1,16 +1,16 @@
-import { Link, Lock, Mail, User2 } from "lucide-react";
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { ArrowLeft, Lock, Mail, User2 } from "lucide-react";
+import { Link as LinkIcon } from "lucide-react";
 import { Toaster, toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 import { createUserService } from "../../Services/userServices";
 import { Button } from "../Button";
+import { ErrorMessage } from "../ErrorMessage";
 import { Form } from "../Form";
 import { Input } from "../Input";
-import { Modal } from "../Modal";
 
 export function NewAccount() {
-  const [isOpen, setIsOpen] = useState(true);
-
   const [user, setUser] = useState({
     name: "",
     username: "",
@@ -19,110 +19,135 @@ export function NewAccount() {
     avatar: "",
     background: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   function handleChange(e) {
     const { name, value } = e.target;
 
-    setUser({ ...user, [name]: value });
+    const updatedUser = { ...user, [name]: value };
+    setUser(updatedUser);
+
+    checkInputValues(updatedUser);
+  }
+
+  function checkInputValues(updatedUser) {
+    const { name, username, email, password, avatar, background } = updatedUser;
+    const nameUserSplit = name?.split(" ");
+
+    const nameuserIsvalid = nameUserSplit?.length >= 2;
+    const isValid = username && email && password && avatar && background;
+
+    const toDesabled = !nameuserIsvalid || !isValid;
+
+    let errorMessage = "";
+    if (!isValid) {
+      errorMessage = "Preencha todos os campos para cadastrar";
+    } else if (!nameuserIsvalid) {
+      errorMessage = "Informe seu sobrenome";
+    }
+
+    setErrorMessage(errorMessage);
+    setIsDisabled(toDesabled);
   }
 
   const navigative = useNavigate();
+
   async function cadastrar(e) {
     e.preventDefault();
 
-    const { username, email, password, avatar, background } = user;
-    let { name } = user;
-    name = name.split(" ");
-    console.log(name);
-
-    if (!username && !email && !password && !avatar && !background) {
-      return toast.error("Preencha os campos para Cadastrar.", {
-        position: "top-right",
-      });
-    }
-
-    if (name.length < 2) {
-      return toast.error("Insira um sobrenome.", { position: "top-right" });
-    }
-
-    const loading = toast.loading("Salvando seus dados...", {
-      position: "top-right",
-    });
+    setLoading(true);
+    // setIsDisabled(false);
 
     try {
       const response = await createUserService(user);
-      const data = await response.json();
-      const result = data.message == "User created successfully";
+      await response.json();
 
-      if (result) {
-        toast.dismiss(loading);
-        toast.success("Usuário cadastrado", { position: "top-right" });
+      toast.success(
+        "Cadastro realizado com sucesso, faça o Login para começar a navegar",
+        {
+          duration: 4000,
+        }
+      );
 
-        setIsOpen(false);
-        navigative(`profile/${user.username}`);
-        // return;
-      }
+      setLoading(false);
+
+      setTimeout(() => {
+        navigative(`/breaknews_app/login`);
+      }, 3000);
     } catch (error) {
-      toast.error("Ops, algo deu errado!", { position: "top-right" });
       console.log(error.message);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <>
-      {isOpen ? (
-        <>
-          <Toaster />
-          <Modal>
-            <Form title="Cadastrar" handleClick={() => setIsOpen(!isOpen)}>
-              <Input
-                handleChange={handleChange}
-                icon={<User2 />}
-                type="text"
-                name="name"
-                placeholder="Nome"
-              />
-              <Input
-                handleChange={handleChange}
-                icon={<User2 />}
-                type="text"
-                name="username"
-                placeholder="Nome de usuário"
-              />
-              <Input
-                handleChange={handleChange}
-                icon={<Mail />}
-                type="email"
-                name="email"
-                placeholder="E-mail"
-              />
-              <Input
-                handleChange={handleChange}
-                icon={<Link />}
-                type="text"
-                name="avatar"
-                placeholder="Avatar"
-              />
-              <Input
-                handleChange={handleChange}
-                icon={<Link />}
-                type="text"
-                name="background"
-                placeholder="Background"
-              />
-              <Input
-                handleChange={handleChange}
-                icon={<Lock size={16} />}
-                type="password"
-                name="password"
-                placeholder="Senha"
-              />
-
-              <Button handleClick={cadastrar}>Cadastrar</Button>
-            </Form>
-          </Modal>
-        </>
-      ) : null}
+      <Toaster />
+      <Link
+        to="/breaknews_app/login"
+        style={{
+          position: "absolute",
+          zIndex: 1000,
+          top: 0,
+          left: 0,
+          margin: "1.5rem",
+          color: "rgb(0, 55, 128)",
+        }}
+      >
+        <ArrowLeft />
+      </Link>
+      <Form title="Criar Conta">
+        <Input
+          onInput={handleChange}
+          icon={<User2 />}
+          type="text"
+          name="name"
+          placeholder="Nome"
+          // onFocus={() => setErrorMessage("")}
+        />
+        <Input
+          onInput={handleChange}
+          icon={<User2 />}
+          type="text"
+          name="username"
+          placeholder="Nome de usuário"
+        />
+        <Input
+          onInput={handleChange}
+          icon={<Mail />}
+          type="email"
+          name="email"
+          placeholder="E-mail"
+        />
+        <Input
+          onInput={handleChange}
+          icon={<LinkIcon />}
+          type="text"
+          name="avatar"
+          placeholder="Avatar"
+        />
+        <Input
+          onInput={handleChange}
+          icon={<LinkIcon />}
+          type="text"
+          name="background"
+          placeholder="Background"
+        />
+        <Input
+          onInput={handleChange}
+          icon={<Lock size={16} />}
+          type="password"
+          name="password"
+          placeholder="Senha"
+        />
+        <ErrorMessage>{errorMessage}</ErrorMessage>
+        <Button handleClick={cadastrar} disabled={isDisabled}>
+          {loading ? <ClipLoader color="#fff" size={16} /> : "Cadastrar"}
+        </Button>
+      </Form>
     </>
   );
 }

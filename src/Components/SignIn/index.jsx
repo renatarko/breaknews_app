@@ -15,12 +15,12 @@ import * as S from "./styles";
 
 export function SignIn() {
   const [open, setOpen] = useState(true); //abrir modal de login
-  const [openNew, setOpenNew] = useState(false); // abrir modal para cadastrar usuário
   const [userLogin, setUserLogin] = useState({
     email: "",
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const { signIn, messageError, setMessageError } = useAuth();
 
@@ -29,15 +29,22 @@ export function SignIn() {
   function handleChangeInput(e) {
     const { name, value } = e.target;
 
-    setUserLogin({ ...userLogin, [name]: value });
+    const userLoginUpdated = { ...userLogin, [name]: value };
+    setUserLogin(userLoginUpdated);
+    checkInputValues(userLoginUpdated);
+  }
+
+  function checkInputValues(userLoginUpdated) {
+    const { email, password } = userLoginUpdated;
+
+    const isValid = email && password;
+
+    setMessageError(!isValid && "Preencha os campos para fazer Login.");
+    setIsDisabled(!isValid);
   }
 
   async function fazerLogin(e) {
     e.preventDefault();
-
-    if (!userLogin.email || !userLogin.password) {
-      return setMessageError("Preencha os campos para fazer Login.");
-    }
 
     try {
       setLoading(true);
@@ -53,58 +60,35 @@ export function SignIn() {
     }
   }
 
-  function handleOpenNewAccount(e) {
-    e.preventDefault();
-
-    setOpenNew(true);
-  }
-
-  if (openNew) {
-    return <NewAccount />;
-  }
   return (
-    <>
-      {/* <Toaster /> */}
-      {open ? (
-        // <Modal>
-        <Form
-          title="Entrar"
-          handleClick={() => setOpen(false)}
-          isNoAccount
-          handleOpen={handleOpenNewAccount}
-        >
-          <Input
-            icon={<Mail />}
-            type="email"
-            placeholder="E-mail"
-            name="email"
-            handleChange={handleChangeInput}
-            onFocus={() => setMessageError("")}
-          />
+    <Form title="Entrar" handleClick={() => setOpen(false)} isNoAccount>
+      <Input
+        icon={<Mail />}
+        type="email"
+        placeholder="E-mail"
+        name="email"
+        onInput={handleChangeInput}
+        onFocus={() => setMessageError("")}
+      />
 
-          <Input
-            icon={<Lock />}
-            type="password"
-            placeholder="Senha"
-            name="password"
-            handleChange={handleChangeInput}
-          />
-          <S.Error>{messageError}</S.Error>
-          <Button handleClick={fazerLogin}>
-            {loading ? <ClipLoader color="#fff" size={16} /> : "enviar"}
-          </Button>
+      <Input
+        icon={<Lock />}
+        type="password"
+        placeholder="Senha"
+        name="password"
+        onInput={handleChangeInput}
+      />
+      <S.Error>{messageError}</S.Error>
+      <Button handleClick={fazerLogin} disabled={isDisabled}>
+        {loading ? <ClipLoader color="#fff" size={16} /> : "enviar"}
+      </Button>
 
-          <S.ContainerNewAccount>
-            <p>Não tem uma conta?</p>
-            <Link
-              to="/breaknews_app/sign-up"
-              style={{ textDecoration: "none" }}
-            >
-              <S.ButtonCreatedUser>Cadastre-se</S.ButtonCreatedUser>
-            </Link>
-          </S.ContainerNewAccount>
-        </Form>
-      ) : null}
-    </>
+      <S.ContainerNewAccount>
+        <p>Não tem uma conta?</p>
+        <Link to="/breaknews_app/sign-up" style={{ textDecoration: "none" }}>
+          <S.ButtonCreatedUser>Cadastre-se</S.ButtonCreatedUser>
+        </Link>
+      </S.ContainerNewAccount>
+    </Form>
   );
 }

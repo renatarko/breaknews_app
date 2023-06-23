@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const CustomButton = styled.button`
   padding: 0.6rem 1rem;
@@ -20,8 +20,8 @@ const CustomButton = styled.button`
     background-color: #06489e;
   }
 
-  :disabled {
-    background-color: grey;
+  &:disabled {
+    opacity: 0.5;
     cursor: not-allowed;
   }
 `;

@@ -47,7 +47,7 @@ export function EditUser({ open, setOpen }) {
         toast.success("Perfil atualizado!");
 
         setOpen(false);
-        navigate(0);
+        navigate(`breaknews_app/profile`);
 
         return;
       }

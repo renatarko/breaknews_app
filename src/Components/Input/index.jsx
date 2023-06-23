@@ -1,27 +1,10 @@
 import * as S from "./styles";
 
-export const Input = ({
-  type,
-  placeholder,
-  name,
-  value,
-  icon,
-  handleChange,
-  onFocus,
-  error,
-}) => {
+export const Input = ({ icon, error, ...props }) => {
   return (
     <S.Container>
       {icon}
-      <S.Input
-        type={type}
-        placeholder={placeholder}
-        name={name}
-        value={value}
-        defaultValue={value}
-        onChange={handleChange}
-        onFocus={onFocus}
-      />
+      <S.Input {...props} />
       {error}
     </S.Container>
   );

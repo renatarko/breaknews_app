@@ -1,10 +1,11 @@
 import { ArrowLeftCircle, PlusCircle, UserCog } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Button } from "../../Components/Button";
 import { Card } from "../../Components/Cards/index";
 import { EditUser } from "../../Components/EditUser/index";
 import { Empty } from "../../Components/Empty";
-import { NewNews } from "../../Components/NewNews/index";
+import { CreateNews } from "../../Components/CreateNews/index";
 import { useAuth } from "../../Context/authContext";
 import { getNewsByUserService } from "../../Services/postsServices";
 import * as S from "./styles";
@@ -15,20 +16,19 @@ export function Profile() {
     newNews: false,
     editUser: false,
   });
-  const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
 
   const { user, token } = useAuth();
   // pega e lista todas as notícias do usuário logado
   useEffect(() => {
     async function getNewsByUser() {
-      const response = await getNewsByUserService(token);
-      const data = await response.json();
-      const news = data.results;
-      setNews(news);
-
-      if (news?.length === 0) {
-        setMessage("Crie sua primeira notícia!");
+      try {
+        const response = await getNewsByUserService(token);
+        const data = await response.json();
+        const news = data.results;
+        setNews(news);
+      } catch (error) {
+        console.log(error);
       }
     }
     if (user) {
@@ -44,7 +44,7 @@ export function Profile() {
   }
 
   if (open.newNews) {
-    return <NewNews open={open.newNews} setOpen={setOpen} token={token} />;
+    return <CreateNews open={open.newNews} setOpen={setOpen} />;
   }
 
   if (open.editUser) {
@@ -99,10 +99,10 @@ export function Profile() {
               <p>{user?.username}</p>
             </div>
 
-            <S.CreateNews onClick={() => setOpen({ newNews: true })}>
+            <Button onClick={() => setOpen({ newNews: true })}>
               <PlusCircle size={20} />
-              <span>Criar notícia</span>
-            </S.CreateNews>
+              <span style={{ marginLeft: "0.3rem" }}>Nova notícia</span>
+            </Button>
           </S.BoxText>
         </S.ContainerCardProfile>
 
@@ -111,8 +111,6 @@ export function Profile() {
         ) : (
           <Empty title="Você ainda não possui nenhuma notícia" />
         )}
-
-        {!!message && <h1>{message}</h1>}
       </S.ProfileBody>
     </>
   );

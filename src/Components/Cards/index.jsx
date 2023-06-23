@@ -68,28 +68,36 @@ export function Card({ news }) {
     <S.CardContainer>
       <Toaster />
 
-      {user?.username === news?.userName && (
-        <S.ButtonMenuCard>
-          <MoreVertical className="dots" />
+      <S.ContainerProfile>
+        <S.UserData>
+          <S.ProfileImage src="https://avatars.githubusercontent.com/u/106983293?v=4" />
+          <div>
+            <S.UserName>{news?.name}</S.UserName>
+            <S.CreatedAt>Há 2 horas</S.CreatedAt>
+          </div>
+        </S.UserData>
+        {user?.username === news?.userName && (
+          <S.ButtonMenuCard>
+            <MoreVertical className="dots" />
 
-          <S.NavCard>
-            <S.BottonNav onClick={() => setOpen({ updated: true })}>
-              <Edit size={18} />
-            </S.BottonNav>
+            <S.NavCard>
+              <S.BottonNav onClick={() => setOpen({ updated: true })}>
+                <Edit size={18} />
+              </S.BottonNav>
 
-            <S.BottonNav onClick={() => setOpen({ deleted: true })}>
-              <Trash size={18} />
-            </S.BottonNav>
-          </S.NavCard>
-        </S.ButtonMenuCard>
-      )}
+              <S.BottonNav onClick={() => setOpen({ deleted: true })}>
+                <Trash size={18} />
+              </S.BottonNav>
+            </S.NavCard>
+          </S.ButtonMenuCard>
+        )}
+      </S.ContainerProfile>
 
       <S.CardBody>
-        <div>
+        <S.Text>
           <h2>{news?.title}</h2>
           <p>{news?.text}</p>
-          <cite>{news?.userName}</cite>
-        </div>
+        </S.Text>
 
         <S.ImageNews
           src={news?.banner ? news?.banner : "../../../images/sem_imagem.png"}

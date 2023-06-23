@@ -5,19 +5,47 @@ export const CardContainer = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 1rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 0.5rem;
   background-color: #fff;
-  padding: 1.5rem;
+  padding: 1.5rem 2rem;
   position: relative;
+
+  @media (max-width: 750px) {
+    padding: 1rem;
+  }
+`;
+
+export const ContainerProfile = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const UserData = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+`;
+
+export const ProfileImage = styled.img`
+  width: 100%;
+  max-width: 15%;
+  clip-path: circle();
+`;
+
+export const UserName = styled.cite``;
+
+export const CreatedAt = styled.p`
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
 `;
 
 export const NavCard = styled.div`
   position: absolute;
   background: #fff;
-  top: 1.7rem;
-  right: 0.5rem;
+  top: 2.5rem;
+  right: 1rem;
   display: flex;
   flex-direction: column;
   border-radius: 0.3rem;
@@ -28,15 +56,11 @@ export const NavCard = styled.div`
 
 export const ButtonMenuCard = styled.div`
   border-radius: 50%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin-top: 0.5rem;
-  margin-right: 0.5rem;
   padding: 0.2rem;
   font-size: 1.2rem;
   cursor: pointer;
   transition: 0.2s;
+  align-self: start;
 
   .dots {
     color: #004aad;
@@ -48,7 +72,8 @@ export const ButtonMenuCard = styled.div`
 
   &:hover ${NavCard} {
     opacity: 1;
-    top: 2.5rem;
+    top: 4rem;
+    right: 1rem;
   }
 `;
 
@@ -82,23 +107,21 @@ export const BottonNav = styled.button`
   }
 `;
 
-export const CardBody = styled.article`
+export const CardBody = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: space-between;
   gap: 1rem;
+`;
 
+export const Text = styled.article`
+  padding: 1.5rem 0;
   h2 {
     margin-bottom: 0.8rem;
   }
 
   p {
     margin-bottom: 0.5rem;
-  }
-
-  cite {
-    color: #757575;
   }
 `;
 
@@ -108,7 +131,6 @@ export const ImageNews = styled.img`
   /* max-width: 10rem;
     max-height: 10rem; */
   border-radius: 0.3rem;
-  margin: 1rem;
   object-fit: cover;
 
   @media (max-width: 750px) {

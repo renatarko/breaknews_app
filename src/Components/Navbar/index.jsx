@@ -23,6 +23,7 @@ export function Navbar() {
 
   const handleInputSearch = (e) => {
     setInputSearch(e.target.value);
+    navigate("/search");
   };
 
   const debounceInputHandleChange = useCallback(
@@ -37,7 +38,7 @@ export function Navbar() {
   }, []);
 
   function moveToProfile() {
-    navigate(`/breaknews_app/profile`);
+    navigate(`/profile`);
   }
 
   return (
@@ -58,7 +59,7 @@ export function Navbar() {
             handleGoOut={signOut}
           />
         ) : (
-          <Link to="/breaknews_app/login">
+          <Link to="/login">
             <Button>Entrar</Button>
           </Link>
         )}

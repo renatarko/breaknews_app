@@ -31,7 +31,7 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
             handleGoOut={signOut}
           />
         ) : (
-          <Link to="breaknews_app/login">
+          <Link to="/login">
             <Button handleClick={() => ({})}>Login</Button>
           </Link>
         )}

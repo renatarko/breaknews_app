@@ -38,7 +38,7 @@ export const Empty = ({ title = "404 - Página não encontrada", hasLink }) => {
 
       <Title>{title}</Title>
 
-      {hasLink && <Link to="/breaknews_app/">Voltar para a home</Link>}
+      {hasLink && <Link to="/">Voltar para a home</Link>}
     </Wrapper>
   );
 };

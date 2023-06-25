@@ -84,7 +84,7 @@ export function SignIn() {
 
       <S.ContainerNewAccount>
         <p>Não tem uma conta?</p>
-        <Link to="/breaknews_app/sign-up" style={{ textDecoration: "none" }}>
+        <Link to="/sign-up" style={{ textDecoration: "none" }}>
           <S.ButtonCreatedUser>Cadastre-se</S.ButtonCreatedUser>
         </Link>
       </S.ContainerNewAccount>

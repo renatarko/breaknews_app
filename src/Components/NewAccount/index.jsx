@@ -74,7 +74,7 @@ export function NewAccount() {
       setLoading(false);
 
       setTimeout(() => {
-        navigative(`/breaknews_app/login`);
+        navigative(`/login`);
       }, 3000);
     } catch (error) {
       console.log(error.message);

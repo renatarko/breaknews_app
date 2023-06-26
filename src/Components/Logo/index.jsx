@@ -16,7 +16,7 @@ const ImageLogo = styled.img`
 
 export const Logo = ({ white, small }) => {
   return (
-    <Wrapper href="/breaknews_app/">
+    <Wrapper href="/">
       <ImageLogo
         small={small}
         src={white ? logoWhite : logoBlue}

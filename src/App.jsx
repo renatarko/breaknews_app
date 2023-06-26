@@ -10,6 +10,8 @@ import { Empty } from "./Components/Empty";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { AuthProvider } from "./Context/authContext";
 import { SearchProvider } from "./Context/searchContext";
+import { SignUp } from "./Pages/SignUp";
+import { Search } from "./Pages/Search";
 
 function App() {
   return (
@@ -24,7 +26,7 @@ function App() {
               <Route path="/profile" Component={Profile} />
               <Route path="/login" Component={Login} />
               <Route path="/sign-up" Component={SignUp} />
-              <Route path="/search/" Component={Search} />
+              <Route path="/search" Component={Search} />
               <Route path="*" element={<Empty />} />
             </Routes>
           </SearchProvider>

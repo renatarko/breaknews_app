@@ -21,7 +21,7 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
         <X className="btn-close" onClick={() => setOpenMenu(false)} />
 
         <S.Container>
-          <Logo />
+          <Logo white />
         </S.Container>
 
         {user ? (
@@ -32,7 +32,7 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
           />
         ) : (
           <Link to="/login">
-            <Button handleClick={() => ({})}>Login</Button>
+            <Button>Login</Button>
           </Link>
         )}
 

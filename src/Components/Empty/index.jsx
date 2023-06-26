@@ -52,6 +52,7 @@ export const Empty = ({
       <Title>{title}</Title>
 
       {hasLink && <Link to="/">Voltar para página inicial</Link>}
+
     </Wrapper>
   );
 };

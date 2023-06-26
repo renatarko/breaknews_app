@@ -56,7 +56,7 @@ export const SearchNav = ({ onChange }) => {
           className="input_search"
           type="text"
           placeholder="Pesquise uma notícia"
-          onChange={onChange}
+          onInput={onChange}
         />
         <Search className="icon_search" />
       </Container>

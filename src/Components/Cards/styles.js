@@ -34,6 +34,20 @@ export const ProfileImage = styled.img`
   clip-path: circle();
 `;
 
+export const ProfileWithoutImage = styled.div`
+  width: 4rem;
+  height: 4rem;
+  padding: 0.5rem;
+  background: #80808030;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  color: #004aad;
+`;
+
 export const UserName = styled.cite``;
 
 export const CreatedAt = styled.p`

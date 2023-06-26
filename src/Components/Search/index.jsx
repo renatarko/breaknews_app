@@ -5,7 +5,6 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  margin-left: 1.5rem;
 
   > .input_search {
     width: 100%;
@@ -18,7 +17,7 @@ const Container = styled.div`
     border: 1px solid transparent;
 
     :focus {
-      border-color: #0bade3;
+      border-color: #0037806e;
     }
   }
 
@@ -31,6 +30,7 @@ const Container = styled.div`
 
   @media (max-width: 600px) {
     width: 100%;
+    margin-left: 1.5rem;
   }
 `;
 
@@ -44,6 +44,7 @@ const Wrapper = styled.div`
     padding: 1.5rem 3rem;
     display: flex;
     align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
     z-index: 100;
   }
 `;

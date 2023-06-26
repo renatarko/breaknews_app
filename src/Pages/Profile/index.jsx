@@ -62,7 +62,7 @@ export function Profile() {
       <S.ProfileBody>
         <S.ContentSettings>
           <S.Settings>
-            <Link to="/breaknews_app">
+            <Link to="/">
               <ArrowLeftCircle size={24} />
             </Link>
           </S.Settings>

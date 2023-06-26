@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     if (!userLog?.token) {
-      return navigate("/breaknews_app/");
+      return navigate("/");
     }
   }, []);
 
@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }) => {
   function signOut() {
     localStorage.clear(token);
     setUser("");
-    navigate("/breaknews_app/");
+    navigate("/");
     return;
   }
 

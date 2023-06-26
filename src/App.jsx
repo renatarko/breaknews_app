@@ -10,6 +10,7 @@ import { SignIn } from "./Components/SignIn";
 import { AuthProvider } from "./Context/authContext";
 import { SearchProvider } from "./Context/searchContext";
 import { SignUp } from "./Pages/SignUp";
+import { Search } from "./Pages/Search";
 
 function App() {
   return (
@@ -20,11 +21,11 @@ function App() {
           <SearchProvider>
             <Navbar />
             <Routes>
-              <Route path="breaknews_app" Component={Home} />
-              <Route path="breaknews_app/profile" Component={Profile} />
-              <Route path="breaknews_app/login" Component={Login} />
-              <Route path="breaknews_app/sign-up" Component={SignUp} />
-              {/* <Route path="breaknews_app/search/:search" Component={Search} /> */}
+              <Route path="/" Component={Home} />
+              <Route path="/profile" Component={Profile} />
+              <Route path="/login" Component={Login} />
+              <Route path="/sign-up" Component={SignUp} />
+              <Route path="/search" Component={Search} />
               <Route path="*" element={<Empty />} />
             </Routes>
           </SearchProvider>

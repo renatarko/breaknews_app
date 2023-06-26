@@ -13,7 +13,7 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
   const { signOut, user } = useAuth();
 
   function goToProfile() {
-    navigate(`breaknews_app/profile/${user?.username}`);
+    navigate(`/profile`);
   }
   return (
     <>
@@ -21,7 +21,7 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
         <X className="btn-close" onClick={() => setOpenMenu(false)} />
 
         <S.Container>
-          <Logo />
+          <Logo white />
         </S.Container>
 
         {user ? (
@@ -31,8 +31,8 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
             handleGoOut={signOut}
           />
         ) : (
-          <Link to="breaknews_app/login">
-            <Button handleClick={() => ({})}>Login</Button>
+          <Link to="/login">
+            <Button>Login</Button>
           </Link>
         )}
 

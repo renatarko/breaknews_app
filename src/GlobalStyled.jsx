@@ -8,6 +8,10 @@ export const GlobalStyled = createGlobalStyle`
     font-family: 'Work Sans', sans-serif;
   }
 
+  a{
+    text-decoration: none;
+  }
+
   html {
     width: auto;
   }

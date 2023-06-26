@@ -5,7 +5,6 @@ export const Container = styled.section`
   margin: 0 auto;
   padding-top: 6rem;
   padding-bottom: 6rem;
-  /* padding: 1rem 0; */
   display: flex;
   flex-direction: column;
   justify-content: center;

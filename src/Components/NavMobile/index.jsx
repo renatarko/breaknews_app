@@ -13,7 +13,7 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
   const { signOut, user } = useAuth();
 
   function goToProfile() {
-    navigate(`breaknews_app/profile/${user?.username}`);
+    navigate(`/profile`);
   }
   return (
     <>
@@ -31,7 +31,7 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
             handleGoOut={signOut}
           />
         ) : (
-          <Link to="breaknews_app/login">
+          <Link to="/login">
             <Button handleClick={() => ({})}>Login</Button>
           </Link>
         )}

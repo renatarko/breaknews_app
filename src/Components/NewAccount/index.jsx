@@ -87,7 +87,7 @@ export function NewAccount() {
     <>
       <Toaster />
       <Link
-        to="/breaknews_app/login"
+        to="/login"
         style={{
           position: "absolute",
           zIndex: 1000,

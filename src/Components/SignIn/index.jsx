@@ -50,7 +50,7 @@ export function SignIn() {
       const user = await signIn(userLogin);
 
       if (user) {
-        return navigative(`/breaknews_app/profile`);
+        return navigative(`/profile`);
       }
     } catch (error) {
       console.log("error", error.message);
@@ -84,7 +84,7 @@ export function SignIn() {
 
       <S.ContainerNewAccount>
         <p>Não tem uma conta?</p>
-        <Link to="/breaknews_app/sign-up" style={{ textDecoration: "none" }}>
+        <Link to="/sign-up" style={{ textDecoration: "none" }}>
           <S.ButtonCreatedUser>Cadastre-se</S.ButtonCreatedUser>
         </Link>
       </S.ContainerNewAccount>

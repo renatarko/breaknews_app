@@ -50,7 +50,7 @@ export function SignIn() {
       const user = await signIn(userLogin);
 
       if (user) {
-        return navigative(`/breaknews_app/profile`);
+        return navigative(`/profile`);
       }
     } catch (error) {
       console.log("error", error.message);

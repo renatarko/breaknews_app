@@ -1,49 +1,69 @@
 import { useEffect, useState } from "react";
-import { Card } from "../../Components/Cards/index";
 import { useSearch } from "../../Context/searchContext";
-import { getNNewsBySearchService } from "../../Services/postsServices";
+import { getNewsFromSearchService } from "../../Services/postsServices";
+import { Card } from "../../Components/Cards/index";
 import { Container } from "../Home/styles";
-import { ErrorMessage, SearchBody } from "./styles";
+import { Empty } from "../../Components/Empty";
+import { SearchBody } from "./styles";
+import { ClipLoader } from "react-spinners";
 
 export function Search() {
   const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const { inputSearch } = useSearch();
 
   useEffect(() => {
-    getNewsBySearch();
+    getNewsFromSearch();
   }, [inputSearch]);
 
-  async function getNewsBySearch() {
-    const response = await getNNewsBySearchService();
-    const data = await response.json();
+  async function getNewsFromSearch() {
+    setLoading(true);
+    try {
+      const response = await getNewsFromSearchService(0);
+      const { results } = await response.json();
 
-    const allNews = data.results;
+      const regex = new RegExp(inputSearch, "i");
+      const filterNews = results.filter((item) => {
+        return regex.test(item.title);
+      });
 
-    const filterNews = allNews.filter((item) => {
-      const eachText = item.text;
-      const searchWord = inputSearch;
-      return eachText.includes(searchWord);
-    });
-
-    if (filterNews) {
       setNews(filterNews);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
+
+  const override = {
+    marginTop: "10rem",
+    borderColor: "rgb(0, 74, 173)",
+  };
+
   return (
     <>
       <Container>
-        <SearchBody>
-          {news?.map((item) => {
-            return <Card key={item.id} news={item} />;
-          })}
-        </SearchBody>
+        {loading ? (
+          <ClipLoader cssOverride={override} />
+        ) : (
+          <SearchBody>
+            {news?.map((item) => {
+              return <Card key={item.id} news={item} />;
+            })}
+          </SearchBody>
+        )}
 
-        {news.length === 0 ? (
-          <ErrorMessage>
-            😢 Ops, não encontramos resultado para sua pesquisa
-          </ErrorMessage>
-        ) : null}
+        {news.length === 0 && (
+          <>
+            <Empty
+              small
+              title="Ops, não encontramos resultado para sua pesquisa!"
+              hasLink
+            />
+          </>
+        )}
       </Container>
     </>
   );

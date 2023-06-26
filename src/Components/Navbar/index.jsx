@@ -14,12 +14,11 @@ import { SearchNav } from "../Search";
 import * as S from "./styles";
 
 export function Navbar() {
-  const navigate = useNavigate();
-
   const [openMenu, setOpenMenu] = useState(false);
 
   const { setInputSearch } = useSearch();
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const handleInputSearch = (e) => {
     setInputSearch(e.target.value);

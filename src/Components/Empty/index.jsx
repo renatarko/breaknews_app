@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,21 +24,34 @@ const Wrapper = styled.div`
 
 const Image = styled.img`
   max-width: 100%;
+  ${({ small }) => css`
+    width: ${small && "15rem"};
+  `}
 `;
 
 const Title = styled.h3`
   margin-top: 1rem;
   margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  text-align: center;
+
+  @media (max-width: 450px) {
+    font-size: 1.1rem;
+  }
 `;
 
-export const Empty = ({ title = "404 - Página não encontrada", hasLink }) => {
+export const Empty = ({
+  title = "404 - Página não encontrada",
+  hasLink,
+  small,
+}) => {
   return (
     <Wrapper>
-      <Image src="/images/empty.png" alt="" />
+      <Image src="/images/empty.png" alt="" small={small} />
 
       <Title>{title}</Title>
 
-      {hasLink && <Link to="/breaknews_app/">Voltar para a home</Link>}
+      {hasLink && <Link to="/">Voltar para página inicial</Link>}
     </Wrapper>
   );
 };

@@ -144,7 +144,7 @@ export function NewAccount() {
           placeholder="Senha"
         />
         <ErrorMessage>{errorMessage}</ErrorMessage>
-        <Button handleClick={cadastrar} disabled={isDisabled}>
+        <Button onClick={cadastrar} disabled={isDisabled}>
           {loading ? <ClipLoader color="#fff" size={16} /> : "Cadastrar"}
         </Button>
       </Form>

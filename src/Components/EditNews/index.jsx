@@ -64,7 +64,7 @@ export function EditNews({ news, open, setOpen }) {
               placeholder="Texto"
             ></textarea>
 
-            <Button handleClick={sendUpdatedNews}>Atualizar</Button>
+            <Button onClick={sendUpdatedNews}>Atualizar</Button>
           </Form>
         </Modal>
       ) : null}

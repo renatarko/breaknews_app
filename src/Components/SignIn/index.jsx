@@ -78,7 +78,7 @@ export function SignIn() {
         onInput={handleChangeInput}
       />
       <S.Error>{messageError}</S.Error>
-      <Button handleClick={fazerLogin} disabled={isDisabled}>
+      <Button onClick={fazerLogin} disabled={isDisabled}>
         {loading ? <ClipLoader color="#fff" size={16} /> : "enviar"}
       </Button>
 

@@ -83,7 +83,7 @@ export function CreateNews({ open, setOpen }) {
               onChange={handleInputChange}
             />
             <ErrorMessage>{errorMessage}</ErrorMessage>
-            <Button handleClick={createNewNews}>
+            <Button onClick={createNewNews}>
               {loading ? (
                 <ClipLoader color="#fff" size={16} />
               ) : (

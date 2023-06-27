@@ -104,7 +104,7 @@ export function EditUser({ open, setOpen }) {
               handleChange={handleInputToEditDataUser}
               value={userData.avatar}
             />
-            <Button handleClick={editUser} disabled={isLoading}>
+            <Button onClick={editUser} disabled={isLoading}>
               {isLoading ? "loading..." : "Atualizar"}
             </Button>
           </Form>

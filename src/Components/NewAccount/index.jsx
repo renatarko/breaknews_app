@@ -74,7 +74,7 @@ export function NewAccount() {
       setLoading(false);
 
       setTimeout(() => {
-        navigative(`/breaknews_app/login`);
+        navigative(`/login`);
       }, 3000);
     } catch (error) {
       console.log(error.message);
@@ -144,7 +144,7 @@ export function NewAccount() {
           placeholder="Senha"
         />
         <ErrorMessage>{errorMessage}</ErrorMessage>
-        <Button handleClick={cadastrar} disabled={isDisabled}>
+        <Button onClick={cadastrar} disabled={isDisabled}>
           {loading ? <ClipLoader color="#fff" size={16} /> : "Cadastrar"}
         </Button>
       </Form>

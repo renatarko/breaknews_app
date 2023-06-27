@@ -5,7 +5,7 @@ import {
   ThumbsUp,
   Trash,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { likeTheNewsService } from "../../Services/postsServices";
 import { Comments } from "../Commets";
@@ -19,23 +19,41 @@ export function Card({ news }) {
   const [open, setOpen] = useState({
     updated: false,
     deleted: false,
-    comments: false,
+    doComments: false,
   });
 
   const [likes, setLikes] = useState(news?.likes || []);
   const [comment, setComment] = useState(news?.comments || []);
+  const [initialName, setInitialName] = useState("");
 
   const { user, token } = useAuth();
   const userID = user?.id;
 
-  const liked = useMemo(() => {
-    return likes.some((item) => item.userId === userID?._id);
+  useEffect(() => {
+    const nameSeparetor = news?.name.split(" ");
+    const initials = nameSeparetor.map((letter) => letter.substr(0, 1));
+    return setInitialName(initials[0].concat(initials[1]));
   }, []);
+
+  const liked = useMemo(() => {
+    return likes.some((item) => {
+      return item.userId === user._id;
+    });
+  }, []);
+
+  const commented = useMemo(() => {
+    return comment.some((item) => {
+      return item.userId === user._id;
+    });
+  });
+
+  console.log(news);
 
   async function doLikeNews() {
     const newsId = news.id;
     const response = await likeTheNewsService(newsId, token);
-    await response.json();
+    const data = await response.json();
+    console.log(data);
 
     if (!token) {
       return toast("Faça o Login para curtir a notícia!", {
@@ -46,11 +64,9 @@ export function Card({ news }) {
         },
       });
     }
-
     setLikes(likes);
   }
-
-  const { updated, deleted, comments } = open;
+  const { updated, deleted, doComments } = open;
 
   if (updated) {
     return <EditNews news={news} open={open} setOpen={setOpen} />;
@@ -60,8 +76,8 @@ export function Card({ news }) {
     return <DeleteNews news={news} open={open} setOpen={setOpen} />;
   }
 
-  if (comments) {
-    return <Comments news={news} open={open.comments} setOpen={setOpen} />;
+  if (doComments) {
+    return <Comments news={news} open={open.doComments} setOpen={setOpen} />;
   }
 
   return (
@@ -70,7 +86,12 @@ export function Card({ news }) {
 
       <S.ContainerProfile>
         <S.UserData>
-          <S.ProfileImage src="https://avatars.githubusercontent.com/u/106983293?v=4" />
+          {news?.userAvatar ? (
+            <S.ProfileImage src={news?.userAvatar} />
+          ) : (
+            <S.ProfileWithoutImage>{initialName}</S.ProfileWithoutImage>
+          )}
+
           <div>
             <S.UserName>{news?.name}</S.UserName>
             <S.CreatedAt>Há 2 horas</S.CreatedAt>
@@ -101,23 +122,23 @@ export function Card({ news }) {
 
         <S.ImageNews
           src={news?.banner ? news?.banner : "../../../images/sem_imagem.png"}
-          alt="imagem"
+          alt={news?.banner}
         />
       </S.CardBody>
 
       <S.CardFooter>
         <button onClick={doLikeNews}>
           {liked ? (
-            <ThumbsUp color=" #004AAD" size={18} />
+            <ThumbsUp color="#003479" fill="#004AAD" size={18} />
           ) : (
             <ThumbsUp color="#757575" size={18} />
           )}
           <span>{likes?.length}</span>
         </button>
 
-        <button onClick={() => setOpen({ comments: true })}>
-          {comment.length ? (
-            <MessageCircle color="#004AAD" size={18} />
+        <button onClick={() => setOpen({ doComments: true })}>
+          {commented ? (
+            <MessageCircle color="#003479" fill="#004AAD" size={18} />
           ) : (
             <MessageCircle color="#757575" size={18} />
           )}

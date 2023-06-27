@@ -1,16 +1,15 @@
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { AuthProvider } from "./Context/authContext";
+import { SearchProvider } from "./Context/searchContext";
 import { GlobalStyled } from "./GlobalStyled";
 import { Home } from "./Pages/Home/index";
 import { Profile } from "./Pages/Profile/index";
 import { Login } from "./Pages/Login/index";
-
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { Empty } from "./Components/Empty";
-import { Navbar } from "./Components/Navbar";
-import { SignIn } from "./Components/SignIn";
-import { AuthProvider } from "./Context/authContext";
-import { SearchProvider } from "./Context/searchContext";
 import { SignUp } from "./Pages/SignUp";
 import { Search } from "./Pages/Search";
+
+import { Empty } from "./Components/Empty";
+import { Navbar } from "./Components/Navbar";
 
 function App() {
   return (

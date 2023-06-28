@@ -37,17 +37,15 @@ export function Card({ news }) {
 
   const liked = useMemo(() => {
     return likes.some((item) => {
-      return item.userId === user._id;
+      return item.userId === user?._id;
     });
   }, []);
 
   const commented = useMemo(() => {
     return comment.some((item) => {
-      return item.userId === user._id;
+      return item.userId === user?._id;
     });
   });
-
-  console.log(news);
 
   async function doLikeNews() {
     const newsId = news.id;
@@ -59,7 +57,7 @@ export function Card({ news }) {
       return toast("Faça o Login para curtir a notícia!", {
         icon: "👍",
         style: {
-          backgroundColor: "#0bade3",
+          backgroundColor: "rgb(6, 72, 158)",
           color: "#fff",
         },
       });

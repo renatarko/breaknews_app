@@ -1,12 +1,16 @@
 import styled from "styled-components";
 
+import { ProfileWithoutImage } from "../Cards/styles";
+
 export const Wrapper = styled.div`
+  height: 100%;
   width: 80%;
-  height: auto;
   background-color: #f5f5f5;
   padding: 1rem;
   padding-top: 3rem;
   border-radius: 0.4rem;
+  z-index: 50;
+  margin: 0 0.7rem;
 
   display: flex;
   flex-direction: column;
@@ -15,14 +19,19 @@ export const Wrapper = styled.div`
 
   .btn-close {
     position: absolute;
-    top: 0.3rem;
-    right: 0.2rem;
+    top: 0rem;
+    right: 0;
+    margin: 0.5rem;
     cursor: pointer;
     transition: 0.2s ease-in-out;
 
     &:hover {
       transform: scale(1.1);
     }
+  }
+
+  @media (max-width: 450px) {
+    width: 100%;
   }
 `;
 
@@ -34,26 +43,61 @@ export const CommentsForm = styled.form`
 
 export const Comments = styled.div`
   overflow: auto;
-  flex: 1;
   padding: 0.5rem;
+  padding-bottom: 1.5rem;
   position: relative;
 `;
 
 export const Comment = styled.div`
-  margin: 0.5rem 0;
-  padding: 1rem;
-  background-color: #fff;
+  padding-top: 1rem;
   display: flex;
-  justify-content: space-between;
+  gap: 0.5rem;
   align-items: center;
 
-  & svg {
-    color: rgb(11, 173, 227);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+  ${ProfileWithoutImage} {
+    width: 3rem;
+    height: 3rem;
+  }
+`;
 
-    &:hover {
-      transform: scale(1.05);
+export const ImageUser = styled.img`
+  max-width: 5%;
+  min-width: 1rem;
+  clip-path: circle();
+`;
+
+export const CommentByUser = styled.div`
+  width: 100%;
+  background-color: #fff;
+  padding: 0.8rem;
+  border-radius: 0px 20px 20px 20px;
+
+  .comment {
+    margin-top: 0.5rem;
+  }
+`;
+
+export const UserAndCreated = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .username {
+    font-size: 1rem;
+  }
+`;
+
+export const CreatedAt = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .btn-more {
+    cursor: pointer;
+    transition: 0.2s;
+
+    :hover {
+      transform: rotate(90deg);
     }
   }
 `;
@@ -68,6 +112,6 @@ export const CommentsInput = styled.textarea`
   border: 1px solid #ccc;
   border-radius: 0.4rem;
   &:focus {
-    border-color: rgb(11, 173, 227);
+    border-color: #06489e;
   }
 `;

@@ -1,104 +1,197 @@
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
+import { CircleLoader } from "react-spinners";
+import { useAuth } from "../../Context/authContext";
+import { formatData } from "../../Services/formatDate";
+import { initialName } from "../../Services/initialName";
 import {
   addCommentsTheNewsService,
   deleteCommentsTheNewsService,
 } from "../../Services/postsServices";
+
+import { Button } from "../Button";
 import { Card } from "../Cards";
-
-import { FaTrash } from "react-icons/fa";
-
-import { X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../Context/authContext";
+import { ProfileWithoutImage } from "../Cards/styles";
 import { DeleteModal } from "../DeleteModal";
 import { Modal } from "../Modal";
+
+import { Send, X } from "lucide-react";
 import * as S from "./styles";
 
 export function Comments({ news, open, setOpen }) {
   const [input, setInput] = useState("");
+  const [idComments, setIdComments] = useState("");
+  const [newsComments, setNewsComments] = useState(news.comments);
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isdisabled, setIsDisabled] = useState(true);
 
-  const navigate = useNavigate();
-  const { token } = useAuth();
+  const { user, token } = useAuth();
 
   const newsId = news.id;
 
   function handleChange(e) {
-    const { value } = e.target;
+    const { name, value } = e.target;
 
-    setInput(value);
+    const inputUpdated = { ...input, [name]: value };
+
+    setInput(inputUpdated);
+    checkInputValue(inputUpdated);
+  }
+
+  function checkInputValue(inputUpdated) {
+    const isValue = inputUpdated.comment;
+    setIsDisabled(!isValue);
   }
 
   async function sendComment(e) {
     e.preventDefault();
 
-    const response = await addCommentsTheNewsService(newsId, token, input);
-    await response.json();
-    // console.log(data);
-  }
+    setLoading(true);
+    try {
+      const response = await addCommentsTheNewsService(newsId, token, input);
+      const { message, commentCreated } = await response.json();
 
-  async function deleteComment(commentId = item.idComment) {
-    const response = await deleteCommentsTheNewsService(
-      newsId,
-      commentId,
-      token
-    );
-    const data = await response.json();
-    // console.log(data);
+      if (message === "Token Invalid!") {
+        const toast = toast(
+          (t) => (
+            <span
+              style={{ display: "flex", gap: "0.2rem", alignItems: "center" }}
+            >
+              Sua sessão expirou.
+              <Link
+                to="/login"
+                onClick={() => toast.dismiss(t.id)}
+                style={{ textDecoration: "none" }}
+              >
+                <Button>Login</Button>
+              </Link>
+            </span>
+          ),
+          {
+            style: {
+              background: "#fff",
+              color: "rgb(0, 55, 128)",
+            },
+          }
+        );
+        return toast;
+      }
 
-    if (data.message === "comment deleted successfully") {
-      setOpenModal(false);
-      navigate(0);
+      setNewsComments([...newsComments, commentCreated]);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
+  function handleClickModalDelete(idComment) {
+    setOpenModal(true);
+    setIdComments(idComment);
+  }
+
+  async function deleteComment() {
+    setLoading(true);
+    try {
+      const response = await deleteCommentsTheNewsService(
+        newsId,
+        idComments,
+        token
+      );
+      await response.json();
+
+      setLoading(false);
+      setOpenModal(false);
+      setNewsComments(
+        newsComments.filter((comment) => comment.idComment !== idComments)
+      );
+    } catch {
+      setLoading(false);
+    }
+  }
+  console.log(news);
+
   return (
     <>
+      <Toaster />
       {open ? (
         <Modal>
           <S.Wrapper>
             <X className="btn-close" onClick={() => setOpen(false)} />
             <Card news={news} />
-            {/* fazer um map dos comentários */}
+
             <S.Comments>
-              {news.comments.length &&
-                news.comments.map((item) => {
+              {news.comments.length > 0 &&
+                newsComments.map((item) => {
                   return (
                     <S.Comment key={item.idComment}>
-                      <p>{item.comment}</p>
-                      <FaTrash onClick={() => setOpenModal(true)} />
-
-                      {openModal && (
-                        <DeleteModal
-                          title="Deletar comentário"
-                          description="Certeza que deseja apagar este comentário?"
-                          open={openModal}
-                          setOpen={setOpenModal}
-                          handleChange={() => deleteComment(item.idComment)}
+                      {item.avatar ? (
+                        <S.ImageUser
+                          src={item.avatar}
+                          alt={`imagem que reprensenta ${item.name}`}
                         />
+                      ) : (
+                        <ProfileWithoutImage>
+                          {initialName(item.name)}
+                        </ProfileWithoutImage>
                       )}
+                      <S.CommentByUser>
+                        <S.UserAndCreated>
+                          <strong className="username">{item.name}</strong>
+
+                          <S.CreatedAt>
+                            <span>{formatData(item.createdAt)}</span>
+
+                            {user._id === item.userId && (
+                              <X
+                                onClick={() =>
+                                  handleClickModalDelete(item.idComment)
+                                }
+                                className="btn-delete"
+                                color="rgb(0, 55, 128)"
+                                size={16}
+                              />
+                            )}
+                          </S.CreatedAt>
+                        </S.UserAndCreated>
+
+                        <p className="comment">{item.comment}</p>
+                      </S.CommentByUser>
                     </S.Comment>
                   );
                 })}
             </S.Comments>
 
-            <S.CommentsForm>
-              <S.CommentsInput
-                placeholder="Comente aqui"
-                onChange={handleChange}
+            {openModal && (
+              <DeleteModal
+                title="Deletar comentário"
+                description="Certeza que deseja excluir este comentário?"
+                open={openModal}
+                setOpen={setOpenModal}
+                handleChange={deleteComment}
+                loading={loading}
               />
-              {/* <ButtonS
-                style={{
-                  position: "absolute",
-                  right: 0,
-                  bottom: 0,
-                  margin: "0.5rem",
-                }}
-                onClick={sendComment}
-              >
-                Enviar
-              </ButtonS> */}
-            </S.CommentsForm>
+            )}
+
+            {token && (
+              <S.CommentsForm>
+                <S.CommentsInput
+                  placeholder="Comente aqui"
+                  name="comment"
+                  onInput={handleChange}
+                />
+                <Button onClick={sendComment} absolute disabled={isdisabled}>
+                  {loading ? (
+                    <CircleLoader color="#fff" size={14} />
+                  ) : (
+                    <Send className="icon-send" />
+                  )}
+                </Button>
+              </S.CommentsForm>
+            )}
           </S.Wrapper>
         </Modal>
       ) : null}

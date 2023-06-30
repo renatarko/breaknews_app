@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  /* width: 100%;
-  height: 100%; */
-  /* background-color: #00000080; */
+  backdrop-filter: blur(3px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,10 +43,11 @@ const Button = styled.button`
   cursor: pointer;
   color: #fff;
   border: none;
-  opacity: 0.8;
+  text-transform: uppercase;
 `;
+
 export const ButtonConfirm = styled(Button)`
-  background-color: rgb(11, 173, 227);
+  background-color: #003780;
 `;
 
 export const ButtonNo = styled(Button)`

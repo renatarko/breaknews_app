@@ -5,8 +5,9 @@ import {
   ThumbsUp,
   Trash,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { Toaster, toast } from "react-hot-toast";
+import { useMemo, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
+import { initialName } from "../../Services/initialName";
 import { likeTheNewsService } from "../../Services/postsServices";
 import { Comments } from "../Commets";
 import { DeleteNews } from "../DeleteNews/index";
@@ -22,18 +23,10 @@ export function Card({ news }) {
     doComments: false,
   });
 
-  const [likes, setLikes] = useState(news?.likes || []);
-  const [comment, setComment] = useState(news?.comments || []);
-  const [initialName, setInitialName] = useState("");
+  const [likes, setLikes] = useState(news.likes || []);
+  const [comment, setComment] = useState(news.comments || []);
 
   const { user, token } = useAuth();
-  const userID = user?.id;
-
-  useEffect(() => {
-    const nameSeparetor = news?.name.split(" ");
-    const initials = nameSeparetor.map((letter) => letter.substr(0, 1));
-    return setInitialName(initials[0].concat(initials[1]));
-  }, []);
 
   const liked = useMemo(() => {
     return likes.some((item) => {
@@ -50,8 +43,7 @@ export function Card({ news }) {
   async function doLikeNews() {
     const newsId = news.id;
     const response = await likeTheNewsService(newsId, token);
-    const data = await response.json();
-    console.log(data);
+    await response.json();
 
     if (!token) {
       return toast("Faça o Login para curtir a notícia!", {
@@ -87,7 +79,9 @@ export function Card({ news }) {
           {news?.userAvatar ? (
             <S.ProfileImage src={news?.userAvatar} />
           ) : (
-            <S.ProfileWithoutImage>{initialName}</S.ProfileWithoutImage>
+            <S.ProfileWithoutImage>
+              {initialName(news.userName)}
+            </S.ProfileWithoutImage>
           )}
 
           <div>
@@ -120,7 +114,7 @@ export function Card({ news }) {
 
         <S.ImageNews
           src={news?.banner ? news?.banner : "../../../images/sem_imagem.png"}
-          alt={news?.banner}
+          alt={news?.title}
         />
       </S.CardBody>
 

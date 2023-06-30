@@ -1,20 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 import { CircleLoader } from "react-spinners";
 import { useAuth } from "../../Context/authContext";
+import { formatData } from "../../Services/formatDate";
+import { initialName } from "../../Services/initialName";
 import {
   addCommentsTheNewsService,
   deleteCommentsTheNewsService,
 } from "../../Services/postsServices";
-import { formatarData } from "../../Services/formatDate";
-import { initialName } from "../../Services/initialName";
 
+import { Button } from "../Button";
 import { Card } from "../Cards";
+import { ProfileWithoutImage } from "../Cards/styles";
 import { DeleteModal } from "../DeleteModal";
 import { Modal } from "../Modal";
-import { Button } from "../Button";
 
 import { Send, X } from "lucide-react";
-import { ProfileWithoutImage } from "../Cards/styles";
 import * as S from "./styles";
 
 export function Comments({ news, open, setOpen }) {
@@ -23,9 +25,9 @@ export function Comments({ news, open, setOpen }) {
   const [newsComments, setNewsComments] = useState(news.comments);
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [Isdisabled, setIsDisabled] = useState(true);
+  const [isdisabled, setIsDisabled] = useState(true);
 
-  const { token } = useAuth();
+  const { user, token } = useAuth();
 
   const newsId = news.id;
 
@@ -49,8 +51,35 @@ export function Comments({ news, open, setOpen }) {
     setLoading(true);
     try {
       const response = await addCommentsTheNewsService(newsId, token, input);
-      const data = await response.json();
-      setNewsComments([...newsComments, data.commentCreated]);
+      const { message, commentCreated } = await response.json();
+
+      if (message === "Token Invalid!") {
+        const toast = toast(
+          (t) => (
+            <span
+              style={{ display: "flex", gap: "0.2rem", alignItems: "center" }}
+            >
+              Sua sessão expirou.
+              <Link
+                to="/login"
+                onClick={() => toast.dismiss(t.id)}
+                style={{ textDecoration: "none" }}
+              >
+                <Button>Login</Button>
+              </Link>
+            </span>
+          ),
+          {
+            style: {
+              background: "#fff",
+              color: "rgb(0, 55, 128)",
+            },
+          }
+        );
+        return toast;
+      }
+
+      setNewsComments([...newsComments, commentCreated]);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -83,9 +112,11 @@ export function Comments({ news, open, setOpen }) {
       setLoading(false);
     }
   }
+  console.log(news);
 
   return (
     <>
+      <Toaster />
       {open ? (
         <Modal>
           <S.Wrapper>
@@ -93,7 +124,7 @@ export function Comments({ news, open, setOpen }) {
             <Card news={news} />
 
             <S.Comments>
-              {news.comments.length &&
+              {news.comments.length > 0 &&
                 newsComments.map((item) => {
                   return (
                     <S.Comment key={item.idComment}>
@@ -112,14 +143,18 @@ export function Comments({ news, open, setOpen }) {
                           <strong className="username">{item.name}</strong>
 
                           <S.CreatedAt>
-                            <span>{formatarData(item.createdAt)}</span>
-                            <X
-                              onClick={() =>
-                                handleClickModalDelete(item.idComment)
-                              }
-                              className="btn-more"
-                              color="rgb(0, 55, 128)"
-                            />
+                            <span>{formatData(item.createdAt)}</span>
+
+                            {user._id === item.userId && (
+                              <X
+                                onClick={() =>
+                                  handleClickModalDelete(item.idComment)
+                                }
+                                className="btn-delete"
+                                color="rgb(0, 55, 128)"
+                                size={16}
+                              />
+                            )}
                           </S.CreatedAt>
                         </S.UserAndCreated>
 
@@ -141,20 +176,22 @@ export function Comments({ news, open, setOpen }) {
               />
             )}
 
-            <S.CommentsForm>
-              <S.CommentsInput
-                placeholder="Comente aqui"
-                name="comment"
-                onInput={handleChange}
-              />
-              <Button onClick={sendComment} absolute disabled={Isdisabled}>
-                {loading ? (
-                  <CircleLoader color="#fff" size={14} />
-                ) : (
-                  <Send className="icon-send" />
-                )}
-              </Button>
-            </S.CommentsForm>
+            {token && (
+              <S.CommentsForm>
+                <S.CommentsInput
+                  placeholder="Comente aqui"
+                  name="comment"
+                  onInput={handleChange}
+                />
+                <Button onClick={sendComment} absolute disabled={isdisabled}>
+                  {loading ? (
+                    <CircleLoader color="#fff" size={14} />
+                  ) : (
+                    <Send className="icon-send" />
+                  )}
+                </Button>
+              </S.CommentsForm>
+            )}
           </S.Wrapper>
         </Modal>
       ) : null}

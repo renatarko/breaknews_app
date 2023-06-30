@@ -2,7 +2,6 @@ import styled, { css } from "styled-components";
 
 const CustomButton = styled.button`
   padding: 0.6rem 1rem;
-  margin-top: 1rem;
   background-color: #003780;
   border: none;
   border-radius: 0.5rem;

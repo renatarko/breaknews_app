@@ -10,6 +10,7 @@ import { SignUp } from "./Pages/SignUp";
 
 import { Empty } from "./Components/Empty";
 import { Navbar } from "./Components/Navbar";
+import { NewsProvider } from "./Context/newsContext";
 
 function App() {
   return (
@@ -17,17 +18,19 @@ function App() {
       <Router>
         <GlobalStyled />
         <AuthProvider>
-          <SearchProvider>
-            <Navbar />
-            <Routes>
-              <Route path="/" Component={Home} />
-              <Route path="/profile" Component={Profile} />
-              <Route path="/login" Component={Login} />
-              <Route path="/sign-up" Component={SignUp} />
-              <Route path="/search" Component={Search} />
-              <Route path="*" element={<Empty />} />
-            </Routes>
-          </SearchProvider>
+          <NewsProvider>
+            <SearchProvider>
+              <Navbar />
+              <Routes>
+                <Route path="/" Component={Home} />
+                <Route path="/profile" Component={Profile} />
+                <Route path="/login" Component={Login} />
+                <Route path="/sign-up" Component={SignUp} />
+                <Route path="/search" Component={Search} />
+                <Route path="*" element={<Empty />} />
+              </Routes>
+            </SearchProvider>
+          </NewsProvider>
         </AuthProvider>
       </Router>
     </>

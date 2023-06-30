@@ -13,6 +13,7 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
   const { signOut, user } = useAuth();
 
   function goToProfile() {
+    setOpenMenu(false);
     navigate(`/profile`);
   }
   return (
@@ -21,7 +22,7 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
         <X className="btn-close" onClick={() => setOpenMenu(false)} />
 
         <S.Container>
-          <Logo white />
+          <Logo />
         </S.Container>
 
         {user ? (
@@ -31,7 +32,7 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
             handleGoOut={signOut}
           />
         ) : (
-          <Link to="/login">
+          <Link to="/login" onClick={() => setOpenMenu(false)}>
             <Button>Login</Button>
           </Link>
         )}

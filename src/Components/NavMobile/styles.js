@@ -1,13 +1,11 @@
 import styled, { css } from "styled-components";
 
-const Props = {};
-
 export const Wrapper = styled.div`
   display: none;
   @media (max-width: 600px) {
     ${({ openMenu }) =>
       css`
-        width: ${openMenu ? "20%" : "60%"};
+        width: ${openMenu ? "20%" : "80%"};
         padding: ${openMenu ? "0" : "1rem 1.5rem"};
       `}
 
@@ -22,7 +20,6 @@ export const Wrapper = styled.div`
     position: fixed;
     top: 0;
 
-    /* padding: 1rem 1.5rem; */
     box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 5px;
     background-color: #fff;
     z-index: 200;
@@ -34,6 +31,7 @@ export const Wrapper = styled.div`
       margin: 1rem;
       cursor: pointer;
       transition: 0.3s ease-in-out;
+      color: rgb(0, 74, 173);
 
       :hover {
         transform: scale(1.1);
@@ -49,4 +47,5 @@ export const Container = styled.nav`
 export const Text = styled.p`
   font-size: 0.8rem;
   color: #787878;
+  z-index: 200;
 `;

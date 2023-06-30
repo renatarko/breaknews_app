@@ -6,7 +6,7 @@ import {
   Trash,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { Toaster, toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { likeTheNewsService } from "../../Services/postsServices";
 import { Comments } from "../Commets";
 import { DeleteNews } from "../DeleteNews/index";
@@ -37,17 +37,15 @@ export function Card({ news }) {
 
   const liked = useMemo(() => {
     return likes.some((item) => {
-      return item.userId === user._id;
+      return item.userId === user?._id;
     });
   }, []);
 
   const commented = useMemo(() => {
     return comment.some((item) => {
-      return item.userId === user._id;
+      return item.userId === user?._id;
     });
   });
-
-  console.log(news);
 
   async function doLikeNews() {
     const newsId = news.id;

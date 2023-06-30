@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { ProfileWithoutImage } from "../Cards/styles";
 
 export const Wrapper = styled.div`
-  height: 100%;
+  max-height: 100%;
+  height: auto;
   width: 80%;
   background-color: #f5f5f5;
   padding: 1rem;
@@ -46,6 +47,7 @@ export const Comments = styled.div`
   padding: 0.5rem;
   padding-bottom: 1.5rem;
   position: relative;
+  z-index: -1;
 `;
 
 export const Comment = styled.div`
@@ -91,8 +93,9 @@ export const CreatedAt = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 0.9rem;
 
-  .btn-more {
+  .btn-delete {
     cursor: pointer;
     transition: 0.2s;
 
@@ -104,7 +107,7 @@ export const CreatedAt = styled.div`
 
 export const CommentsInput = styled.textarea`
   min-width: 100%;
-  min-height: 7rem;
+  min-height: 4rem;
   max-height: 10rem;
   padding: 0.5rem;
   outline: none;

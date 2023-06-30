@@ -1,12 +1,12 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./Context/authContext";
 import { SearchProvider } from "./Context/searchContext";
 import { GlobalStyled } from "./GlobalStyled";
 import { Home } from "./Pages/Home/index";
-import { Profile } from "./Pages/Profile/index";
 import { Login } from "./Pages/Login/index";
-import { SignUp } from "./Pages/SignUp";
+import { Profile } from "./Pages/Profile/index";
 import { Search } from "./Pages/Search";
+import { SignUp } from "./Pages/SignUp";
 
 import { Empty } from "./Components/Empty";
 import { Navbar } from "./Components/Navbar";

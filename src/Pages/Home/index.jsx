@@ -21,12 +21,16 @@ export function Home() {
     setOffset(offset + limit);
   }
 
+  const LoadingStyle = {
+    marginTop: "3rem",
+  };
+
   return (
     <>
       <Container>
         <HomeBody handleSearchInput>
           {loading ? (
-            <CircleLoader color="blue" />
+            <CircleLoader color="blue" cssOverride={LoadingStyle} />
           ) : (
             news?.map((item) => {
               return <Card news={item} key={item.id} />;
@@ -34,12 +38,13 @@ export function Home() {
           )}
         </HomeBody>
 
-        {offset < news.length &&
-          (loadingShowMore === "loading" ? (
-            <CircleLoader color="blue" size={16} />
-          ) : (
-            <ShowMore onClick={showMoreNews} withIcon text="Mostrar mais" />
-          ))}
+        {!news.length ||
+          (offset < news.length &&
+            (loadingShowMore === "loading" ? (
+              <CircleLoader color="blue" size={16} />
+            ) : (
+              <ShowMore onClick={showMoreNews} withIcon text="Mostrar mais" />
+            )))}
       </Container>
       {/* <Footer /> */}
     </>

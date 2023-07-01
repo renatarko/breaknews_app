@@ -22,6 +22,10 @@ export const Container = styled.section`
       text-decoration: underline;
     }
   }
+
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 `;
 
 export const HomeBody = styled.div`
@@ -41,7 +45,12 @@ export const HomeBody = styled.div`
   }
 
   @media (max-width: 900px) {
-    grid-template-columns: 1fr;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
 
     section:first-child {
       grid-column: span 1;

@@ -145,7 +145,7 @@ export function Comments({ news, open, setOpen }) {
                           <S.CreatedAt>
                             <span>{formatData(item.createdAt)}</span>
 
-                            {user._id === item.userId && (
+                            {user?._id === item.userId && (
                               <X
                                 onClick={() =>
                                   handleClickModalDelete(item.idComment)

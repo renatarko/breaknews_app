@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
   padding: 1rem;
   padding-top: 3rem;
   border-radius: 0.4rem;
-  z-index: 50;
+  z-index: 500;
   margin: 0 0.7rem;
 
   display: flex;

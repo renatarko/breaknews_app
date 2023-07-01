@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.form`
-  min-width: 25rem;
+  min-width: 35%;
   display: flex;
   flex-direction: column;
+  margin: 0 1rem;
 
   background-color: #fff;
   border-radius: 0.4rem;

@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 450;
   margin: 1rem 0;
 
   display: flex;

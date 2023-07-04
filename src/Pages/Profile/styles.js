@@ -9,11 +9,15 @@ export const ProfileBody = styled.section`
   flex-direction: column;
   gap: 1.5rem;
   position: relative;
+
+  @media( max-width: 650px) {
+    max-width: 95%;
+    width: 100%;
+  }
 `;
 
 export const ContentSettings = styled.div`
   display: flex;
-  /* background-color: #f5f5f5; */
   align-items: center;
   gap: 0.5rem;
   position: absolute;
@@ -21,7 +25,6 @@ export const ContentSettings = styled.div`
   z-index: 90;
   padding: 0.5rem;
   border-radius: 20px 0px 10px 20px;
-  margin: 0.2rem;
 `;
 
 export const Settings = styled.div`
@@ -40,6 +43,10 @@ export const Settings = styled.div`
   &:hover {
     background-color: #f5f5f540;
   }
+
+  @media( max-width: 650px) {
+    padding: 0.3rem 0.5rem;
+  }
 `;
 
 export const ContainerCardProfile = styled.div`
@@ -56,8 +63,12 @@ export const ContainerCardProfile = styled.div`
     width: 100%;
     height: 8rem;
     object-fit: cover;
-    background-color: rgb(16, 134, 245);
+    background-color: rgb(0, 55, 128);
     border-radius: 0.3rem 0.3rem 0 0;
+
+    @media (max-width: 600px) {
+      height: 5rem;
+    }
   }
 
   .img-profile {
@@ -71,6 +82,11 @@ export const ContainerCardProfile = styled.div`
     left: 1rem;
     border: 4px solid #fff;
     object-fit: cover;
+
+    @media (max-width: 600px) {
+      width: 5rem;
+      height: 5rem;
+    }
   }
 
   .profile {
@@ -81,6 +97,10 @@ export const ContainerCardProfile = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 600px) {
+      font-size: 1.4rem;
+    }
   }
 `;
 
@@ -89,11 +109,18 @@ export const BoxText = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
+  margin-top: 0.3rem;
 
   .name {
     font-size: 1.7rem;
     color: #000;
     margin-bottom: 0;
+  }
+
+  @media (max-width: 600px) {
+    .name {
+      font-size: 1.2rem;
+    }
   }
 `;
 

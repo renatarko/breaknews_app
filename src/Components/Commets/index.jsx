@@ -112,7 +112,6 @@ export function Comments({ news, open, setOpen }) {
       setLoading(false);
     }
   }
-  console.log(news);
 
   return (
     <>
@@ -178,7 +177,7 @@ export function Comments({ news, open, setOpen }) {
 
             {token && (
               <S.CommentsForm>
-                <S.CommentsInput
+                <S.TextArea
                   placeholder="Comente aqui"
                   name="comment"
                   onInput={handleChange}

@@ -1,12 +1,14 @@
-import { ArrowLeftCircle, PlusCircle, UserCog } from "lucide-react";
+import { ArrowLeftCircle, Plus, UserCog } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { toast, Toaster } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../Components/Button";
 import { Card } from "../../Components/Cards/index";
+import { CreateNews } from "../../Components/CreateNews/index";
 import { EditUser } from "../../Components/EditUser/index";
 import { Empty } from "../../Components/Empty";
-import { CreateNews } from "../../Components/CreateNews/index";
 import { useAuth } from "../../Context/authContext";
+import { initialName } from "../../Services/initialName";
 import { getNewsByUserService } from "../../Services/postsServices";
 import * as S from "./styles";
 
@@ -16,32 +18,31 @@ export function Profile() {
     newNews: false,
     editUser: false,
   });
-  const [username, setUsername] = useState("");
 
   const { user, token } = useAuth();
-  // pega e lista todas as notícias do usuário logado
+  const navigate = useNavigate()
+  
   useEffect(() => {
     async function getNewsByUser() {
       try {
         const response = await getNewsByUserService(token);
-        const data = await response.json();
-        const news = data.results;
-        setNews(news);
+        const {message, results} = await response.json();
+
+        if (message === "Token Invalid!") {
+         toast("Sua sessão expirou, faça o login novamente!", { icon: 
+          "🕛", style: {background: "rgb(0, 55, 128)", color:"#fff"}});
+         return setTimeout(() => {
+          navigate("/login")
+         }, 3000);
+        }
+
+        setNews(results);
       } catch (error) {
         console.log(error);
       }
     }
-    if (user) {
-      getInitials(user?.name);
-    }
     getNewsByUser();
   }, []);
-
-  async function getInitials(name) {
-    const nameSeparetor = name.split(" ");
-    const initials = nameSeparetor.map((letter) => letter.substr(0, 1));
-    return setUsername(initials[0].concat(initials[1]));
-  }
 
   if (open.newNews) {
     return <CreateNews open={open.newNews} setOpen={setOpen} />;
@@ -59,6 +60,7 @@ export function Profile() {
   }
   return (
     <>
+    <Toaster/>
       <S.ProfileBody>
         <S.ContentSettings>
           <S.Settings>
@@ -89,7 +91,7 @@ export function Profile() {
             />
           ) : (
             <div className="img-profile profile">
-              <h1>{username}</h1>
+              <h1>{initialName(user?.name)}</h1>
             </div>
           )}
 
@@ -99,9 +101,12 @@ export function Profile() {
               <p>{user?.username}</p>
             </div>
 
-            <Button onClick={() => setOpen({ newNews: true })}>
-              <PlusCircle size={20} />
-              <span style={{ marginLeft: "0.3rem" }}>Nova notícia</span>
+            <Button
+              title="Adcionar notícia"
+              withOutColor
+              onClick={() => setOpen({ newNews: true })}
+            >
+              <Plus color="rgb(0, 55, 128)" />
             </Button>
           </S.BoxText>
         </S.ContainerCardProfile>

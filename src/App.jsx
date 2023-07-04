@@ -27,7 +27,7 @@ function App() {
                 <Route path="/login" Component={Login} />
                 <Route path="/sign-up" Component={SignUp} />
                 <Route path="/search" Component={Search} />
-                <Route path="*" element={<Empty />} />
+                <Route path="*" element={<Empty hasLink />} />
               </Routes>
             </SearchProvider>
           </NewsProvider>

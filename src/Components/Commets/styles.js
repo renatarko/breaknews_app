@@ -47,7 +47,6 @@ export const Comments = styled.div`
   padding: 0.5rem;
   padding-bottom: 1.5rem;
   position: relative;
-  z-index: -1;
 `;
 
 export const Comment = styled.div`
@@ -105,7 +104,7 @@ export const CreatedAt = styled.div`
   }
 `;
 
-export const CommentsInput = styled.textarea`
+export const TextArea = styled.textarea`
   min-width: 100%;
   min-height: 4rem;
   max-height: 10rem;
@@ -114,6 +113,7 @@ export const CommentsInput = styled.textarea`
   font-size: 1.1rem;
   border: 1px solid #ccc;
   border-radius: 0.4rem;
+  background: transparent;
   &:focus {
     border-color: #06489e;
   }

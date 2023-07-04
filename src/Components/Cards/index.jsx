@@ -8,6 +8,7 @@ import {
 import { useMemo, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { initialName } from "../../Services/initialName";
+import { formatData } from "../../Services/formatDate";
 import { likeTheNewsService } from "../../Services/postsServices";
 import { Comments } from "../Commets";
 import { DeleteNews } from "../DeleteNews/index";
@@ -38,7 +39,7 @@ export function Card({ news }) {
     return comment.some((item) => {
       return item.userId === user?._id;
     });
-  });
+  }, []);
 
   async function doLikeNews() {
     const newsId = news.id;
@@ -80,13 +81,13 @@ export function Card({ news }) {
             <S.ProfileImage src={news?.userAvatar} />
           ) : (
             <S.ProfileWithoutImage>
-              {initialName(news.userName)}
+              {initialName(news.name)}
             </S.ProfileWithoutImage>
           )}
 
           <div>
             <S.UserName>{news?.name}</S.UserName>
-            <S.CreatedAt>Há 2 horas</S.CreatedAt>
+            <S.CreatedAt>há {formatData(news.creatAt)}</S.CreatedAt>
           </div>
         </S.UserData>
         {user?.username === news?.userName && (

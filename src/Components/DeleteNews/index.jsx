@@ -1,25 +1,35 @@
-import { Toaster, toast } from "react-hot-toast";
+import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/authContext";
+import { useNews } from "../../Context/newsContext";
 import { deleteNewsService } from "../../Services/postsServices";
-import { Form } from "../Form";
+import { DeleteModal } from "../DeleteModal";
 import { Modal } from "../Modal";
 
-export function DeleteNews({ news, open, setOpen }) {
-  const navigate = useNavigate();
+export function DeleteNews({ newsObj, open, setOpen }) {
+  const [loading, setLoading] = useState(false);
 
+  const { token } = useAuth();
+  const { setNews, news } = useNews();
+  const navigate = useNavigate();
   async function deleteNew(e) {
     e.preventDefault();
+    setLoading(true);
+    try {
+      const newsID = newsObj.id;
 
-    const token = localStorage.getItem("token");
-    const newsID = news.id;
+      const response = await deleteNewsService(newsID, token);
+      const data = await response.json();
+      console.log(data);
+      setLoading(false);
 
-    const response = await deleteNewsService(newsID, token);
-    const data = await response.json();
-
-    toast.success("Notícia excluída com sucesso!");
-    setOpen(false);
-
-    navigate(0);
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -27,21 +37,13 @@ export function DeleteNews({ news, open, setOpen }) {
       <Toaster />
       {open ? (
         <Modal>
-          <Form title="Apagar notícia" handleClick={() => setOpen(false)}>
-            <div className="text">
-              <i className="bi bi-x-circle-fill"></i>
-              <p>Certeza que deseja excluir esta notícia?</p>
-            </div>
-
-            <div className="containerButtons">
-              <button className="no" onClick={() => setOpen(false)}>
-                Não
-              </button>
-              <button className="yes" onClick={deleteNew}>
-                Sim
-              </button>
-            </div>
-          </Form>
+          <DeleteModal
+            handleChange={deleteNew}
+            title="Excluir notícia"
+            description="Certeza que deseja excluir essa notícia?"
+            setOpen={() => setOpen(false)}
+            loading={loading}
+          />
         </Modal>
       ) : null}
     </>

@@ -46,6 +46,11 @@ export const ProfileWithoutImage = styled.div`
   text-transform: uppercase;
   font-size: 1.2rem;
   color: #004aad;
+
+  @media (max-width: 600px) {
+    width: 2rem;
+    height: 2rem;
+  }
 `;
 
 export const UserName = styled.cite``;
@@ -66,6 +71,15 @@ export const NavCard = styled.div`
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   opacity: 0;
   transition: all 0.2s ease-in-out;
+
+  @media(max-width: 650px) {
+    opacity: 1;
+    flex-direction: row;
+    top:0;
+    right: 0;
+    margin: 0.8rem 0.4rem;
+    box-shadow: none;
+}
 `;
 
 export const ButtonMenuCard = styled.div`
@@ -77,17 +91,24 @@ export const ButtonMenuCard = styled.div`
   align-self: start;
 
   .dots {
-    color: #004aad;
+    display: none;
   }
 
   :hover {
     background-color: #80808030;
   }
 
-  &:hover ${NavCard} {
+  @media(min-width: 650px) {
+    &:hover ${NavCard} {
     opacity: 1;
     top: 4rem;
     right: 1rem;
+  }
+    .dots {
+      display: block;
+    color: #004aad;
+
+    } 
   }
 `;
 
@@ -119,6 +140,11 @@ export const BottonNav = styled.button`
   :hover svg {
     transform: scale(1.1);
   }
+
+  @media(max-width: 650px) {
+    padding: 0.4rem;
+    color: rgb(0, 55, 128);
+  }
 `;
 
 export const CardBody = styled.div`
@@ -136,6 +162,15 @@ export const Text = styled.article`
 
   p {
     margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 600px) {
+    h2 {
+      font-size: 1.2rem;
+    }
+    p {
+      font-size: 0.9rem;
+    }
   }
 `;
 

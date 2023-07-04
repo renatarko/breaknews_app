@@ -1,8 +1,6 @@
 import styled, { css } from "styled-components";
 
 const CustomButton = styled.button`
-  padding: 0.6rem 1rem;
-  background-color: #003780;
   border: none;
   border-radius: 0.5rem;
   color: #fff;
@@ -15,12 +13,14 @@ const CustomButton = styled.button`
   align-items: center;
   justify-content: center;
 
-  ${({ absolute }) => css`
+  ${({ absolute, withOutColor }) => css`
     position: ${absolute && "absolute"};
     bottom: ${absolute && "0"};
     right: ${absolute && "0"};
     margin: ${absolute && "0.7rem"};
     padding: ${absolute && "0.5rem"};
+    background-color: ${withOutColor ? "none" : "#003780"};
+    padding: ${withOutColor ? "0.3rem .5rem" : "0.6rem 1rem"};
 
     .icon-send {
       width: ${absolute && "1.6rem"};
@@ -31,11 +31,11 @@ const CustomButton = styled.button`
         width: ${absolute && "1rem"};
       }
     }
-  `}
 
-  :hover {
-    background-color: #06489e;
-  }
+    :hover {
+      background-color: ${withOutColor ? "#06489e2f" : "#06489e"};
+    }
+  `}
 
   &:disabled {
     opacity: 0.5;
@@ -43,9 +43,9 @@ const CustomButton = styled.button`
   }
 `;
 
-export const Button = ({ children, absolute, ...props }) => {
+export const Button = ({ children, absolute, withOutColor, ...props }) => {
   return (
-    <CustomButton {...props} absolute={absolute}>
+    <CustomButton {...props} absolute={absolute} withOutColor={withOutColor}>
       {children}
     </CustomButton>
   );

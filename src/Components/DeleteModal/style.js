@@ -11,11 +11,13 @@ export const Wrapper = styled.div`
   left: 0;
   right: 0;
   margin: auto;
+  z-index: 500;
 `;
 
 export const Container = styled.div`
   background-color: #fff;
   padding: 2rem;
+  border-radius: 14px;
 `;
 
 export const Title = styled.h3`

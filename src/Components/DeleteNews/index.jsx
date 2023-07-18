@@ -21,7 +21,6 @@ export function DeleteNews({ news, open, setOpen }) {
 
       setLoading(false);
       setOpen(false);
-      navigate(0);
     } catch (error) {
       console.log(error);
     } finally {

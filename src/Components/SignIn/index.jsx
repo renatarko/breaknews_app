@@ -49,8 +49,6 @@ export function SignIn() {
       if (user) {
         return navigative(`/profile`);
       }
-
-      return navigative("/");
     } catch (error) {
       console.log("error", error.message);
     } finally {

@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 import { createNewNewsService } from "../../Services/postsServices";
 import { Button } from "../Button";
+import { ErrorMessage } from "../ErrorMessage";
 import { Form } from "../Form";
 import { Input } from "../Input";
 import { Modal } from "../Modal";
-import { ErrorMessage } from "../ErrorMessage";
-import { ClipLoader } from "react-spinners";
 
 import { Link, Quote } from "lucide-react";
-import * as S from "./styles";
 import { useAuth } from "../../Context/authContext";
+import * as S from "./styles";
 
 export function CreateNews({ open, setOpen }) {
   const [loading, setLoading] = useState(false);
@@ -42,15 +42,14 @@ export function CreateNews({ open, setOpen }) {
 
     setLoading(true);
     try {
-      const response = await createNewNewsService(newNews, token);
-      const data = await response.json();
-      console.log(data);
+      const response = await createNewNewsService(token, newNews);
+      await response.json();
 
       setLoading(false);
       setOpen(false);
-      navigate(0);
+      navigate("/profile");
     } catch (error) {
-      console.log(error);
+      console.log({ error });
     } finally {
       setLoading(false);
     }
@@ -66,7 +65,7 @@ export function CreateNews({ open, setOpen }) {
               type="text"
               placeholder="Título"
               name="title"
-              handleChange={handleInputChange}
+              onChange={handleInputChange}
             />
             <Input
               icon={<Link />}

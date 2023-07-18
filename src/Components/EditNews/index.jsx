@@ -31,7 +31,6 @@ export function EditNews({ news, open, setOpen }) {
     await updatedNewsService(token, updatedNews, newsID);
 
     setOpen(false);
-    navigate(0);
   }
 
   return (
@@ -48,7 +47,7 @@ export function EditNews({ news, open, setOpen }) {
               value={updatedNews.title}
             />
             <Input
-              icon={<Link/>}
+              icon={<Link />}
               type="text"
               placeholder="Banner"
               onChange={handleInputChange}

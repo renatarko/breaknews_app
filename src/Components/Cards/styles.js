@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const CardContainer = styled.section`
   width: 100%;
@@ -61,15 +61,18 @@ export const CreatedAt = styled.p`
 `;
 
 export const NavCard = styled.div`
+  ${({ openOptions }) => css`
+    opacity: ${openOptions ? "1" : "0"};
+    top: ${openOptions ? "2.5rem" : "1rem"};
+    pointer-events: ${openOptions ? "auto" : "none"};
+  `}
   position: absolute;
   background: #fff;
-  top: 2.5rem;
-  right: 1rem;
+  right: -1.7rem;
   display: flex;
   flex-direction: column;
-  border-radius: 0.3rem;
+  border-radius: 0rem 1rem 1rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  opacity: 0;
   transition: all 0.2s ease-in-out;
 
   @media (max-width: 650px) {
@@ -89,6 +92,7 @@ export const ButtonMenuCard = styled.div`
   cursor: pointer;
   transition: 0.2s;
   align-self: start;
+  position: relative;
 
   .dots {
     display: none;
@@ -99,11 +103,11 @@ export const ButtonMenuCard = styled.div`
   }
 
   @media (min-width: 650px) {
-    &:hover ${NavCard} {
+    /* &:hover ${NavCard} {
       opacity: 1;
       top: 4rem;
       right: 1rem;
-    }
+    } */
     .dots {
       display: block;
       color: #004aad;
@@ -115,7 +119,6 @@ export const BottonNav = styled.button`
   display: flex;
   align-items: center;
   gap: 0.2rem;
-  border-radius: 0.3rem 0 0.3rem 0;
   padding: 0.5rem 1rem;
   background: none;
   border: none;

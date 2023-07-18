@@ -23,7 +23,7 @@ export function Card({ news }) {
     deleted: false,
     doComments: false,
   });
-
+  const [openOptions, setOpenOptions] = useState(false);
   const [likes, setLikes] = useState(news.likes || []);
   const [comment, setComment] = useState(news.comments || []);
 
@@ -92,10 +92,10 @@ export function Card({ news }) {
           </div>
         </S.UserData>
         {user?.username === news?.userName && (
-          <S.ButtonMenuCard>
+          <S.ButtonMenuCard onClick={() => setOpenOptions(!openOptions)}>
             <MoreVertical className="dots" />
 
-            <S.NavCard>
+            <S.NavCard openOptions={openOptions}>
               <S.BottonNav onClick={() => setOpen({ updated: true })}>
                 <Edit size={18} />
               </S.BottonNav>

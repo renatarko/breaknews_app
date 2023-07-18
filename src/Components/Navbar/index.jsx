@@ -1,11 +1,12 @@
 import debounce from "lodash.debounce";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { Menu } from "lucide-react";
 import { useSearch } from "../../Context/searchContext";
 import { Logo } from "../Logo/index";
 
+import { Menu } from "lucide-react";
+import { useState } from "react";
 import { useAuth } from "../../Context/authContext";
 import { Button } from "../Button";
 import { ButtonProfile } from "../ButtonProfile";
@@ -14,11 +15,11 @@ import { SearchNav } from "../Search";
 import * as S from "./styles";
 
 export function Navbar() {
-  const [openMenu, setOpenMenu] = useState(false);
-
   const { setInputSearch } = useSearch();
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+
+  const [openMenu, setOpenMenu] = useState(false);
 
   const handleInputSearch = (e) => {
     setInputSearch(e.target.value);
@@ -63,12 +64,10 @@ export function Navbar() {
           </Link>
         )}
       </S.Wrapper>
-      <S.BtnOpenMenu>
-        <Menu className="openMenu" onClick={() => setOpenMenu(true)} />
-        {openMenu && (
-          <NavMobile openMenu={openMenu} setOpenMenu={setOpenMenu} />
-        )}
+      <S.BtnOpenMenu onClick={() => setOpenMenu(!openMenu)}>
+        <Menu className="openMenu" />
       </S.BtnOpenMenu>
+      {openMenu && <NavMobile openMenu={openMenu} setOpenMenu={setOpenMenu} />}
     </>
   );
 }

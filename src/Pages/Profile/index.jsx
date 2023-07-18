@@ -1,12 +1,11 @@
 import { ArrowLeftCircle, Plus, UserCog } from "lucide-react";
 import { useEffect, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../Components/Button";
 import { Card } from "../../Components/Cards/index";
 import { CreateNews } from "../../Components/CreateNews/index";
 import { EditUser } from "../../Components/EditUser/index";
-import { Empty } from "../../Components/Empty";
 import { useAuth } from "../../Context/authContext";
 import { initialName } from "../../Services/initialName";
 import { getNewsByUserService } from "../../Services/postsServices";
@@ -20,21 +19,21 @@ export function Profile() {
   });
 
   const { user, token } = useAuth();
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
     async function getNewsByUser() {
       try {
         const response = await getNewsByUserService(token);
-        const {message, results} = await response.json();
+        const { message, results } = await response.json();
 
-        if (message === "Token Invalid!") {
-         toast("Sua sessão expirou, faça o login novamente!", { icon: 
-          "🕛", style: {background: "rgb(0, 55, 128)", color:"#fff"}});
-         return setTimeout(() => {
-          navigate("/login")
-         }, 3000);
-        }
+        // if (message === "Token Invalid!") {
+        //  toast("Sua sessão expirou, faça o login novamente!", { icon:
+        //   "🕛", style: {background: "rgb(0, 55, 128)", color:"#fff"}});
+        //  return setTimeout(() => {
+        //   navigate("/login")
+        //  }, 3000);
+        // }
 
         setNews(results);
       } catch (error) {
@@ -60,7 +59,7 @@ export function Profile() {
   }
   return (
     <>
-    <Toaster/>
+      <Toaster />
       <S.ProfileBody>
         <S.ContentSettings>
           <S.Settings>
@@ -114,7 +113,21 @@ export function Profile() {
         {news?.length ? (
           news?.map((item) => <Card key={item.id} news={item} />)
         ) : (
-          <Empty title="Você ainda não possui nenhuma notícia" />
+          <h1 style={{ textAlign: "end" }}>
+            Olá {user.name}!{" "}
+            <button
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "1.5rem",
+                color: "rgb(0, 55, 128)",
+              }}
+              onClick={() => setOpen({ newNews: true })}
+            >
+              Crie sua primeira notícia
+            </button>
+          </h1>
         )}
       </S.ProfileBody>
     </>

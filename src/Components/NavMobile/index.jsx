@@ -18,7 +18,7 @@ export const NavMobile = ({ openMenu, setOpenMenu }) => {
   }
   return (
     <>
-      <S.Wrapper open={openMenu}>
+      <S.Wrapper>
         <X className="btn-close" onClick={() => setOpenMenu(false)} />
 
         <S.Container>

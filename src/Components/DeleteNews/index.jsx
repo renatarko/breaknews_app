@@ -2,29 +2,26 @@ import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/authContext";
-import { useNews } from "../../Context/newsContext";
 import { deleteNewsService } from "../../Services/postsServices";
 import { DeleteModal } from "../DeleteModal";
 import { Modal } from "../Modal";
 
-export function DeleteNews({ newsObj, open, setOpen }) {
+export function DeleteNews({ news, open, setOpen }) {
   const [loading, setLoading] = useState(false);
 
   const { token } = useAuth();
-  const { setNews, news } = useNews();
   const navigate = useNavigate();
+
   async function deleteNew(e) {
     e.preventDefault();
     setLoading(true);
     try {
-      const newsID = newsObj.id;
+      const newsID = news.id;
+      await deleteNewsService(newsID, token);
 
-      const response = await deleteNewsService(newsID, token);
-      const data = await response.json();
-      console.log(data);
       setLoading(false);
-
       setOpen(false);
+      navigate(0);
     } catch (error) {
       console.log(error);
     } finally {

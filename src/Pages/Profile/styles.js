@@ -10,7 +10,7 @@ export const ProfileBody = styled.section`
   gap: 1.5rem;
   position: relative;
 
-  @media( max-width: 650px) {
+  @media (max-width: 650px) {
     max-width: 95%;
     width: 100%;
   }
@@ -44,7 +44,7 @@ export const Settings = styled.div`
     background-color: #f5f5f540;
   }
 
-  @media( max-width: 650px) {
+  @media (max-width: 650px) {
     padding: 0.3rem 0.5rem;
   }
 `;
@@ -59,7 +59,7 @@ export const ContainerCardProfile = styled.div`
   position: relative;
   margin-bottom: 2rem;
 
-  .img-background {
+  /* .img-background {
     width: 100%;
     height: 8rem;
     object-fit: cover;
@@ -69,7 +69,7 @@ export const ContainerCardProfile = styled.div`
     @media (max-width: 600px) {
       height: 5rem;
     }
-  }
+  } */
 
   .img-profile {
     width: 8rem;
@@ -101,6 +101,16 @@ export const ContainerCardProfile = styled.div`
     @media (max-width: 600px) {
       font-size: 1.4rem;
     }
+  }
+`;
+
+export const BackgroundImage = styled.div`
+  width: 100%;
+  height: 8rem;
+  border-radius: 0.3rem 0.3rem 0 0;
+
+  @media (max-width: 600px) {
+    height: 5rem;
   }
 `;
 

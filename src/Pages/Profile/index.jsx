@@ -1,7 +1,7 @@
 import { ArrowLeftCircle, Plus, UserCog } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "../../Components/Button";
 import { Card } from "../../Components/Cards/index";
 import { CreateNews } from "../../Components/CreateNews/index";
@@ -19,21 +19,12 @@ export function Profile() {
   });
 
   const { user, token } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function getNewsByUser() {
       try {
         const response = await getNewsByUserService(token);
-        const { message, results } = await response.json();
-
-        // if (message === "Token Invalid!") {
-        //  toast("Sua sessão expirou, faça o login novamente!", { icon:
-        //   "🕛", style: {background: "rgb(0, 55, 128)", color:"#fff"}});
-        //  return setTimeout(() => {
-        //   navigate("/login")
-        //  }, 3000);
-        // }
+        const { results } = await response.json();
 
         setNews(results);
       } catch (error) {
@@ -41,7 +32,7 @@ export function Profile() {
       }
     }
     getNewsByUser();
-  }, []);
+  }, [news]);
 
   if (open.newNews) {
     return <CreateNews open={open.newNews} setOpen={setOpen} />;
@@ -74,13 +65,18 @@ export function Profile() {
         </S.ContentSettings>
 
         <S.ContainerCardProfile>
-          <div className="background">
-            <img
-              className="img-background"
-              src={user?.background}
-              // alt="background image"
+          {user?.banner ? (
+            <div style={{ background: "rgb(0, 55, 128)", height: "8rem" }} />
+          ) : (
+            <S.BackgroundImage
+              style={{
+                backgroundImage: `url(${user?.background})`,
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+              }}
             />
-          </div>
+          )}
 
           {user?.avatar ? (
             <img
@@ -114,7 +110,7 @@ export function Profile() {
           news?.map((item) => <Card key={item.id} news={item} />)
         ) : (
           <h1 style={{ textAlign: "end" }}>
-            Olá {user.name}!{" "}
+            Olá {user?.name}!{" "}
             <button
               style={{
                 background: "none",

@@ -1,11 +1,14 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Dropdown = styled.div`
+  ${({ open }) => css`
+    opacity: ${open ? "1" : "0"};
+  `}
   background-color: #fff;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
   position: absolute;
-  top: 5rem;
+  top: 6rem;
   right: 1.5rem;
-  opacity: 0;
   transition: all 0.2s ease-in-out;
 
   display: flex;
@@ -70,11 +73,6 @@ export const Wrapper = styled.div`
   text-transform: uppercase;
   font-weight: 500;
   color: #004aad;
-
-  &:hover ${Dropdown} {
-    opacity: 1;
-    top: 6rem;
-  }
 
   @media (max-width: 600px) {
     background-color: transparent;

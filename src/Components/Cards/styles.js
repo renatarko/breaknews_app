@@ -72,14 +72,14 @@ export const NavCard = styled.div`
   opacity: 0;
   transition: all 0.2s ease-in-out;
 
-  @media(max-width: 650px) {
+  @media (max-width: 650px) {
     opacity: 1;
     flex-direction: row;
-    top:0;
+    top: 0;
     right: 0;
     margin: 0.8rem 0.4rem;
     box-shadow: none;
-}
+  }
 `;
 
 export const ButtonMenuCard = styled.div`
@@ -98,17 +98,16 @@ export const ButtonMenuCard = styled.div`
     background-color: #80808030;
   }
 
-  @media(min-width: 650px) {
+  @media (min-width: 650px) {
     &:hover ${NavCard} {
-    opacity: 1;
-    top: 4rem;
-    right: 1rem;
-  }
+      opacity: 1;
+      top: 4rem;
+      right: 1rem;
+    }
     .dots {
       display: block;
-    color: #004aad;
-
-    } 
+      color: #004aad;
+    }
   }
 `;
 
@@ -141,7 +140,7 @@ export const BottonNav = styled.button`
     transform: scale(1.1);
   }
 
-  @media(max-width: 650px) {
+  @media (max-width: 650px) {
     padding: 0.4rem;
     color: rgb(0, 55, 128);
   }
@@ -177,13 +176,25 @@ export const Text = styled.article`
 export const ImageNews = styled.img`
   max-width: 10rem;
   min-height: 10rem;
-  /* max-width: 10rem;
-    max-height: 10rem; */
   border-radius: 0.3rem;
   object-fit: cover;
 
   @media (max-width: 750px) {
     display: none;
+  }
+`;
+
+export const ButtonLike = styled.button`
+  @keyframes liked {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(0.9);
+    }
+  }
+  :focus {
+    animation: liked 0.3s ease-in;
   }
 `;
 

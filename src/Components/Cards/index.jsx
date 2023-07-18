@@ -6,9 +6,9 @@ import {
   Trash,
 } from "lucide-react";
 import { useMemo, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
-import { initialName } from "../../Services/initialName";
+import { Toaster, toast } from "react-hot-toast";
 import { formatData } from "../../Services/formatDate";
+import { initialName } from "../../Services/initialName";
 import { likeTheNewsService } from "../../Services/postsServices";
 import { Comments } from "../Commets";
 import { DeleteNews } from "../DeleteNews/index";
@@ -30,22 +30,14 @@ export function Card({ news }) {
   const { user, token } = useAuth();
 
   const liked = useMemo(() => {
-    return likes.some((item) => {
-      return item.userId === user?._id;
-    });
-  }, []);
+    return likes.some((item) => item.userId === user?._id);
+  }, [likes]);
 
   const commented = useMemo(() => {
-    return comment.some((item) => {
-      return item.userId === user?._id;
-    });
-  }, []);
+    return comment.some((item) => item.userId === user?._id);
+  }, [comment]);
 
   async function doLikeNews() {
-    const newsId = news.id;
-    const response = await likeTheNewsService(newsId, token);
-    await response.json();
-
     if (!token) {
       return toast("Faça o Login para curtir a notícia!", {
         icon: "👍",
@@ -55,8 +47,17 @@ export function Card({ news }) {
         },
       });
     }
-    setLikes(likes);
+
+    const userLiked = likes.some((like) => like.userId === user?._id);
+
+    !userLiked
+      ? setLikes([...likes, { userId: user?._id }])
+      : setLikes(likes.filter((like) => like.userId !== user?._id));
+
+    const newsId = news.id;
+    await likeTheNewsService(newsId, token);
   }
+
   const { updated, deleted, doComments } = open;
 
   if (updated) {
@@ -113,21 +114,18 @@ export function Card({ news }) {
           <p>{news?.text}</p>
         </S.Text>
 
-        <S.ImageNews
-          src={news?.banner ? news?.banner : "../../../images/sem_imagem.png"}
-          alt={news?.title}
-        />
+        {news.banner && <S.ImageNews src={news?.banner} alt={news?.title} />}
       </S.CardBody>
 
       <S.CardFooter>
-        <button onClick={doLikeNews}>
+        <S.ButtonLike onClick={doLikeNews}>
           {liked ? (
             <ThumbsUp color="#003479" fill="#004AAD" size={18} />
           ) : (
             <ThumbsUp color="#757575" size={18} />
           )}
-          <span>{likes?.length}</span>
-        </button>
+          <span>{likes.length}</span>
+        </S.ButtonLike>
 
         <button onClick={() => setOpen({ doComments: true })}>
           {commented ? (

@@ -1,21 +1,15 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const Wrapper = styled.div`
   display: none;
   @media (max-width: 600px) {
-    ${({ openMenu }) =>
-      css`
-        width: ${openMenu ? "20%" : "80%"};
-        padding: ${openMenu ? "0" : "1rem 1.5rem"};
-      `}
-
+    padding: 1rem 1.5rem;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
     overflow: hidden;
-    transition: all 0.3s ease-in-out;
 
     position: fixed;
     top: 0;
@@ -37,6 +31,20 @@ export const Wrapper = styled.div`
         transform: scale(1.1);
       }
     }
+  }
+`;
+
+export const OpenMenu = styled.button`
+  margin: 0 1.5rem;
+  position: absolute;
+  top: 2.8rem;
+  border-radius: 50%;
+  padding: 0.15rem;
+  transition: all 0.2s ease-in-out;
+  z-index: 350;
+
+  :hover {
+    background-color: rgba(17, 17, 26, 0.1);
   }
 `;
 

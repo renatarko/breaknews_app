@@ -5,6 +5,7 @@ export const Wrapper = styled.form`
   display: flex;
   flex-direction: column;
   margin: 0 1rem;
+  gap: 1rem;
 
   background-color: #fff;
   border-radius: 0.4rem;

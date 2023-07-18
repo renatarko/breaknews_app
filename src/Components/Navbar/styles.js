@@ -26,25 +26,17 @@ export const Container = styled.div`
 
 export const ContainerSearch = styled.div``;
 
-export const BtnOpenMenu = styled.div`
+export const BtnOpenMenu = styled.button`
   display: none;
   @media (max-width: 600px) {
     display: block;
+    background: none;
+    border: none;
     cursor: pointer;
-    z-index: 250;
 
-    .openMenu {
-      margin: 0 1.5rem;
-      position: fixed;
-      top: 2.8rem;
-      border-radius: 50%;
-      padding: 0.15rem;
-      transition: all 0.2s ease-in-out;
-      z-index: 150;
-
-      :hover {
-        background-color: rgba(17, 17, 26, 0.1);
-      }
-    }
+    margin: 0 1.5rem;
+    position: fixed;
+    top: 2.8rem;
+    z-index: 150;
   }
 `;

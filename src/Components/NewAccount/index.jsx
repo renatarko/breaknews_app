@@ -1,8 +1,14 @@
+import {
+  ArrowLeft,
+  Eye,
+  Link as LinkIcon,
+  Lock,
+  Mail,
+  User2,
+} from "lucide-react";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, Lock, Mail, User2 } from "lucide-react";
-import { Link as LinkIcon } from "lucide-react";
 import { Toaster, toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { createUserService } from "../../Services/userServices";
 import { Button } from "../Button";
@@ -22,6 +28,7 @@ export function NewAccount() {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -33,17 +40,17 @@ export function NewAccount() {
   }
 
   function checkInputValues(updatedUser) {
-    const { name, username, email, password, avatar, background } = updatedUser;
+    const { name, username, email, password } = updatedUser;
     const nameUserSplit = name?.split(" ");
 
     const nameuserIsvalid = nameUserSplit?.length >= 2;
-    const isValid = username && email && password && avatar && background;
+    const isValid = username && email && password;
 
     const toDesabled = !nameuserIsvalid || !isValid;
 
     let errorMessage = "";
     if (!isValid) {
-      errorMessage = "Preencha todos os campos para cadastrar";
+      errorMessage = "Preencha os campos para cadastrar";
     } else if (!nameuserIsvalid) {
       errorMessage = "Informe seu sobrenome";
     }
@@ -58,7 +65,6 @@ export function NewAccount() {
     e.preventDefault();
 
     setLoading(true);
-    // setIsDisabled(false);
 
     try {
       const response = await createUserService(user);
@@ -105,22 +111,21 @@ export function NewAccount() {
           icon={<User2 />}
           type="text"
           name="name"
-          placeholder="Nome"
-          // onFocus={() => setErrorMessage("")}
+          placeholder="Nome *"
         />
         <Input
           onInput={handleChange}
           icon={<User2 />}
           type="text"
           name="username"
-          placeholder="Nome de usuário"
+          placeholder="Nome de usuário *"
         />
         <Input
           onInput={handleChange}
           icon={<Mail />}
           type="email"
           name="email"
-          placeholder="E-mail"
+          placeholder="E-mail *"
         />
         <Input
           onInput={handleChange}
@@ -136,13 +141,30 @@ export function NewAccount() {
           name="background"
           placeholder="Background"
         />
-        <Input
-          onInput={handleChange}
-          icon={<Lock size={16} />}
-          type="password"
-          name="password"
-          placeholder="Senha"
-        />
+        <div style={{ position: "relative" }}>
+          <Input
+            onInput={handleChange}
+            icon={<Lock size={16} />}
+            type={`${showPassword ? "text" : "password"}`}
+            name="password"
+            placeholder="Senha *"
+          />
+          <Eye
+            onClick={() => setShowPassword(!showPassword)}
+            size={16}
+            color={`${showPassword ? "rgb(0, 74, 173)" : "#999"}`}
+            style={{
+              position: "absolute",
+              right: "0.5rem",
+              top: "0.75rem",
+              cursor: "pointer",
+            }}
+          />
+        </div>
+
+        <span style={{ fontSize: "10px", marginTop: "-0.5rem" }}>
+          * Campos Obrigatórios
+        </span>
         <ErrorMessage>{errorMessage}</ErrorMessage>
         <Button onClick={cadastrar} disabled={isDisabled}>
           {loading ? <ClipLoader color="#fff" size={16} /> : "Cadastrar"}

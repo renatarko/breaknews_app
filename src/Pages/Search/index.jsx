@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import { ClipLoader } from "react-spinners";
+import { Card } from "../../Components/Cards/index";
+import { Empty } from "../../Components/Empty";
 import { useSearch } from "../../Context/searchContext";
 import { getNewsFromSearchService } from "../../Services/postsServices";
-import { Card } from "../../Components/Cards/index";
 import { Container } from "../Home/styles";
-import { Empty } from "../../Components/Empty";
 import { SearchBody } from "./styles";
-import { ClipLoader } from "react-spinners";
 
 export function Search() {
   const [news, setNews] = useState([]);
@@ -29,12 +29,26 @@ export function Search() {
       });
 
       setNews(filterNews);
-      setLoading(false);
+      console.log(filterNews);
+      if (!filterNews) {
+        return <p style={{ marginTop: "5rem" }}>Não encontramos</p>;
+      }
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
+  }
+
+  if (!news.length) {
+    return (
+      <div style={{ marginTop: "10rem" }}>
+        <Empty
+          small
+          title={`Ops, não encontramos resultado para "${inputSearch}"`}
+        />
+      </div>
+    );
   }
 
   const override = {
@@ -53,16 +67,6 @@ export function Search() {
               return <Card key={item.id} news={item} />;
             })}
           </SearchBody>
-        )}
-
-        {news.length === 0 && (
-          <>
-            <Empty
-              small
-              title="Ops, não encontramos resultado para sua pesquisa!"
-              hasLink
-            />
-          </>
         )}
       </Container>
     </>

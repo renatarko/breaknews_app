@@ -39,14 +39,7 @@ export function Profile() {
   }
 
   if (open.editUser) {
-    return (
-      <EditUser
-        open={open.editUser}
-        setOpen={setOpen}
-        user={user}
-        token={token}
-      />
-    );
+    return <EditUser open={open.editUser} setOpen={setOpen} />;
   }
   return (
     <>
@@ -65,7 +58,7 @@ export function Profile() {
         </S.ContentSettings>
 
         <S.ContainerCardProfile>
-          {user?.banner ? (
+          {!user?.banner ? (
             <div style={{ background: "rgb(0, 55, 128)", height: "8rem" }} />
           ) : (
             <S.BackgroundImage
@@ -101,7 +94,8 @@ export function Profile() {
               withOutColor
               onClick={() => setOpen({ newNews: true })}
             >
-              <Plus color="rgb(0, 55, 128)" />
+              <Plus size={16} color="rgb(0, 55, 128)" />
+              Escrever
             </Button>
           </S.BoxText>
         </S.ContainerCardProfile>

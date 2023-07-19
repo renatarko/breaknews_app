@@ -2,6 +2,7 @@ import { Link, Mail, User2 } from "lucide-react";
 import { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 import { useAuth } from "../../Context/authContext";
 import { updatedUserService } from "../../Services/userServices";
 import { Button } from "../Button";
@@ -10,12 +11,9 @@ import { Input } from "../Input";
 import { Modal } from "../Modal";
 
 export function EditUser({ open, setOpen }) {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { user, token } = useAuth();
-
-  const [isLoading, setIsLoading] = useState(false);
-  // states: 'initial', 'loading', 'success', 'error'
-  // const [status, setStatus] = useState("initial");
 
   const [userData, setUserData] = useState({
     name: user?.name,
@@ -30,27 +28,18 @@ export function EditUser({ open, setOpen }) {
 
     setUserData({ ...userData, [name]: value });
   }
-  console.log(userData.name);
 
   async function editUser(e) {
     e.preventDefault();
     try {
       setIsLoading(true);
-      toast.loading("Atualizando perfil...");
-
-      const _userID = user.id;
-
-      const response = await updatedUserService(_userID, token, userData);
+      const response = await updatedUserService(user._id, token, userData);
       const data = await response.json();
+      console.log({ data });
+      toast.success("Perfil atualizado!");
 
-      if (data.message === "User successfuly update") {
-        toast.success("Perfil atualizado!");
-
-        setOpen(false);
-        navigate(`/profile`);
-
-        return;
-      }
+      setOpen(false);
+      navigate(0);
     } catch (error) {
       toast.error("Ops, algo deu errado!");
     } finally {
@@ -69,7 +58,7 @@ export function EditUser({ open, setOpen }) {
               type="text"
               placeholder="Nome"
               name="name"
-              handleChange={handleInputToEditDataUser}
+              onChange={handleInputToEditDataUser}
               value={userData.name}
             />
             <Input
@@ -77,7 +66,7 @@ export function EditUser({ open, setOpen }) {
               type="text"
               placeholder="Nome do usuário"
               name="username"
-              handleChange={handleInputToEditDataUser}
+              onChange={handleInputToEditDataUser}
               value={userData.username}
             />
             <Input
@@ -85,7 +74,7 @@ export function EditUser({ open, setOpen }) {
               type="email"
               placeholder="E-mail"
               name="email"
-              handleChange={handleInputToEditDataUser}
+              onChange={handleInputToEditDataUser}
               value={userData.email}
             />
             <Input
@@ -93,7 +82,7 @@ export function EditUser({ open, setOpen }) {
               type="text"
               placeholder="Background"
               name="background"
-              handleChange={handleInputToEditDataUser}
+              onChange={handleInputToEditDataUser}
               value={userData.background}
             />
             <Input
@@ -101,11 +90,11 @@ export function EditUser({ open, setOpen }) {
               type="text"
               placeholder="Avatar"
               name="avatar"
-              handleChange={handleInputToEditDataUser}
+              onChange={handleInputToEditDataUser}
               value={userData.avatar}
             />
             <Button onClick={editUser} disabled={isLoading}>
-              {isLoading ? "loading..." : "Atualizar"}
+              {isLoading ? <ClipLoader color="#fff" size={14} /> : "Atualizar"}
             </Button>
           </Form>
         </Modal>

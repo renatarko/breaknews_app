@@ -25,6 +25,7 @@ export const Container = styled.section`
 
   @media (max-width: 900px) {
     width: 100%;
+    padding-top: 8rem;
   }
 `;
 

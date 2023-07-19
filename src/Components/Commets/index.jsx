@@ -72,10 +72,16 @@ export function Comments({ news, open, setOpen }) {
       );
       return toast;
     }
+    const _commented = {
+      name: user.name,
+      avatar: user.avatar,
+      comment: input.comment,
+      createdAt: new Date(),
+    };
+    setNewsComments([...newsComments, _commented]);
     try {
       const response = await addCommentsTheNewsService(newsId, token, input);
-      const { commentCreated } = await response.json();
-      setNewsComments([...newsComments, commentCreated]);
+      await response.json();
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -172,7 +178,7 @@ export function Comments({ news, open, setOpen }) {
                   name="comment"
                   onInput={handleChange}
                 />
-                <Button onClick={sendComment} absolute disabled={isdisabled}>
+                <Button onClick={sendComment} isAbsolute disabled={isdisabled}>
                   {loading ? (
                     <CircleLoader color="#fff" size={14} />
                   ) : (

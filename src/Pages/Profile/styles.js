@@ -28,20 +28,21 @@ export const ContentSettings = styled.div`
 `;
 
 export const Settings = styled.div`
-  background-color: #f5f5f520;
+  background-color: #f5f5f590;
   padding: 0.5rem 0.8rem;
   border-radius: 0.9rem;
-  color: #fff;
+  color: rgb(0, 55, 128);
   cursor: pointer;
   transition: 0.3s;
 
   > a {
-    color: #fff;
+    color: rgb(0, 55, 128);
     cursor: pointer;
   }
 
   &:hover {
-    background-color: #f5f5f540;
+    background-color: #f5f5f5;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
   }
 
   @media (max-width: 650px) {

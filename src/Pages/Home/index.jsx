@@ -1,28 +1,42 @@
 import { Card } from "../../Components/Cards/index";
 import { Container, HomeBody } from "./styles";
 
-import { useEffect, useState } from "react";
-import { CircleLoader } from "react-spinners";
+import { useCallback, useEffect, useState } from "react";
+import { ClipLoader } from "react-spinners";
+import { Empty } from "../../Components/Empty";
 import { ShowMore } from "../../Components/ShowMore";
 import { getAllNewsService } from "../../Services/postsServices";
 
 export function Home() {
-  // const { getAllNews, news, offset, setOffset, limit, loading } = useNews();
-
   const [news, setNews] = useState([]);
   const [limit, setLimit] = useState(5);
   const [offset, setOffset] = useState(0);
 
+  const [loadingShowMore, setLoadingShowMore] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  async function getAllNews() {
-    setLoading(true);
-    try {
-      const response = await getAllNewsService(offset, limit);
-      const { results } = await response.json();
+  const getAllNews = useCallback(
+    async (_offset = 0) => {
+      try {
+        const response = await getAllNewsService(_offset, limit);
+        const { results } = await response.json();
+        return results;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [offset]
+  );
 
-      setLoading(false);
-      setNews([...news, ...results]);
+  useEffect(() => {
+    initialLoadingNews();
+  }, []);
+
+  async function initialLoadingNews() {
+    try {
+      setLoading(true);
+      const _news = await getAllNews();
+      setNews([..._news]);
     } catch (error) {
       console.log(error);
     } finally {
@@ -30,42 +44,48 @@ export function Home() {
     }
   }
 
-  const [loadingShowMore, setLoadingShowMore] = useState(
-    "initial" || "loading"
-  );
-
-  useEffect(() => {
-    getAllNews();
+  const showMoreNews = useCallback(async () => {
+    try {
+      setOffset(() => offset + limit);
+      setLoadingShowMore(true);
+      const _news = await getAllNews(offset + limit);
+      setNews((prevNews) => [...prevNews, ..._news]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingShowMore(false);
+    }
   }, [offset]);
 
-  function showMoreNews() {
-    setOffset(offset + limit);
+  if (!news.length) {
+    return (
+      <div style={{ marginTop: "10rem" }}>
+        <Empty small title={`Não encontramos nenhuma notícia`} />
+      </div>
+    );
   }
-
-  const LoadingStyle = {
-    marginTop: "3rem",
-  };
 
   return (
     <>
       <Container>
-        <HomeBody handleSearchInput>
-          {loading ? (
-            <CircleLoader color="blue" cssOverride={LoadingStyle} />
-          ) : (
-            news?.map((item) => {
+        {loading ? (
+          <ClipLoader color="#003780" />
+        ) : (
+          <HomeBody handleSearchInput>
+            {news?.map((item) => {
               return <Card news={item} key={item.id} />;
-            })
-          )}
-        </HomeBody>
+            })}
+          </HomeBody>
+        )}
 
         {!news.length ||
-          (offset < news.length &&
-            (loadingShowMore === "loading" ? (
-              <CircleLoader color="blue" size={16} />
-            ) : (
-              <ShowMore onClick={showMoreNews} withIcon text="Mostrar mais" />
-            )))}
+          (offset < news.length && (
+            <ShowMore
+              onClick={showMoreNews}
+              withIcon
+              text={`${loadingShowMore ? "carregando..." : "Mostrar mais"}`}
+            />
+          ))}
       </Container>
     </>
   );

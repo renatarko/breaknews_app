@@ -1,12 +1,11 @@
 import styled from "styled-components";
 
-import * as LogoStyle from "../../Components/Logo/index";
 import * as FormStyle from "../../Components/Form/styles";
 
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
@@ -63,13 +62,10 @@ export const ContainerForm = styled.aside`
   ${FormStyle.Wrapper} {
     width: 100%;
     min-width: 0;
+    padding: 0.5rem;
 
     .btn-close {
       display: none;
     }
-  }
-
-  @media (max-width: 500px) {
-    padding: 1rem;
   }
 `;

@@ -99,7 +99,7 @@ export function NewAccount() {
           zIndex: 1000,
           top: 0,
           left: 0,
-          margin: "1.5rem",
+          margin: "1rem",
           color: "rgb(0, 55, 128)",
         }}
       >
@@ -111,7 +111,7 @@ export function NewAccount() {
           icon={<User2 />}
           type="text"
           name="name"
-          placeholder="Nome *"
+          placeholder="Nome e Sobrenome*"
         />
         <Input
           onInput={handleChange}

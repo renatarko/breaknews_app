@@ -1,5 +1,5 @@
 import { GridContainer } from "../../Components/GridContainer";
-import { NewAccount } from "../../Components/NewAccount";
+import { NewAccount } from "../../Components/SignUp";
 
 export function SignUp() {
   return (

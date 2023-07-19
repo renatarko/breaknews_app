@@ -30,14 +30,15 @@ export const UserData = styled.div`
 
 export const ProfileImage = styled.img`
   width: 100%;
-  max-width: 15%;
+  max-width: 10%;
+  min-width: 2rem;
   clip-path: circle();
 `;
 
 export const ProfileWithoutImage = styled.div`
-  width: 4rem;
-  height: 4rem;
-  padding: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 1rem;
   background: #80808030;
   border-radius: 50%;
   display: flex;
@@ -46,11 +47,6 @@ export const ProfileWithoutImage = styled.div`
   text-transform: uppercase;
   font-size: 1.2rem;
   color: #004aad;
-
-  @media (max-width: 600px) {
-    width: 2rem;
-    height: 2rem;
-  }
 `;
 
 export const UserName = styled.cite``;
@@ -103,11 +99,6 @@ export const ButtonMenuCard = styled.div`
   }
 
   @media (min-width: 650px) {
-    /* &:hover ${NavCard} {
-      opacity: 1;
-      top: 4rem;
-      right: 1rem;
-    } */
     .dots {
       display: block;
       color: #004aad;

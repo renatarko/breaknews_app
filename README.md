@@ -17,3 +17,17 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias do MERN Stack:
 * Express.js: Framework para construção de APIs RESTful.
 * React.js: Biblioteca JavaScript para construção de interfaces de usuário.
 * Node.js: Ambiente de execução do JavaScript no servidor.
+
+## Tela de Cadastro
+<img src="https://github.com/renatarko/breaknews_app/assets/106983293/e4adf715-2097-4724-bb70-4f18f2c773d2" width="500" heigth="500"/>
+
+## Tela de Login
+<img src="https://github.com/renatarko/breaknews_app/assets/106983293/920c52e4-832e-4486-b81f-05c2f0f1e03f" width="500" heigth="500"/>
+
+## Tela inicial e de perfil  do usuário
+<img src="https://github.com/renatarko/breaknews_app/assets/106983293/c53b3a66-abcb-4134-b9fa-9d84f190dfda" width="600" heigth="600"/>
+<img src="https://github.com/renatarko/breaknews_app/assets/106983293/810feba5-41af-4732-ab94-5e990577ad08" width="600" heigth="600"/>
+
+
+### Breve fluxo da aplicação:
+![Breaking News](https://github.com/renatarko/breaknews_app/assets/106983293/b5ed7cc9-3b61-4199-a23b-cd0a0e7f17b2)

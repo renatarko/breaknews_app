@@ -22,6 +22,7 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias do MERN Stack:
 
 * [Link do Figma](https://www.figma.com/file/14QMHHs5GDpC3OTdSFZbYb/BreakingNews%2FRENATA?type=design&t=XNo7DVihHFAzUixu-6) ✒️
 * [Link do Projeto](https://breaknews-app.vercel.app/) 🚀
+* [Link da API](https://github.com/renatarko/news_aplication) 🔧
 
 ## Tela de Cadastro
 <img src="https://github.com/renatarko/breaknews_app/assets/106983293/e4adf715-2097-4724-bb70-4f18f2c773d2" width="500" heigth="500"/>

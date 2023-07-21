@@ -1,6 +1,6 @@
 # Projeto Breaking News - Curso MERN Stack
 
-Desenvolvido durante o curso MERN Stack. O projeto Breaking News é um aplicativo web que permite aos usuários criarem posts de notícias.
+Projeto desenvolvido durante o curso MERN Stack. O Breaking News é um aplicativo web que permite aos usuários criarem posts de notícias.
 
 ## 🔧 Funcionalidades
 * Criação de contas de usuário

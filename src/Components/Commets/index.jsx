@@ -16,6 +16,7 @@ import { DeleteModal } from "../DeleteModal";
 import { Modal } from "../Modal";
 
 import { Send, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./styles";
 
 export function Comments({ news, open, setOpen }) {
@@ -27,6 +28,7 @@ export function Comments({ news, open, setOpen }) {
   const [isdisabled, setIsDisabled] = useState(true);
 
   const { user, token } = useAuth();
+  const navigate = useNavigate();
 
   const newsId = news.id;
 
@@ -115,7 +117,13 @@ export function Comments({ news, open, setOpen }) {
       {open ? (
         <Modal>
           <S.Wrapper>
-            <X className="btn-close" onClick={() => setOpen(false)} />
+            <X
+              className="btn-close"
+              onClick={() => {
+                setOpen(false);
+                navigate(0);
+              }}
+            />
             <Card news={news} />
 
             <S.Comments>

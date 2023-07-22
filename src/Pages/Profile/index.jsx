@@ -1,7 +1,7 @@
 import { ArrowLeftCircle, Plus, UserCog } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../Components/Button";
 import { Card } from "../../Components/Cards/index";
 import { CreateNews } from "../../Components/CreateNews/index";
@@ -18,19 +18,30 @@ export function Profile() {
     editUser: false,
   });
 
-  const { user, token } = useAuth();
+  const { user, token, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const getNewsByUser = async () => {
+    try {
+      const response = await getNewsByUserService(token);
+      const { results, message } = await response.json();
+
+      if (message === "Token Invalid!") {
+        toast.error("Sua sessão expirou. Faça o Login novamente!", {
+          duration: 3000,
+        });
+        setTimeout(() => {
+          signOut();
+        }, 3000);
+        return;
+      }
+      setNews(results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    async function getNewsByUser() {
-      try {
-        const response = await getNewsByUserService(token);
-        const { results } = await response.json();
-
-        setNews(results);
-      } catch (error) {
-        console.log(error);
-      }
-    }
     getNewsByUser();
   }, [news]);
 

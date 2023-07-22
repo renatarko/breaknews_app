@@ -3,7 +3,7 @@ import { Container, HomeBody } from "./styles";
 
 import { useCallback, useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
-import { Empty } from "../../Components/Empty";
+
 import { ShowMore } from "../../Components/ShowMore";
 import { getAllNewsService } from "../../Services/postsServices";
 
@@ -54,16 +54,9 @@ export function Home() {
       console.log(error);
     } finally {
       setLoadingShowMore(false);
+      setLoading(false);
     }
   }, [offset]);
-
-  if (!news.length) {
-    return (
-      <div style={{ marginTop: "10rem" }}>
-        <Empty small title={`Não encontramos nenhuma notícia`} />
-      </div>
-    );
-  }
 
   return (
     <>

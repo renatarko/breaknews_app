@@ -34,8 +34,7 @@ export function EditUser({ open, setOpen }) {
     try {
       setIsLoading(true);
       const response = await updatedUserService(user._id, token, userData);
-      const data = await response.json();
-      console.log({ data });
+      await response.json();
       toast.success("Perfil atualizado!");
 
       setOpen(false);

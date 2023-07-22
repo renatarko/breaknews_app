@@ -78,6 +78,7 @@ export const NavCard = styled.div`
     right: 0;
     margin: 0.8rem 0.4rem;
     box-shadow: none;
+    pointer-events: auto;
   }
 `;
 
@@ -114,7 +115,7 @@ export const BottonNav = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: #464646;
+  color: rgb(0, 55, 128);
 
   span {
     font-size: 0.8rem;
@@ -127,7 +128,6 @@ export const BottonNav = styled.button`
 
   :hover {
     background-color: #80808030;
-    color: rgb(16, 134, 245);
   }
 
   :hover svg {
@@ -136,7 +136,7 @@ export const BottonNav = styled.button`
 
   @media (max-width: 650px) {
     padding: 0.4rem;
-    color: rgb(0, 55, 128);
+    border-radius: 50%;
   }
 `;
 

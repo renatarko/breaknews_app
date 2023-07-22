@@ -72,7 +72,7 @@ export function Home() {
         )}
 
         {!news.length ||
-          (offset < news.length && (
+          (offset <= news.length && (
             <ShowMore
               onClick={showMoreNews}
               withIcon

@@ -25,6 +25,10 @@ export const Wrapper = styled.form`
       transform: scale(1.1);
     }
   }
+
+  @media (max-width: 700px) {
+    width: 90%;
+  }
 `;
 
 export const Title = styled.h1`

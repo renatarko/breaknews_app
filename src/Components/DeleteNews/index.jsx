@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/authContext";
 import { deleteNewsService } from "../../Services/postsServices";
 import { DeleteModal } from "../DeleteModal";
@@ -10,7 +9,6 @@ export function DeleteNews({ news, open, setOpen }) {
   const [loading, setLoading] = useState(false);
 
   const { token } = useAuth();
-  const navigate = useNavigate();
 
   async function deleteNew(e) {
     e.preventDefault();
